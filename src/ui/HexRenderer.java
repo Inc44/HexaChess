@@ -52,6 +52,17 @@ class HexRenderer {
 		else
 			drawPieceFallback(g2d, x, y, p);
 	}
+	/*
+	private void drawCoordinates(Graphics2D g2d, int x, int y, AxialCoordinate coord) {
+		int size = (int) geometry.getHexSize();
+		g2d.setColor(Color.RED);
+		g2d.setFont(g2d.getFont().deriveFont((float) (size * 0.666)));
+		String label = coord.q + "," + coord.r;
+		int textWidth = g2d.getFontMetrics().stringWidth(label);
+		int textHeight = g2d.getFontMetrics().getAscent();
+		g2d.drawString(label, x - textWidth / 2, y + textHeight / 3);
+	}
+	*/
 	void drawHex(Graphics2D g2d, int cx, int cy, AxialCoordinate coord, AxialCoordinate selected,
 		List<AxialCoordinate> highlighted) {
 		Point center = geometry.hexToPixel(coord.q, coord.r, cx, cy);
@@ -69,6 +80,7 @@ class HexRenderer {
 		Piece p = board.getPiece(coord);
 		if (p != null)
 			drawPiece(g2d, center.x, center.y, p);
+		// drawCoordinates(g2d, center.x, center.y, coord);
 	}
 	private void drawCellBorder(Graphics2D g2d, int cx, int cy, int q, int r) {
 		AxialCoordinate coord = new AxialCoordinate(q, r);
