@@ -1,0 +1,33 @@
+.root
+{
+	-fx-background-color: white;
+}
+
+.button
+{
+	/* sandybrown */
+	-fx-background-color: rgb(232, 171, 111);
+	-fx-background-radius: 6;
+	-fx-border-color: black;
+	-fx-border-radius: 6;
+	-fx-border-width: 3px;
+	-fx-cursor: hand;
+	-fx-font-family: "Monospaced";
+	-fx-font-size: 16px;
+	-fx-font-weight: bold;
+	-fx-padding: 8 16;
+	-fx-pref-width: 108px;
+	-fx-text-fill: black;
+}
+
+.button:hover
+{
+	/* navajowhite */
+	-fx-background-color: rgb(255, 206, 158);
+}
+
+.button:pressed
+{
+	/* peru */
+	-fx-background-color: rgb(209, 139, 71);
+}

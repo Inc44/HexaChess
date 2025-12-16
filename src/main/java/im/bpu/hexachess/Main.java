@@ -11,6 +11,7 @@ public class Main extends Application {
 		FXMLLoader mainWindowLoader = new FXMLLoader(getClass().getResource("ui/mainWindow.fxml"));
 		mainWindowLoader.setController(new MainWindow());
 		Scene scene = new Scene(mainWindowLoader.load());
+		scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 	}
