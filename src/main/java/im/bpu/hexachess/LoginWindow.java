@@ -2,6 +2,7 @@ package im.bpu.hexachess;
 
 import im.bpu.hexachess.dao.PlayerDAO;
 import im.bpu.hexachess.entity.Player;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,7 +57,7 @@ public class LoginWindow {
 	}
 
 	@FXML
-	private void goBack() {
+	private void openStart() {
 		try {
 			FXMLLoader mainWindowLoader =
 				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"));

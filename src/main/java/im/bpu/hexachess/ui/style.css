@@ -97,8 +97,8 @@
 }
 
 #loginButton,
-#registerButton,
-#signOutButton
+#signOutButton,
+#signUpButton
 {
 	-fx-pref-width: 128px;
 }

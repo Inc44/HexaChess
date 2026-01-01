@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -21,7 +22,17 @@ public class Main extends Application {
 			startWindowLoader.setController(new StartWindow());
 			root = startWindowLoader.load();
 		}
-		Scene scene = new Scene(root);
+		double width = Screen.getPrimary().getBounds().getWidth();
+		double height = Screen.getPrimary().getBounds().getHeight();
+		double aspectRatio = width / height;
+		if (aspectRatio > 1.5) {
+			width = 1200;
+			height = 800;
+		} else {
+			width = 540;
+			height = 1200;
+		}
+		Scene scene = new Scene(root, width, height);
 		scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
 		stage.setTitle("HexaChess");
 		stage.setScene(scene);

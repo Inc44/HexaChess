@@ -5,7 +5,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
 	<Label text="HexaChess" styleClass="h2" />
 	<VBox alignment="center" spacing="16">
-		<Button fx:id="registerButton" text="Inscription" onAction="#goToRegister" />
-		<Button fx:id="loginButton" text="Connexion" onAction="#goToLogin" />
+		<Button fx:id="signUpButton" text="Sign Up" onAction="#goToRegister" />
+		<Button fx:id="loginButton" text="Login" onAction="#goToLogin" />
 	</VBox>
 </VBox>

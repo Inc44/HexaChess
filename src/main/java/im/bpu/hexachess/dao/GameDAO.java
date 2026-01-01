@@ -1,6 +1,7 @@
 package im.bpu.hexachess.dao;
 
 import im.bpu.hexachess.entity.Game;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

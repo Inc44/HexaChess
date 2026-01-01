@@ -5,14 +5,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="20">
-	<Label text="Connexion" styleClass="h2" />
+	<Label text="Login" styleClass="h2" />
 	<VBox alignment="center" maxWidth="300" spacing="10">
-		<Label text="Pseudo :" />
+		<Label text="Username :" />
 		<TextField fx:id="handleField" />
-		<Label text="Mot de passe :" />
+		<Label text="Password :" />
 		<PasswordField fx:id="passwordField" />
 	</VBox>
 	<Label fx:id="errorLabel" textFill="red" visible="false" />
-	<Button text="Se connecter" onAction="#handleLogin" />
-	<Button text="Retour" onAction="#goBack" />
+	<Button fx:id="loginButton" text="Login" onAction="#handleLogin" />
+	<Button fx:id="backButton" text="Back" onAction="#openStart" />
 </VBox>

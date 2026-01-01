@@ -1,8 +1,8 @@
 package im.bpu.hexachess.dao;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class SingleConnection {
 	private static Connection connect;

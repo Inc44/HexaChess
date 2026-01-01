@@ -2,13 +2,14 @@ package im.bpu.hexachess;
 
 import im.bpu.hexachess.dao.PlayerDAO;
 import im.bpu.hexachess.entity.Player;
+
+import java.util.UUID;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import java.util.UUID;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class RegisterWindow {
@@ -45,7 +46,7 @@ public class RegisterWindow {
 	}
 
 	@FXML
-	private void goBack() {
+	private void openStart() {
 		try {
 			FXMLLoader startWindowLoader =
 				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"));
