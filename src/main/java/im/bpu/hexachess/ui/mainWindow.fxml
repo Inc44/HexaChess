@@ -4,13 +4,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="http://javafx.com/fxml" alignment="center">
-	<VBox alignment="center">
+<StackPane xmlns:fx="http://javafx.com/fxml" alignment="top_left">
+	<VBox alignment="center" onMouseClicked="#onBoardClicked">
 		<Canvas fx:id="canvas" width="666" height="666" />
 		<HBox alignment="center" spacing="16">
 			<Button text="Restart" onAction="#restart" />
 			<Button text="Rewind" onAction="#rewind" />
 		</HBox>
 	</VBox>
-	<Button fx:id="settingsHelpButton" text="⋮" onAction="#openSettings" StackPane.alignment="TOP_RIGHT" styleClass="settings-help-button" />
+	<Button fx:id="menuButton" text="☰" onAction="#toggleSidebar" StackPane.alignment="top_left" styleClass="menu-button" />
+	<Button fx:id="settingsHelpButton" text="⋮" onAction="#openSettings" StackPane.alignment="top_right" styleClass="settings-help-button" />
+	<VBox fx:id="sidebar" styleClass="sidebar" maxWidth="160">
+		<Button text="Search" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="Profile" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="Achievements" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="Puzzles" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="Tournaments" onAction="#openSettings" styleClass="sidebar-item" />
+	</VBox>
 </StackPane>

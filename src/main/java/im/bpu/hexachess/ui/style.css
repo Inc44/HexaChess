@@ -78,6 +78,7 @@
 .combo-box-base:hover,
 .combo-box-popup .list-cell:filled:hover,
 .password-field:focused,
+.sidebar-item:hover,
 .text-field:focused
 {
 	/* navajowhite */
@@ -92,6 +93,7 @@
 	background-color: rgb(209, 139, 71);
 }
 
+.menu-button,
 .settings-help-button
 {
 	-fx-background-color: transparent;
@@ -108,12 +110,37 @@
 	padding: 6 0;
 }
 
+.menu-button:hover,
+.menu-button:pressed,
 .settings-help-button:hover,
 .settings-help-button:pressed
 {
 	-fx-background-color: rgba(0, 0, 0, 0.06);
 	-fx-background-radius: 27;
 	background-color: rgba(0, 0, 0, 0.06);
+}
+
+.sidebar
+{
+	-fx-border-color: black;
+	-fx-border-width: 0 3px 0 0;
+	border-color: black;
+	border-width: 0 3px 0 0;
+}
+
+.sidebar-item
+{
+	-fx-alignment: center-left;
+	-fx-background-color: white;
+	-fx-background-radius: 0;
+	-fx-border-color: black;
+	-fx-border-radius: 0;
+	-fx-border-width: 0 0 3px 0;
+	-fx-pref-width: 160px;
+	background-color: white;
+	border-color: black;
+	border-radius: 0;
+	border-width: 0 0 3px 0;
 }
 
 .combo-box .arrow
