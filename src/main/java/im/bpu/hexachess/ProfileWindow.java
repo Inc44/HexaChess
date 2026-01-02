@@ -5,6 +5,8 @@ import im.bpu.hexachess.network.API;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +19,21 @@ import javafx.scene.layout.Region;
 public class ProfileWindow {
 	private static final String BASE_URL =
 		"https://www.chess.com/bundles/web/images/noavatar_l.gif";
+	private static final Map<String, String> COUNTRIES = new HashMap<>();
+	static {
+		COUNTRIES.put("cn", "China");
+		COUNTRIES.put("de", "Germany");
+		COUNTRIES.put("es", "Spain");
+		COUNTRIES.put("fr", "France");
+		COUNTRIES.put("it", "Italy");
+		COUNTRIES.put("jp", "Japan");
+		COUNTRIES.put("kr", "South Korea");
+		COUNTRIES.put("pl", "Poland");
+		COUNTRIES.put("ro", "Romania");
+		COUNTRIES.put("ru", "Russia");
+		COUNTRIES.put("ua", "Ukraine");
+		COUNTRIES.put("us", "United States");
+	}
 	@FXML private ImageView avatarIcon;
 	@FXML private Label usernameLabel;
 	@FXML private Region countryFlagIcon;
@@ -40,7 +57,8 @@ public class ProfileWindow {
 		usernameLabel.setText(username);
 		ratingLabel.setText("Rating: " + rating);
 		if (location != null && !location.isEmpty()) {
-			locationLabel.setText(location);
+			String country = COUNTRIES.getOrDefault(location, location);
+			locationLabel.setText(country);
 			countryFlagIcon.getStyleClass().add("country-" + location);
 		}
 		if (joinedAt != null) {
