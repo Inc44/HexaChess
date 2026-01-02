@@ -16,7 +16,6 @@ public class RegisterWindow {
 	@FXML private TextField emailField;
 	@FXML private PasswordField passwordField;
 	@FXML private Label statusLabel;
-
 	@FXML
 	private void handleRegister() {
 		if (handleField.getText().isEmpty()) {
@@ -35,7 +34,6 @@ public class RegisterWindow {
 		String handle = handleField.getText();
 		Player newPlayer = new Player(
 			id, handle, emailField.getText(), passwordField.getText(), 1200, false, null);
-
 		boolean registerSuccess = API.register(newPlayer);
 		if (registerSuccess) {
 			Settings.userHandle = handle;
@@ -54,7 +52,6 @@ public class RegisterWindow {
 			statusLabel.setVisible(true);
 		}
 	}
-
 	@FXML
 	private void openStart() {
 		try {

@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 
 public class StartWindow {
 	@FXML private Button loginButton;
-
 	@FXML
 	private void goToLogin() {
 		try {
@@ -20,7 +19,6 @@ public class StartWindow {
 			exception.printStackTrace();
 		}
 	}
-
 	@FXML
 	private void goToRegister() {
 		try {

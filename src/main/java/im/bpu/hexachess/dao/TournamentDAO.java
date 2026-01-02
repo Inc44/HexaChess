@@ -17,27 +17,22 @@ public class TournamentDAO extends DAO<Tournament> {
 			pstmt.setString(1, obj.getTournamentId());
 			pstmt.setString(2, obj.getName());
 			pstmt.setString(3, obj.getDescription());
-
 			// Gestion des dates pouvant être nulles
 			if (obj.getStartTime() != null)
 				pstmt.setTimestamp(4, Timestamp.valueOf(obj.getStartTime()));
 			else
 				pstmt.setTimestamp(4, null);
-
 			if (obj.getEndTime() != null)
 				pstmt.setTimestamp(5, Timestamp.valueOf(obj.getEndTime()));
 			else
 				pstmt.setTimestamp(5, null);
-
 			pstmt.setString(6, obj.getWinnerId());
-
 			pstmt.executeUpdate();
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return obj;
 	}
-
 	@Override
 	public Tournament update(Tournament obj) {
 		String requete = "UPDATE tournaments SET name = ?, description = ?, start_time = ?, "
@@ -46,27 +41,22 @@ public class TournamentDAO extends DAO<Tournament> {
 			PreparedStatement pstmt = connect.prepareStatement(requete);
 			pstmt.setString(1, obj.getName());
 			pstmt.setString(2, obj.getDescription());
-
 			if (obj.getStartTime() != null)
 				pstmt.setTimestamp(3, Timestamp.valueOf(obj.getStartTime()));
 			else
 				pstmt.setTimestamp(3, null);
-
 			if (obj.getEndTime() != null)
 				pstmt.setTimestamp(4, Timestamp.valueOf(obj.getEndTime()));
 			else
 				pstmt.setTimestamp(4, null);
-
 			pstmt.setString(5, obj.getWinnerId());
 			pstmt.setString(6, obj.getTournamentId());
-
 			pstmt.executeUpdate();
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return obj;
 	}
-
 	@Override
 	public void delete(Tournament obj) {
 		String requete = "DELETE FROM tournaments WHERE tournament_id = ?";
@@ -78,7 +68,6 @@ public class TournamentDAO extends DAO<Tournament> {
 			exception.printStackTrace();
 		}
 	}
-
 	public Tournament read(String id) {
 		Tournament t = null;
 		String requete = "SELECT * FROM tournaments WHERE tournament_id = ?";

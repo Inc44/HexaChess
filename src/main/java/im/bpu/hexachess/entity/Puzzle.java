@@ -9,7 +9,6 @@ public class Puzzle {
 	private int rating;
 	private String theme;
 	private LocalDateTime createdAt;
-
 	public Puzzle(String puzzleId, String moves, String solutions, int rating, String theme,
 		LocalDateTime createdAt) {
 		this.puzzleId = puzzleId;
@@ -19,7 +18,6 @@ public class Puzzle {
 		this.theme = theme;
 		this.createdAt = createdAt;
 	}
-
 	public String getPuzzleId() {
 		return puzzleId;
 	}
@@ -38,7 +36,6 @@ public class Puzzle {
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-
 	public void setRating(int rating) {
 		this.rating = rating;
 	}

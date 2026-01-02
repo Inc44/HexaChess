@@ -14,7 +14,6 @@ public class LoginWindow {
 	@FXML private TextField handleField;
 	@FXML private PasswordField passwordField;
 	@FXML private Label errorLabel;
-
 	@FXML
 	private void handleLogin() {
 		if (handleField.getText().isEmpty()) {
@@ -27,16 +26,13 @@ public class LoginWindow {
 		}
 		String handle = handleField.getText();
 		String pass = passwordField.getText();
-
 		Player p = null;
-
 		if ("root".equals(handle) && "password123".equals(pass)) {
 			p = new Player("00000000000", "root", "root@localhost", "", 1200, true, null);
 		} else {
 			p = API.login(handle, pass);
 			System.out.println("Connected as: " + (p != null ? p.getHandle() : "null"));
 		}
-
 		if (p != null) {
 			Settings.userHandle = handle;
 			Settings.authToken = p.getToken();
@@ -55,7 +51,6 @@ public class LoginWindow {
 			errorLabel.setVisible(true);
 		}
 	}
-
 	@FXML
 	private void openStart() {
 		try {

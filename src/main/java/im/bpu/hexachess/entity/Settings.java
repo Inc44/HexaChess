@@ -6,7 +6,6 @@ public class Settings {
 	private boolean showLegalMoves;
 	private boolean autoPromoteQueen;
 	private int aiDifficultyLevel;
-
 	public Settings(String playerId, String theme, boolean showLegalMoves, boolean autoPromoteQueen,
 		int aiDifficultyLevel) {
 		this.playerId = playerId;
@@ -15,11 +14,9 @@ public class Settings {
 		this.autoPromoteQueen = autoPromoteQueen;
 		this.aiDifficultyLevel = aiDifficultyLevel;
 	}
-
 	public Settings(String playerId) {
 		this(playerId, "default", true, false, 1);
 	}
-
 	public String getPlayerId() {
 		return playerId;
 	}
@@ -35,7 +32,6 @@ public class Settings {
 	public int getAiDifficultyLevel() {
 		return aiDifficultyLevel;
 	}
-
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}

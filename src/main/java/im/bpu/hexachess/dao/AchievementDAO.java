@@ -23,7 +23,6 @@ public class AchievementDAO extends DAO<Achievement> {
 		}
 		return obj;
 	}
-
 	@Override
 	public Achievement update(Achievement obj) {
 		String requete =
@@ -39,7 +38,6 @@ public class AchievementDAO extends DAO<Achievement> {
 		}
 		return obj;
 	}
-
 	@Override
 	public void delete(Achievement obj) {
 		String requete = "DELETE FROM achievements WHERE achievement_id = ?";
@@ -51,7 +49,6 @@ public class AchievementDAO extends DAO<Achievement> {
 			exception.printStackTrace();
 		}
 	}
-
 	public Achievement read(String id) {
 		Achievement a = null;
 		String requete = "SELECT * FROM achievements WHERE achievement_id = ?";
@@ -69,7 +66,6 @@ public class AchievementDAO extends DAO<Achievement> {
 		}
 		return a;
 	}
-
 	public ArrayList<Achievement> readAll() {
 		ArrayList<Achievement> list = new ArrayList<>();
 		String requete = "SELECT * FROM achievements";

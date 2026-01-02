@@ -12,7 +12,6 @@ public class Game {
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String victoryType;
-
 	public Game(String gameId, String whitePlayerId, String blackPlayerId, String winnerId,
 		String tournamentId, String moves, LocalDateTime startTime, LocalDateTime endTime,
 		String victoryType) {
@@ -26,7 +25,6 @@ public class Game {
 		this.endTime = endTime;
 		this.victoryType = victoryType;
 	}
-
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
@@ -54,7 +52,6 @@ public class Game {
 	public void setVictoryType(String victoryType) {
 		this.victoryType = victoryType;
 	}
-
 	public String getGameId() {
 		return gameId;
 	}

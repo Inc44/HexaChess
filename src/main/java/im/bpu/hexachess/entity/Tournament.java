@@ -9,7 +9,6 @@ public class Tournament {
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String winnerId;
-
 	public Tournament(String tournamentId, String name, String description, LocalDateTime startTime,
 		LocalDateTime endTime, String winnerId) {
 		this.tournamentId = tournamentId;
@@ -19,7 +18,6 @@ public class Tournament {
 		this.endTime = endTime;
 		this.winnerId = winnerId;
 	}
-
 	public String getTournamentId() {
 		return tournamentId;
 	}
@@ -38,7 +36,6 @@ public class Tournament {
 	public String getWinnerId() {
 		return winnerId;
 	}
-
 	public void setWinnerId(String winnerId) {
 		this.winnerId = winnerId;
 	}

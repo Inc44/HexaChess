@@ -20,19 +20,16 @@ public class PuzzleDAO extends DAO<Puzzle> {
 			pstmt.setString(3, obj.getSolutions());
 			pstmt.setInt(4, obj.getRating());
 			pstmt.setString(5, obj.getTheme());
-
 			if (obj.getCreatedAt() != null)
 				pstmt.setTimestamp(6, Timestamp.valueOf(obj.getCreatedAt()));
 			else
 				pstmt.setTimestamp(6, null);
-
 			pstmt.executeUpdate();
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return obj;
 	}
-
 	@Override
 	public Puzzle update(Puzzle obj) {
 		String requete = "UPDATE puzzles SET moves = ?, solutions = ?, rating = ?, theme = ? WHERE "
@@ -50,7 +47,6 @@ public class PuzzleDAO extends DAO<Puzzle> {
 		}
 		return obj;
 	}
-
 	@Override
 	public void delete(Puzzle obj) {
 		String requete = "DELETE FROM puzzles WHERE puzzle_id = ?";
@@ -62,7 +58,6 @@ public class PuzzleDAO extends DAO<Puzzle> {
 			exception.printStackTrace();
 		}
 	}
-
 	public Puzzle read(String id) {
 		Puzzle p = null;
 		String requete = "SELECT * FROM puzzles WHERE puzzle_id = ?";
@@ -83,7 +78,6 @@ public class PuzzleDAO extends DAO<Puzzle> {
 		}
 		return p;
 	}
-
 	public ArrayList<Puzzle> readAll() {
 		ArrayList<Puzzle> list = new ArrayList<>();
 		String requete = "SELECT * FROM puzzles";

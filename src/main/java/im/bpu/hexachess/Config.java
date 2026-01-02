@@ -4,7 +4,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class Config {
 	private static final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
-
 	public static String get(String key, String defaultValue) {
 		String environmentValue = System.getenv(key);
 		if (environmentValue != null) {

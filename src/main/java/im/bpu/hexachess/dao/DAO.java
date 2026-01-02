@@ -7,11 +7,9 @@ import java.sql.Statement;
 public abstract class DAO<T> {
 	protected Connection connect;
 	protected Statement stmt;
-
 	public DAO() {
 		open();
 	}
-
 	public void open() {
 		try {
 			connect = SingleConnection.getInstance();
@@ -22,7 +20,6 @@ public abstract class DAO<T> {
 			exception.printStackTrace();
 		}
 	}
-
 	public void close() {
 		try {
 			SingleConnection.close();
@@ -31,7 +28,6 @@ public abstract class DAO<T> {
 			exception.printStackTrace();
 		}
 	}
-
 	public abstract T create(T obj);
 	public abstract T update(T obj);
 	public abstract void delete(T obj);

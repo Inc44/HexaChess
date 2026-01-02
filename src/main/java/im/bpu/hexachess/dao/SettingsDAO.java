@@ -24,7 +24,6 @@ public class SettingsDAO extends DAO<Settings> {
 		}
 		return obj;
 	}
-
 	@Override
 	public Settings update(Settings obj) {
 		String requete = "UPDATE settings SET theme = ?, show_legal_moves = ?, auto_promote_queen "
@@ -42,7 +41,6 @@ public class SettingsDAO extends DAO<Settings> {
 		}
 		return obj;
 	}
-
 	@Override
 	public void delete(Settings obj) {
 		String requete = "DELETE FROM settings WHERE player_id = ?";
@@ -54,7 +52,6 @@ public class SettingsDAO extends DAO<Settings> {
 			exception.printStackTrace();
 		}
 	}
-
 	public Settings read(String playerId) {
 		Settings s = null;
 		String requete = "SELECT * FROM settings WHERE player_id = ?";

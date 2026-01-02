@@ -21,26 +21,21 @@ public class GameDAO extends DAO<Game> {
 			pstmt.setString(4, obj.getWinnerId());
 			pstmt.setString(5, obj.getTournamentId());
 			pstmt.setString(6, obj.getMoves());
-
 			if (obj.getStartTime() != null)
 				pstmt.setTimestamp(7, Timestamp.valueOf(obj.getStartTime()));
 			else
 				pstmt.setTimestamp(7, null);
-
 			if (obj.getEndTime() != null)
 				pstmt.setTimestamp(8, Timestamp.valueOf(obj.getEndTime()));
 			else
 				pstmt.setTimestamp(8, null);
-
 			pstmt.setString(9, obj.getVictoryType());
-
 			pstmt.executeUpdate();
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return obj;
 	}
-
 	@Override
 	public Game update(Game obj) {
 		String requete = "UPDATE games SET moves = ?, end_time = ?, winner_id = ?, victory_type = "
@@ -48,23 +43,19 @@ public class GameDAO extends DAO<Game> {
 		try {
 			PreparedStatement pstmt = connect.prepareStatement(requete);
 			pstmt.setString(1, obj.getMoves());
-
 			if (obj.getEndTime() != null)
 				pstmt.setTimestamp(2, Timestamp.valueOf(obj.getEndTime()));
 			else
 				pstmt.setTimestamp(2, null);
-
 			pstmt.setString(3, obj.getWinnerId());
 			pstmt.setString(4, obj.getVictoryType());
 			pstmt.setString(5, obj.getGameId());
-
 			pstmt.executeUpdate();
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return obj;
 	}
-
 	@Override
 	public void delete(Game obj) {
 		String requete = "DELETE FROM games WHERE game_id = ?";
@@ -76,7 +67,6 @@ public class GameDAO extends DAO<Game> {
 			exception.printStackTrace();
 		}
 	}
-
 	public Game read(String id) {
 		Game g = null;
 		String requete = "SELECT * FROM games WHERE game_id = ?";

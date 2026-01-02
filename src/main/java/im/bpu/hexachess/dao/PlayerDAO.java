@@ -24,20 +24,16 @@ public class PlayerDAO extends DAO<Player> {
 			pstmt.setInt(6, obj.getRating());
 			pstmt.setString(7, obj.getLocation());
 			pstmt.setBoolean(8, obj.isVerified());
-
 			if (obj.getJoinedAt() != null)
 				pstmt.setTimestamp(9, Timestamp.valueOf(obj.getJoinedAt()));
 			else
 				pstmt.setTimestamp(9, null);
-
 			pstmt.executeUpdate();
-
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return obj;
 	}
-
 	@Override
 	public Player update(Player obj) {
 		String requete = "UPDATE players SET handle = ?, email = ?, password_hash = ?, avatar = ?, "
@@ -58,7 +54,6 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return obj;
 	}
-
 	@Override
 	public void delete(Player obj) {
 		String requete = "DELETE FROM players WHERE player_id = ?";
@@ -70,7 +65,6 @@ public class PlayerDAO extends DAO<Player> {
 			exception.printStackTrace();
 		}
 	}
-
 	private Player resultSetToPlayer(ResultSet rs) throws SQLException {
 		Player p = new Player(rs.getString("player_id"), rs.getString("handle"),
 			rs.getString("email"), rs.getString("password_hash"), rs.getInt("rating"),
@@ -81,7 +75,6 @@ public class PlayerDAO extends DAO<Player> {
 		p.setLocation(rs.getString("location"));
 		return p;
 	}
-
 	public Player read(String id) {
 		Player p = null;
 		String requete = "SELECT * FROM players WHERE player_id = ?";
@@ -98,7 +91,6 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return p;
 	}
-
 	public ArrayList<Player> readAll() {
 		ArrayList<Player> list = new ArrayList<>();
 		String requete = "SELECT * FROM players";
@@ -113,7 +105,6 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return list;
 	}
-
 	public Player login(String handle, String password) {
 		Player p = null;
 		String requete = "SELECT * FROM players WHERE handle = ? AND password_hash = ?";
@@ -131,7 +122,6 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return p;
 	}
-
 	public Player getPlayerByHandle(String handle) {
 		Player p = null;
 		String requete = "SELECT * FROM players WHERE handle = ?";
