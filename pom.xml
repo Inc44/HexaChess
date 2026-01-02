@@ -2,13 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>im.bpu</groupId>
 	<artifactId>hexachess</artifactId>
-	<version>2026.01.01</version>
+	<version>2026.01.02</version>
 	<properties>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>2.20.1</jackson.version>
 		<mysql.version>9.5.0</mysql.version>
+		<jsonwebtoken.version>0.13.0</jsonwebtoken.version>
 		<mindrot.version>0.4</mindrot.version>
 		<javafx.version>21.0.9</javafx.version>
 		<maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
@@ -32,6 +33,21 @@
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<version>${mysql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jsonwebtoken.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jsonwebtoken.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${jsonwebtoken.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mindrot</groupId>

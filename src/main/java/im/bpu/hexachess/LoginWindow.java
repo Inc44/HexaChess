@@ -39,6 +39,7 @@ public class LoginWindow {
 
 		if (p != null) {
 			Settings.userHandle = handle;
+			Settings.authToken = p.getToken();
 			Settings.save();
 			try {
 				FXMLLoader mainWindowLoader =

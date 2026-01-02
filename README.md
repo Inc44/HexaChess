@@ -15,6 +15,10 @@ Gliński's hexagonal chess game implementation in Java.
 
 ![HexaChess](HexaChess.png)
 
+## ⚠️ Disclaimers
+
+- **HTTP/HTTPS**: Due to the extreme difficulty of obtaining public CA certificates for local development servers, the HexaChess server currently uses HTTP. Use Cloudflare or similar services to enable an HTTPS proxy (e.g., via the SSL/TLS Full (Strict) encryption option). Otherwise, sensitive data such as passwords, tokens, and other information may be transmitted in plain text over the network and become vulnerable to interception by malicious actors.
+
 ## 🚀 Installation
 
 ### From Source

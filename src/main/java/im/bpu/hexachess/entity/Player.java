@@ -8,6 +8,7 @@ public class Player {
 	private int rating;
 	private boolean isVerified;
 	private java.time.LocalDateTime joinedAt;
+	private String token;
 
 	public Player() {}
 
@@ -76,5 +77,13 @@ public class Player {
 
 	public void setJoinedAt(java.time.LocalDateTime joinedAt) {
 		this.joinedAt = joinedAt;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

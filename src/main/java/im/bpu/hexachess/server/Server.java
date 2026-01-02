@@ -9,11 +9,15 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.security.Key;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Server {
@@ -22,6 +26,8 @@ public class Server {
 	static {
 		mapper.registerModule(new JavaTimeModule());
 	}
+	private static final Key KEY =
+		Keys.hmacShaKeyFor("HexaChess Secret Key with a minimum of 32 bytes".getBytes());
 	public static void main(String[] args) throws IOException {
 		HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
 		server.createContext("/api/login", new LoginHandler());
@@ -46,6 +52,11 @@ public class Server {
 				dao.close();
 				if (p != null && BCrypt.checkpw(password, p.getPasswordHash())) {
 					p.setPasswordHash(null);
+					p.setToken(Jwts.builder()
+							.issuedAt(new Date())
+							.signWith(KEY)
+							.subject(handle)
+							.compact());
 					String response = mapper.writeValueAsString(p);
 					sendResponse(exchange, 200, response);
 				} else {

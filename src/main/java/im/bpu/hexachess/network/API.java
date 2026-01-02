@@ -14,7 +14,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class API {
 	private static final String BASE_URL = "http://localhost:8800/api";
-	private static final HttpClient client = HttpClient.newHttpClient();
+	private static final HttpClient client =
+		HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	private static final ObjectMapper mapper = new ObjectMapper();
 	static {
 		mapper.registerModule(new JavaTimeModule());
@@ -33,9 +34,8 @@ public class API {
 					.build();
 			HttpResponse<String> response =
 				client.send(request, HttpResponse.BodyHandlers.ofString());
-			if (response.statusCode() == 200) {
+			if (response.statusCode() == 200)
 				return mapper.readValue(response.body(), Player.class);
-			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
