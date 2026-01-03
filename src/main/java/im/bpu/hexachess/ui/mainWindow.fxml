@@ -16,22 +16,22 @@
 			<Button text="Rewind" onAction="#rewind" />
 		</HBox>
 	</VBox>
-	<Button fx:id="menuButton" text="☰" onAction="#toggleSidebar" StackPane.alignment="top_left" styleClass="menu-button" />
-	<Button fx:id="settingsHelpButton" text="⋮" onAction="#openHelpSettings" StackPane.alignment="top_right" styleClass="settings-help-button" />
-	<VBox fx:id="sidebar" styleClass="sidebar" maxWidth="160">
+	<Button fx:id="menuButton" StackPane.alignment="top_left" text="☰" onAction="#toggleSidebar" styleClass="menu-button" />
+	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="⋮" onAction="#openHelpSettings" styleClass="settings-help-button" />
+	<VBox fx:id="sidebar" maxWidth="160" styleClass="sidebar">
 		<Button text="Search" onAction="#openSearch" styleClass="sidebar-item" />
 		<Button text="Profile" onAction="#openProfile" styleClass="sidebar-item" />
 		<Button text="Achievements" onAction="#openSettings" styleClass="sidebar-item" />
 		<Button text="Puzzles" onAction="#openSettings" styleClass="sidebar-item" />
 		<Button text="Tournaments" onAction="#openSettings" styleClass="sidebar-item" />
 	</VBox>
-	<HBox fx:id="playerItem" alignment="center_left" spacing="12" StackPane.alignment="bottom_left" maxWidth="240" maxHeight="80">
+	<HBox fx:id="playerItem" StackPane.alignment="bottom_left" alignment="center_left" maxWidth="240" maxHeight="80" spacing="12">
 		<padding>
 			<Insets bottom="16" left="16" />
 		</padding>
 		<ImageView fx:id="avatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
-		<VBox spacing="4" alignment="center_left">
-			<HBox spacing="8" alignment="center_left">
+		<VBox alignment="center_left" spacing="4">
+			<HBox alignment="center_left" spacing="8">
 				<Label fx:id="handleLabel" />
 				<Region fx:id="countryFlagIcon" styleClass="country-flags country-flags-medium" />
 			</HBox>

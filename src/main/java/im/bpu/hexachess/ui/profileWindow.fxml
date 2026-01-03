@@ -10,8 +10,8 @@
 		<VBox styleClass="avatar-container">
 			<ImageView fx:id="avatarIcon" fitHeight="100" fitWidth="100" preserveRatio="true" />
 		</VBox>
-		<VBox spacing="4" alignment="center_left">
-			<HBox spacing="8" alignment="center_left">
+		<VBox alignment="center_left" spacing="4">
+			<HBox alignment="center_left" spacing="8">
 				<Label fx:id="handleLabel" styleClass="h2" />
 				<Region fx:id="countryFlagIcon" styleClass="country-flags country-flags-large" />
 			</HBox>

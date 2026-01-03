@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<HBox xmlns:fx="http://javafx.com/fxml" spacing="12" styleClass="player-item" alignment="center_left">
+<HBox xmlns:fx="http://javafx.com/fxml" alignment="center_left" spacing="12" styleClass="player-item">
 	<VBox styleClass="avatar-container">
 		<ImageView fx:id="avatarIcon" fitHeight="42" fitWidth="42" preserveRatio="true" />
 	</VBox>
 	<VBox spacing="4">
-		<HBox spacing="8" alignment="center_left">
+		<HBox alignment="center_left" spacing="8">
 			<Label fx:id="handleLabel" />
 			<Region fx:id="countryFlagIcon" styleClass="country-flags country-flags-large" />
 		</HBox>
