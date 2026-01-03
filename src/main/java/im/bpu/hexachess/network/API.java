@@ -1,8 +1,5 @@
 package im.bpu.hexachess.network;
 
-import im.bpu.hexachess.Config;
-import im.bpu.hexachess.entity.Player;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,6 +11,12 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import im.bpu.hexachess.Config;
+import im.bpu.hexachess.entity.Achievement;
+import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.entity.Puzzle;
+import im.bpu.hexachess.entity.Tournament;
 
 public class API {
 	private static final String DEV_URL = Config.get("DEV_URL", "http://localhost:8800/api");
@@ -139,5 +142,43 @@ public class API {
 		} catch (Exception ignored) { // high-frequency polling operation
 			return null;
 		}
+	}
+	public static List<Achievement> getAchievements() {
+		try {
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+			HttpResponse<String> response = sendWithFallback(requestBuilder, "/achievements");
+			if (response.statusCode() == 200)
+				return List.of(mapper.readValue(response.body(), Achievement[].class));
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+
+	public static List<Puzzle> getPuzzles() {
+		try {
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+			HttpResponse<String> response = sendWithFallback(requestBuilder, "/puzzles");
+			if (response.statusCode() == 200)
+				return List.of(mapper.readValue(response.body(), Puzzle[].class));
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+
+	public static List<Tournament> getTournaments() {
+		try {
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+			HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments");
+			if (response.statusCode() == 200)
+				return List.of(mapper.readValue(response.body(), Tournament[].class));
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return Collections.emptyList();
 	}
 }
