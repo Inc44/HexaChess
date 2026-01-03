@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import im.bpu.hexachess.entity.Tournament;
 
@@ -94,8 +95,9 @@ public class TournamentDAO extends DAO<Tournament> {
 		return tournament;
 	}
 
-	public java.util.ArrayList<Tournament> readAll() {
-		java.util.ArrayList<Tournament> list = new java.util.ArrayList<>();
+        @SuppressWarnings("CallToPrintStackTrace")
+	public ArrayList<Tournament> readAll() {
+		ArrayList<Tournament> list = new ArrayList<>();
 		String request = "SELECT * FROM tournaments";
 		try {
 			ResultSet rs = stmt.executeQuery(request);
