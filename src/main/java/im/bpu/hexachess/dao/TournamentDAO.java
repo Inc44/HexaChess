@@ -1,11 +1,12 @@
 package im.bpu.hexachess.dao;
 
-import im.bpu.hexachess.entity.Tournament;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import im.bpu.hexachess.entity.Tournament;
 
 public class TournamentDAO extends DAO<Tournament> {
 	@Override
@@ -92,5 +93,29 @@ public class TournamentDAO extends DAO<Tournament> {
 			exception.printStackTrace();
 		}
 		return tournament;
+	}
+
+        @SuppressWarnings("CallToPrintStackTrace")
+	public ArrayList<Tournament> readAll() {
+		ArrayList<Tournament> list = new ArrayList<>();
+		String request = "SELECT * FROM tournaments";
+		try {
+			ResultSet rs = stmt.executeQuery(request);
+			while (rs.next()) {
+				list.add(new Tournament(rs.getString("tournament_id"), rs.getString("name"),
+					rs.getString("description"),
+					rs.getTimestamp("start_time") != null
+						? rs.getTimestamp("start_time").toLocalDateTime()
+						: null,
+					rs.getTimestamp("end_time") != null
+						? rs.getTimestamp("end_time").toLocalDateTime()
+						: null,
+					rs.getString("winner_id")));
+			}
+			rs.close();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		return list;
 	}
 }
