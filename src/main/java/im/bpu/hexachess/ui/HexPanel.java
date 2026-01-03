@@ -7,6 +7,7 @@ import im.bpu.hexachess.model.AxialCoordinate;
 import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 import im.bpu.hexachess.model.Piece;
+import im.bpu.hexachess.network.API;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class HexPanel {
 	private List<AxialCoordinate> highlighted = new ArrayList<>();
 	private Canvas canvas;
 	private boolean isLockedIn = false;
+	private String lastSyncedMoveString = "";
 	public HexPanel(Canvas canvas, State state) {
 		this.state = state;
 		this.ai.setMaxDepth(Settings.maxDepth);
@@ -35,6 +37,8 @@ public class HexPanel {
 		this.canvas = canvas;
 		PieceImageLoader.loadImages(this::repaint);
 		canvas.setOnMouseClicked(event -> handleMouseClick(event.getX(), event.getY()));
+		if (state.isMultiplayer && state.board.isWhiteTurn != state.isWhitePlayer)
+			startPolling();
 		repaint();
 		// accumulate opacity to remove hex gaps
 		repaint();
@@ -66,14 +70,52 @@ public class HexPanel {
 		state.board.movePiece(selected, target);
 		deselect();
 		isLockedIn = true;
+		String moveString = selected.q + "," + selected.r + "->" + target.q + "," + target.r;
+		if (state.isMultiplayer) {
+			new Thread(() -> {
+				API.sendMove(state.gameId, moveString);
+				lastSyncedMoveString = moveString;
+				startPolling();
+			}).start();
+		} else {
+			new Thread(() -> {
+				Move bestMove = ai.getBestMove(state.board);
+				Platform.runLater(() -> {
+					if (bestMove != null)
+						state.board.movePiece(bestMove.from, bestMove.to);
+					isLockedIn = false;
+					repaint();
+				});
+			}).start();
+		}
+	}
+	private void startPolling() {
+		isLockedIn = true;
 		new Thread(() -> {
-			Move bestMove = ai.getBestMove(state.board);
-			Platform.runLater(() -> {
-				if (bestMove != null)
-					state.board.movePiece(bestMove.from, bestMove.to);
-				isLockedIn = false;
-				repaint();
-			});
+			while (true) {
+				String moveString = API.getMove(state.gameId);
+				if (moveString != null && !moveString.isEmpty()
+					&& !moveString.equals(lastSyncedMoveString)) {
+					lastSyncedMoveString = moveString;
+					String[] moveStrings = moveString.split("->");
+					String[] fromString = moveStrings[0].split(",");
+					String[] toString = moveStrings[1].split(",");
+					AxialCoordinate from = new AxialCoordinate(
+						Integer.parseInt(fromString[0]), Integer.parseInt(fromString[1]));
+					AxialCoordinate to = new AxialCoordinate(
+						Integer.parseInt(toString[0]), Integer.parseInt(toString[1]));
+					Platform.runLater(() -> {
+						state.board.movePiece(from, to);
+						isLockedIn = false;
+						repaint();
+					});
+					break;
+				}
+				try {
+					Thread.sleep(2000);
+				} catch (Exception ignored) { // high-frequency polling operation
+				}
+			}
 		}).start();
 	}
 	private void selectPiece(AxialCoordinate coord) {
@@ -99,7 +141,8 @@ public class HexPanel {
 			return;
 		}
 		Piece piece = state.board.getPiece(clicked);
-		if (piece != null && piece.isWhite == state.board.isWhiteTurn)
+		if ((piece != null && piece.isWhite == state.board.isWhiteTurn)
+			&& (!state.isMultiplayer || piece.isWhite == state.isWhitePlayer))
 			selectPiece(clicked);
 		else
 			deselect();

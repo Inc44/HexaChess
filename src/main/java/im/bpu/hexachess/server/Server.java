@@ -14,6 +14,9 @@ import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -25,6 +28,9 @@ import org.mindrot.jbcrypt.BCrypt;
 public class Server {
 	private static final int PORT = Integer.parseInt(Config.get("PORT", "8800"));
 	private static final ObjectMapper mapper = new ObjectMapper();
+	private static final Map<String, String> challenges = new ConcurrentHashMap<>();
+	private static final Map<String, String> games = new ConcurrentHashMap<>();
+	private static final Map<String, String> moves = new ConcurrentHashMap<>();
 	static {
 		mapper.registerModule(new JavaTimeModule());
 	}
@@ -36,6 +42,8 @@ public class Server {
 		server.createContext("/api/register", new RegisterHandler());
 		server.createContext("/api/search", new SearchHandler());
 		server.createContext("/api/profile", new ProfileHandler());
+		server.createContext("/api/challenge", new ChallengeHandler());
+		server.createContext("/api/sync", new SyncHandler());
 		server.setExecutor(null);
 		server.start();
 		System.out.println("HexaChess Server started on port " + PORT);
@@ -142,6 +150,44 @@ public class Server {
 			} catch (Exception exception) {
 				exception.printStackTrace();
 				sendResponse(exchange, 500, "Internal Server Error");
+			}
+		}
+	}
+	static class ChallengeHandler implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+				sendResponse(exchange, 405, "Method Not Allowed");
+				return;
+			}
+			ObjectNode jsonNode = mapper.readValue(exchange.getRequestBody(), ObjectNode.class);
+			String from = jsonNode.get("from").asText();
+			String to = jsonNode.get("to").asText();
+			challenges.put(from, to);
+			if (from.equals(challenges.get(to))) {
+				String gameId = games.computeIfAbsent(
+					from + "-" + to, key -> UUID.randomUUID().toString().substring(0, 11));
+				games.put(to + "-" + from, gameId);
+				sendResponse(exchange, 200, gameId);
+			} else {
+				sendResponse(exchange, 200, "Pending");
+			}
+		}
+	}
+	static class SyncHandler implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+				ObjectNode jsonNode = mapper.readValue(exchange.getRequestBody(), ObjectNode.class);
+				String gameId = jsonNode.get("gameId").asText();
+				String move = jsonNode.get("move").asText();
+				moves.put(gameId, move);
+				sendResponse(exchange, 200, "OK");
+			} else {
+				String query = exchange.getRequestURI().getQuery();
+				String gameId = query.split("=")[1];
+				String move = moves.getOrDefault(gameId, "");
+				sendResponse(exchange, 200, move);
 			}
 		}
 	}

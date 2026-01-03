@@ -97,4 +97,47 @@ public class API {
 		}
 		return null;
 	}
+	public static String challenge(String from, String to) {
+		try {
+			ObjectNode jsonNode = mapper.createObjectNode();
+			jsonNode.put("from", from);
+			jsonNode.put("to", to);
+			String json = mapper.writeValueAsString(jsonNode);
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(Duration.ofSeconds(2));
+			HttpResponse<String> response = sendWithFallback(requestBuilder, "/challenge");
+			return response.body();
+		} catch (Exception ignored) { // high-frequency polling operation
+			return null;
+		}
+	}
+	public static void sendMove(String gameId, String move) {
+		try {
+			ObjectNode jsonNode = mapper.createObjectNode();
+			jsonNode.put("gameId", gameId);
+			jsonNode.put("move", move);
+			String json = mapper.writeValueAsString(jsonNode);
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(Duration.ofSeconds(6));
+			sendWithFallback(requestBuilder, "/sync");
+		} catch (Exception ignored) { // high-frequency polling operation
+		}
+	}
+	public static String getMove(String gameId) {
+		try {
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(2));
+			HttpResponse<String> response =
+				sendWithFallback(requestBuilder, "/sync?gameId=" + gameId);
+			return response.body();
+		} catch (Exception ignored) { // high-frequency polling operation
+			return null;
+		}
+	}
 }
