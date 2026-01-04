@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <HBox xmlns:fx="http://javafx.com/fxml" alignment="center_left" spacing="12" styleClass="player-item">
 	<VBox styleClass="avatar-container">
-		<ImageView fx:id="avatarIcon" fitHeight="42" fitWidth="42" preserveRatio="true" />
+		<ImageView fx:id="avatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
 	</VBox>
 	<VBox spacing="4">
 		<HBox alignment="center_left" spacing="8">
