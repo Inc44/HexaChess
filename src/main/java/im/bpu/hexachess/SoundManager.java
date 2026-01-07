@@ -12,10 +12,10 @@ public class SoundManager {
 				AudioClip clip = new AudioClip(resource.toString());
 				clip.play();
 			} else {
-				System.out.println("Erreur : Fichier son introuvable !");
+				System.err.println("Audio File Not Found Error");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 }

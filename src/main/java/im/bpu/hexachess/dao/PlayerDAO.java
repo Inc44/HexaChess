@@ -136,26 +136,26 @@ public class PlayerDAO extends DAO<Player> {
 	public boolean updatePassword(String username, String newPassword) {
 		String request = "UPDATE players SET password = ? WHERE username = ?";
 		try {
-			java.sql.PreparedStatement pstmt = connect.prepareStatement(request);
+			PreparedStatement pstmt = connect.prepareStatement(request);
 			pstmt.setString(1, newPassword);
 			pstmt.setString(2, username);
 			return pstmt.executeUpdate() > 0;
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 			return false;
 		}
 	}
 	public boolean checkPassword(String username, String passwordCandidate) {
 		String request = "SELECT password FROM players WHERE username = ?";
 		try {
-			java.sql.PreparedStatement pstmt = connect.prepareStatement(request);
+			PreparedStatement pstmt = connect.prepareStatement(request);
 			pstmt.setString(1, username);
-			java.sql.ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getString("password").equals(passwordCandidate);
 			}
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		}
 		return false;
 	}
