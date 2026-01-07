@@ -133,7 +133,6 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return players;
 	}
-	
 	public boolean updatePassword(String username, String newPassword) {
 		String request = "UPDATE players SET password = ? WHERE username = ?";
 		try {
@@ -146,7 +145,6 @@ public class PlayerDAO extends DAO<Player> {
 			return false;
 		}
 	}
-
 	public boolean checkPassword(String username, String passwordCandidate) {
 		String request = "SELECT password FROM players WHERE username = ?";
 		try {

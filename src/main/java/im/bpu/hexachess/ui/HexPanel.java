@@ -1,6 +1,7 @@
 package im.bpu.hexachess.ui;
 
 import im.bpu.hexachess.Settings;
+import im.bpu.hexachess.SoundManager;
 import im.bpu.hexachess.State;
 import im.bpu.hexachess.model.AI;
 import im.bpu.hexachess.model.AxialCoordinate;
@@ -8,7 +9,6 @@ import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 import im.bpu.hexachess.model.Piece;
 import im.bpu.hexachess.network.API;
-import im.bpu.hexachess.SoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,12 +142,10 @@ public class HexPanel {
 		}
 		Piece piece = state.board.getPiece(clicked);
 		if ((piece != null && piece.isWhite == state.board.isWhiteTurn)
-			&& (!state.isMultiplayer || piece.isWhite == state.isWhitePlayer))
-
+			&& (!state.isMultiplayer || piece.isWhite == state.isWhitePlayer)) {
 			SoundManager.playClick();
-		
 			selectPiece(clicked);
-		else
+		} else
 			deselect();
 	}
 	public void restart() {
