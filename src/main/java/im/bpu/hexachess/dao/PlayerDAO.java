@@ -131,24 +131,24 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return players;
 	}
-	public boolean updatePassword(String username, String newPassword) {
-		String request = "UPDATE players SET password = ? WHERE username = ?";
+	public boolean updatePassword(String handle, String password) {
+		String request = "UPDATE players SET password = ? WHERE handle = ?";
 		try (PreparedStatement pstmt = connect.prepareStatement(request)) {
-			pstmt.setString(1, newPassword);
-			pstmt.setString(2, username);
+			pstmt.setString(1, password);
+			pstmt.setString(2, handle);
 			return pstmt.executeUpdate() > 0;
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 			return false;
 		}
 	}
-	public boolean checkPassword(String username, String passwordCandidate) {
-		String request = "SELECT password FROM players WHERE username = ?";
+	public boolean checkPassword(String handle, String password) {
+		String request = "SELECT password FROM players WHERE handle = ?";
 		try (PreparedStatement pstmt = connect.prepareStatement(request)) {
-			pstmt.setString(1, username);
+			pstmt.setString(1, handle);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					return rs.getString("password").equals(passwordCandidate);
+					return rs.getString("password").equals(password);
 				}
 			}
 		} catch (SQLException exception) {

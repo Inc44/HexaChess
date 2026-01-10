@@ -4,25 +4,21 @@ import java.net.URL;
 import javafx.scene.media.AudioClip;
 
 public class SoundManager {
-	private static final AudioClip CLIP;
-	static {
-		AudioClip clip = null;
-		try {
-			URL resource = SoundManager.class.getResource(
-				"/im/bpu/sounds/mixkit-quick-win-video-game-notification-269.wav");
-			if (resource != null) {
-				clip = new AudioClip(resource.toString());
-			}
-		} catch (Exception exception) {
-			exception.printStackTrace();
+	private static final String CLICK_URL =
+		"/im/bpu/sounds/mixkit-quick-win-video-game-notification-269.wav";
+	private static final AudioClip CLICK = loadClick(CLICK_URL);
+	private static AudioClip loadClick(String path) {
+		URL resource = SoundManager.class.getResource(path);
+		if (resource == null) {
+			return null;
 		}
-		CLIP = clip;
+		return new AudioClip(resource.toString());
 	}
 	public static void playClick() {
-		if (CLIP != null) {
-			CLIP.play();
-		} else {
+		if (CLICK == null) {
 			System.err.println("Audio File Not Found Error");
+			return;
 		}
+		CLICK.play();
 	}
 }

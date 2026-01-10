@@ -3,6 +3,7 @@ package im.bpu.hexachess;
 import im.bpu.hexachess.entity.Tournament;
 import im.bpu.hexachess.network.API;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.application.Platform;
@@ -40,20 +41,23 @@ public class TournamentsWindow {
 							FXMLLoader tournamentItemLoader =
 								new FXMLLoader(getClass().getResource("ui/tournamentItem.fxml"));
 							VBox tournamentItem = tournamentItemLoader.load();
+							LocalDateTime startTime = tournament.getStartTime();
+							String winnerId = tournament.getWinnerId();
 							Label nameLabel = (Label) tournamentItem.lookup("#nameLabel");
 							Label dateLabel = (Label) tournamentItem.lookup("#dateLabel");
 							Label descriptionLabel =
 								(Label) tournamentItem.lookup("#descriptionLabel");
 							Label statusLabel = (Label) tournamentItem.lookup("#statusLabel");
 							nameLabel.setText(tournament.getName());
-							String dateStr = (tournament.getStartTime() != null)
-								? tournament.getStartTime().format(
-									  DateTimeFormatter.ofPattern("MMM d yyyy HH:mm"))
-								: "TBD";
-							dateLabel.setText(dateStr);
+							if (startTime != null) {
+								dateLabel.setText(startTime.format(
+									DateTimeFormatter.ofPattern("MMM d yyyy HH:mm")));
+							} else {
+								dateLabel.setText("TBD");
+							}
 							descriptionLabel.setText(tournament.getDescription());
-							if (tournament.getWinnerId() != null) {
-								statusLabel.setText("Winner ID: " + tournament.getWinnerId());
+							if (winnerId != null) {
+								statusLabel.setText("Winner ID: " + winnerId);
 								statusLabel.getStyleClass().add("text-success");
 							} else {
 								statusLabel.setText("Status: Ongoing / Open");
