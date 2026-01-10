@@ -25,7 +25,7 @@ public class SingleConnection {
 		boolean isWindows = osName.contains("win");
 		return isWindows ? "" : "password123";
 	}
-	public static Connection getInstance() throws SQLException {
+	public static synchronized Connection getInstance() throws SQLException {
 		if (connect == null || connect.isClosed())
 			new SingleConnection();
 		return connect;

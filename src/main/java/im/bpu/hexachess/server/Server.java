@@ -105,7 +105,6 @@ public class Server {
 				String password = jsonNode.get("password").asText();
 				PlayerDAO dao = new PlayerDAO();
 				Player player = dao.getPlayerByHandle(handle);
-				dao.close();
 				if (player != null && BCrypt.checkpw(password, player.getPasswordHash())) {
 					player.setPasswordHash(null);
 					player.setToken(Jwts.builder()
@@ -148,7 +147,6 @@ public class Server {
 				}
 				PlayerDAO dao = new PlayerDAO();
 				if (dao.getPlayerByHandle(handle) != null) {
-					dao.close();
 					sendResponse(exchange, 409, "Conflict: Username taken");
 					return;
 				}
@@ -158,7 +156,6 @@ public class Server {
 				player.setVerified(false);
 				player.setJoinedAt(LocalDateTime.now());
 				dao.create(player);
-				dao.close();
 				sendResponse(exchange, 200, "OK");
 			} catch (Exception exception) {
 				exception.printStackTrace();
@@ -184,7 +181,6 @@ public class Server {
 					String playerId = query.split("=")[1];
 					PlayerDAO pDao = new PlayerDAO();
 					Player player = pDao.read(playerId);
-					pDao.close();
 					if (player == null || !player.getHandle().equals(handle)) {
 						sendResponse(exchange, 403, "Forbidden");
 						return;
@@ -195,7 +191,6 @@ public class Server {
 						settings = new Settings(playerId);
 						dao.create(settings);
 					}
-					dao.close();
 					String response = MAPPER.writeValueAsString(settings);
 					sendResponse(exchange, 200, response);
 				} catch (Exception exception) {
@@ -212,14 +207,12 @@ public class Server {
 					String playerId = settings.getPlayerId();
 					PlayerDAO pDao = new PlayerDAO();
 					Player player = pDao.read(playerId);
-					pDao.close();
 					if (player == null || !player.getHandle().equals(handle)) {
 						sendResponse(exchange, 403, "Forbidden");
 						return;
 					}
 					SettingsDAO dao = new SettingsDAO();
 					dao.update(settings);
-					dao.close();
 					sendResponse(exchange, 200, "OK");
 				} catch (Exception exception) {
 					exception.printStackTrace();
@@ -242,7 +235,6 @@ public class Server {
 				String handle = (query != null && query.contains("=")) ? query.split("=")[1] : "";
 				PlayerDAO dao = new PlayerDAO();
 				List<Player> players = dao.searchPlayers(handle);
-				dao.close();
 				for (Player player : players) player.setPasswordHash(null);
 				String response = MAPPER.writeValueAsString(players);
 				sendResponse(exchange, 200, response);
@@ -268,7 +260,6 @@ public class Server {
 				String handle = query.split("=")[1];
 				PlayerDAO dao = new PlayerDAO();
 				Player player = dao.getPlayerByHandle(handle);
-				dao.close();
 				if (player != null) {
 					player.setPasswordHash(null);
 					String response = MAPPER.writeValueAsString(player);
@@ -292,7 +283,6 @@ public class Server {
 			try {
 				AchievementDAO dao = new AchievementDAO();
 				List<Achievement> achievements = dao.readAll();
-				dao.close();
 				String response = MAPPER.writeValueAsString(achievements);
 				sendResponse(exchange, 200, response);
 			} catch (Exception exception) {
@@ -311,7 +301,6 @@ public class Server {
 			try {
 				PuzzleDAO dao = new PuzzleDAO();
 				List<Puzzle> puzzles = dao.readAll();
-				dao.close();
 				String response = MAPPER.writeValueAsString(puzzles);
 				sendResponse(exchange, 200, response);
 			} catch (Exception exception) {
@@ -330,7 +319,6 @@ public class Server {
 			try {
 				TournamentDAO dao = new TournamentDAO();
 				List<Tournament> tournaments = dao.readAll();
-				dao.close();
 				String response = MAPPER.writeValueAsString(tournaments);
 				sendResponse(exchange, 200, response);
 			} catch (Exception exception) {
