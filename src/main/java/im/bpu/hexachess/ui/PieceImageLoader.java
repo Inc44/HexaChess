@@ -31,9 +31,10 @@ class PieceImageLoader {
 			return;
 		}
 		int[] loadedCount = {0};
-		for (String c : new String[] {"w", "b"})
-			for (String t : new String[] {"p", "r", "n", "b", "q", "k"})
-				loadImage(c + t, loadedCount, onload);
+		String[] colors = {"w", "b"};
+		String[] types = {"p", "r", "n", "b", "q", "k"};
+		for (String color : colors)
+			for (String type : types) loadImage(color + type, loadedCount, onload);
 	}
 	static Image get(String key) {
 		return images.get(key);

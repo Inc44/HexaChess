@@ -64,10 +64,10 @@ public class Server {
 		System.out.println("HexaChess Server started on port " + PORT);
 	}
 	private static String auth(HttpExchange exchange) {
-		String auth = exchange.getRequestHeaders().getFirst("Authorization");
-		if (auth == null || !auth.startsWith("Bearer "))
+		String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		if (authHeader == null || !authHeader.startsWith("Bearer "))
 			return null;
-		String authToken = auth.substring(7);
+		String authToken = authHeader.substring(7);
 		try {
 			return Jwts.parser()
 				.verifyWith((SecretKey) KEY)
