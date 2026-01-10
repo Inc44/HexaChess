@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="8" styleClass="player-item">
+	<HBox alignment="center_left" spacing="10">
+		<Label fx:id="nameLabel" style="-fx-font-size: 18px; -fx-text-fill: black;" />
+		<Region HBox.hgrow="ALWAYS" />
+		<Label fx:id="dateLabel" style="-fx-font-size: 12px;" />
+	</HBox>
+	<Label fx:id="descriptionLabel" wrapText="true" style="-fx-font-weight: normal; -fx-font-size: 14px;" />
+	<Label fx:id="statusLabel" />
+</VBox>
