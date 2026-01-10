@@ -23,6 +23,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class API {
 	private static final String DEV_URL = Config.get("DEV_URL", "http://localhost:8800/api");
 	private static final String PROD_URL = Config.get("PROD_URL", "https://hexachess.bpu.im/api");
+	private static final Duration TIMEOUT_DURATION = Duration.ofSeconds(6);
 	private static final HttpClient client =
 		HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	private static final ObjectMapper mapper = new ObjectMapper();
@@ -56,7 +57,7 @@ public class API {
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
-					.timeout(Duration.ofSeconds(6));
+					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/login");
 			if (response.statusCode() == 200)
 				return mapper.readValue(response.body(), Player.class);
@@ -72,7 +73,7 @@ public class API {
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
-					.timeout(Duration.ofSeconds(6));
+					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/register");
 			return response.statusCode() == 200;
 		} catch (Exception exception) {
@@ -83,7 +84,7 @@ public class API {
 	public static Settings settings(String playerId) {
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/settings?playerId=" + playerId);
 			if (response.statusCode() == 200)
@@ -100,7 +101,7 @@ public class API {
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
-					.timeout(Duration.ofSeconds(6));
+					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/settings");
 			return response.statusCode() == 200;
 		} catch (Exception exception) {
@@ -111,7 +112,7 @@ public class API {
 	public static List<Player> search(String handle) {
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/search?handle=" + handle);
 			if (response.statusCode() == 200)
@@ -127,7 +128,7 @@ public class API {
 		}
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/profile?handle=" + handle);
 			if (response.statusCode() == 200)
@@ -140,7 +141,7 @@ public class API {
 	public static List<Achievement> achievements() {
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/achievements");
 			if (response.statusCode() == 200)
 				return List.of(mapper.readValue(response.body(), Achievement[].class));
@@ -152,7 +153,7 @@ public class API {
 	public static List<Puzzle> puzzles() {
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/puzzles");
 			if (response.statusCode() == 200)
 				return List.of(mapper.readValue(response.body(), Puzzle[].class));
@@ -164,7 +165,7 @@ public class API {
 	public static List<Tournament> tournaments() {
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(6));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments");
 			if (response.statusCode() == 200)
 				return List.of(mapper.readValue(response.body(), Tournament[].class));
@@ -183,7 +184,7 @@ public class API {
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
-					.timeout(Duration.ofSeconds(2));
+					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/challenge");
 			return response.body();
 		} catch (Exception ignored) { // high-frequency polling operation
@@ -200,7 +201,7 @@ public class API {
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
-					.timeout(Duration.ofSeconds(6));
+					.timeout(TIMEOUT_DURATION);
 			sendWithFallback(requestBuilder, "/sync");
 		} catch (Exception ignored) { // high-frequency polling operation
 		}
@@ -208,7 +209,7 @@ public class API {
 	public static String getMove(String gameId) {
 		try {
 			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(Duration.ofSeconds(2));
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/sync?gameId=" + gameId);
 			return response.body();
