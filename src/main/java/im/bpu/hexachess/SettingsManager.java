@@ -10,17 +10,14 @@ public class SettingsManager {
 	public static String authToken = prefs.get("authToken", null);
 	public static void save() {
 		prefs.putInt("maxDepth", maxDepth);
-		if (playerId != null)
-			prefs.put("playerId", playerId);
+		update("playerId", playerId);
+		update("userHandle", userHandle);
+		update("authToken", authToken);
+	}
+	private static void update(String key, String value) {
+		if (value != null)
+			prefs.put(key, value);
 		else
-			prefs.remove("playerId");
-		if (userHandle != null)
-			prefs.put("userHandle", userHandle);
-		else
-			prefs.remove("userHandle");
-		if (authToken != null)
-			prefs.put("authToken", authToken);
-		else
-			prefs.remove("authToken");
+			prefs.remove(key);
 	}
 }
