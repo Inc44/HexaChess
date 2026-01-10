@@ -1,8 +1,8 @@
 package im.bpu.hexachess.model;
 
 public class Move {
-	public AxialCoordinate from;
-	public AxialCoordinate to;
+	public final AxialCoordinate from;
+	public final AxialCoordinate to;
 	Move(AxialCoordinate from, AxialCoordinate to) {
 		this.from = from;
 		this.to = to;

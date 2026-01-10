@@ -21,7 +21,7 @@ public class Board {
 	private static final int[][] KNIGHTS = {{3, 5}, {5, 3}};
 	private static final int[][] PAWNS = {
 		{1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {2, 1}, {3, 1}, {4, 1}, {5, 1}};
-	Map<AxialCoordinate, Piece> pieces = new HashMap<>();
+	final Map<AxialCoordinate, Piece> pieces = new HashMap<>();
 	public boolean isWhiteTurn = true;
 	private AxialCoordinate enPassant;
 	public Board() {

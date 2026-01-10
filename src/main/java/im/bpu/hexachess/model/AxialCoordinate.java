@@ -3,8 +3,8 @@ package im.bpu.hexachess.model;
 import java.util.Objects;
 
 public class AxialCoordinate {
-	public int q;
-	public int r;
+	public final int q;
+	public final int r;
 	public AxialCoordinate(int q, int r) {
 		this.q = q;
 		this.r = r;

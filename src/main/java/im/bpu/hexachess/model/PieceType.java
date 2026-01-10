@@ -7,8 +7,8 @@ public enum PieceType {
 	BISHOP(3, 'b'),
 	KNIGHT(3, 'n'),
 	PAWN(1, 'p');
-	public int value;
-	public char code;
+	public final int value;
+	public final char code;
 	PieceType(int value, char code) {
 		this.value = value;
 		this.code = code;
