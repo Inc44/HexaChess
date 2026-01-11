@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 // import javafx.scene.text.Font;
@@ -36,10 +37,12 @@ public class MainWindow {
 	@FXML private Canvas canvas;
 	@FXML private Button restartButton;
 	@FXML private Button rewindButton;
+	@FXML private HBox playerItem;
 	@FXML private ImageView avatarIcon;
 	@FXML private Label handleLabel;
 	@FXML private Region countryFlagIcon;
 	@FXML private Label ratingLabel;
+	@FXML private HBox opponentItem;
 	@FXML private ImageView opponentAvatarIcon;
 	@FXML private Label opponentHandleLabel;
 	@FXML private Region opponentCountryFlagIcon;
@@ -54,6 +57,10 @@ public class MainWindow {
 		hexPanel = new HexPanel(canvas, state);
 		sidebar.setTranslateX(SIDEBAR_HIDDEN_X);
 		sidebar.setVisible(false);
+		playerItem.setManaged(false);
+		playerItem.setVisible(false);
+		opponentItem.setManaged(false);
+		opponentItem.setVisible(false);
 		loadPlayerItem();
 		loadOpponentItem();
 		if (state.isMultiplayer) {
@@ -76,12 +83,16 @@ public class MainWindow {
 			final String handle = SettingsManager.userHandle;
 			final Player player = API.profile(handle);
 			if (player == null) {
-				final String offline = "Offline";
-				avatarIcon.setImage(new Image(BASE_URL, true));
-				handleLabel.setText(handle);
-				ratingLabel.setText("Rating: " + offline);
-				countryFlagIcon.setManaged(false);
-				countryFlagIcon.setVisible(false);
+				Platform.runLater(() -> {
+					final String offline = "Offline";
+					avatarIcon.setImage(new Image(BASE_URL, true));
+					handleLabel.setText(handle);
+					ratingLabel.setText("Rating: " + offline);
+					countryFlagIcon.setManaged(false);
+					countryFlagIcon.setVisible(false);
+					playerItem.setManaged(true);
+					playerItem.setVisible(true);
+				});
 				return;
 			}
 			final int rating = player.getRating();
@@ -99,6 +110,8 @@ public class MainWindow {
 					countryFlagIcon.setManaged(false);
 					countryFlagIcon.setVisible(false);
 				}
+				playerItem.setManaged(true);
+				playerItem.setVisible(true);
 			});
 		});
 	}
@@ -137,6 +150,8 @@ public class MainWindow {
 					opponentCountryFlagIcon.setManaged(false);
 					opponentCountryFlagIcon.setVisible(false);
 				}
+				opponentItem.setManaged(true);
+				opponentItem.setVisible(true);
 			});
 		});
 	}
