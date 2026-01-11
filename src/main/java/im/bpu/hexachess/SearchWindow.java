@@ -42,13 +42,15 @@ public class SearchWindow {
 	}
 	@FXML
 	private void handleSearch() {
-		playerContainer.getChildren().clear();
 		final String query = searchField.getText();
-		if (query.isEmpty())
+		if (query.isEmpty()) {
+			playerContainer.getChildren().clear();
 			return;
+		}
 		Thread.ofVirtual().start(() -> {
 			final List<Player> players = API.search(query);
 			Platform.runLater(() -> {
+				playerContainer.getChildren().clear();
 				if (players.isEmpty()) {
 					final Label emptyLabel = new Label("No players found.");
 					playerContainer.getChildren().add(emptyLabel);
