@@ -104,6 +104,12 @@
 	background-color: rgb(209, 139, 71);
 }
 
+.caret-handle
+{
+	-fx-opacity: 0;
+	opacity: 0;
+}
+
 .combo-box .arrow
 {
 	-fx-background-color: black;
