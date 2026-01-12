@@ -44,8 +44,16 @@ public class API {
 			requestBuilder.header("Authorization", "Bearer " + authToken);
 		try {
 			return sendRequest(requestBuilder, DEV_URL, endpoint);
-		} catch (Exception primaryException) {
-			return sendRequest(requestBuilder, PROD_URL, endpoint);
+		} catch (HttpTimeoutException ignored) {
+			throw ignored;
+		} catch (Exception developerException) {
+			try {
+				return sendRequest(requestBuilder, PROD_URL, endpoint);
+			} catch (HttpTimeoutException ignored) {
+				throw ignored;
+			} catch (Exception productionException) {
+				return null;
+			}
 		}
 	}
 	private static HttpResponse<String> sendRequest(
@@ -65,7 +73,7 @@ public class API {
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/login");
-			if (response.statusCode() == 200)
+			if (response != null && response.statusCode() == 200)
 				return MAPPER.readValue(response.body(), Player.class);
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
@@ -82,7 +90,7 @@ public class API {
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/register");
-			return response.statusCode() == 200;
+			return response != null && response.statusCode() == 200;
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -95,7 +103,7 @@ public class API {
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/settings?playerId=" + playerId);
-			if (response.statusCode() == 200)
+			if (response != null && response.statusCode() == 200)
 				return MAPPER.readValue(response.body(), Settings.class);
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
@@ -112,7 +120,7 @@ public class API {
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/settings");
-			return response.statusCode() == 200;
+			return response != null && response.statusCode() == 200;
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -125,7 +133,7 @@ public class API {
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/search?handle=" + handle);
-			if (response.statusCode() == 200)
+			if (response != null && response.statusCode() == 200)
 				return List.of(MAPPER.readValue(response.body(), Player[].class));
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
@@ -141,7 +149,7 @@ public class API {
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/profile?handle=" + handle);
-			if (response.statusCode() == 200)
+			if (response != null && response.statusCode() == 200)
 				return MAPPER.readValue(response.body(), Player.class);
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
@@ -163,7 +171,7 @@ public class API {
 			HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, endpoint);
-			if (response.statusCode() == 200)
+			if (response != null && response.statusCode() == 200)
 				return List.of(MAPPER.readValue(response.body(), clazz));
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
@@ -183,7 +191,7 @@ public class API {
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/challenge");
-			return response.body();
+			return response != null ? response.body() : null;
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -213,7 +221,7 @@ public class API {
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
 			HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/sync?gameId=" + gameId);
-			return response.body();
+			return response != null ? response.body() : null;
 		} catch (HttpTimeoutException ignored) {
 		} catch (Exception exception) {
 			exception.printStackTrace();
