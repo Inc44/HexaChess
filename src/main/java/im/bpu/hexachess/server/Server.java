@@ -95,8 +95,12 @@ public class Server {
 				sendResponse(exchange, 405, "Method Not Allowed");
 				return;
 			}
+			String body = new String(exchange.getRequestBody().readAllBytes());
+			if (!validateRequest(exchange, body)) {
+				return;
+			}
 			try {
-				ObjectNode jsonNode = MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
+				ObjectNode jsonNode = MAPPER.readValue(body, ObjectNode.class);
 				if (jsonNode == null || !jsonNode.has("handle") || !jsonNode.has("password")) {
 					sendResponse(exchange, 400, "Bad Request");
 					return;
@@ -130,8 +134,12 @@ public class Server {
 				sendResponse(exchange, 405, "Method Not Allowed");
 				return;
 			}
+			String body = new String(exchange.getRequestBody().readAllBytes());
+			if (!validateRequest(exchange, body)) {
+				return;
+			}
 			try {
-				Player player = MAPPER.readValue(exchange.getRequestBody(), Player.class);
+				Player player = MAPPER.readValue(body, Player.class);
 				if (player == null) {
 					sendResponse(exchange, 400, "Bad Request");
 					return;
@@ -400,6 +408,16 @@ public class Server {
 			}
 		}
 	}
+
+    private static boolean validateRequest(HttpExchange exchange, String body) throws IOException {
+		if (SecurityWAF.isMalicious(body)) {
+			System.err.println("WAF BLOCKED IP: " + exchange.getRemoteAddress());
+			sendResponse(exchange, 403, "Forbidden: Malicious Payload Detected");
+			return false;
+		}
+		return true;
+	}
+
 	private static void sendResponse(HttpExchange exchange, int statusCode, String response)
 		throws IOException {
 		byte[] bytes = response.getBytes();
