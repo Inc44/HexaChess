@@ -1,3 +1,32 @@
+#gameOverContainer
+{
+	-fx-max-height: 128px;
+	-fx-max-width: 420px;
+	max-height: 128px;
+	max-width: 420px;
+}
+
+#gameOverContainer,
+.button,
+.combo-box-base,
+.combo-box-popup .list-view,
+.password-field,
+.player-item,
+.profile-container,
+.text-field
+{
+	/* sandybrown */
+	-fx-background-color: rgb(232, 171, 111);
+	-fx-background-radius: 6;
+	-fx-border-color: black;
+	-fx-border-radius: 6;
+	-fx-border-width: 3px;
+	background-color: rgb(232, 171, 111);
+	border-color: black;
+	border-radius: 6;
+	border-width: 3px;
+}
+
 #loginButton,
 #signOutButton,
 #signUpButton
@@ -45,26 +74,6 @@
 {
 	-fx-padding: 8 16;
 	padding: 8 16;
-}
-
-.button,
-.combo-box-base,
-.combo-box-popup .list-view,
-.password-field,
-.player-item,
-.profile-container,
-.text-field
-{
-	/* sandybrown */
-	-fx-background-color: rgb(232, 171, 111);
-	-fx-background-radius: 6;
-	-fx-border-color: black;
-	-fx-border-radius: 6;
-	-fx-border-width: 3px;
-	background-color: rgb(232, 171, 111);
-	border-color: black;
-	border-radius: 6;
-	border-width: 3px;
 }
 
 .button,
