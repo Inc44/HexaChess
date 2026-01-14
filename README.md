@@ -344,6 +344,8 @@ canvas.getTransforms().add(new Rotate(180, canvas.getWidth() / 2, canvas.getHeig
 
 - [ ] **Requirements**: Follow the project requirements PDF.
 - [ ] **Maven Profiles**: Separate profiles for server and client builds.
+- [ ] **Organization**: Separate server and client, packages, and resources.
+- [ ] **Style Consistency**: Make sure all styles are in `style.css` (e.g., width, height, etc.).
 - [ ] **Android Fonts**: Ensure proper bold font and button icon rendering.
 - [ ] **Android Icon**: Fix the smaller icon in the launcher.
 - [ ] **Windows Installer**: Fix name, version, and add update functionality.
