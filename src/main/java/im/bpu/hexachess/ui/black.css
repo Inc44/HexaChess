@@ -1,0 +1,177 @@
+#gameOverContainer,
+.button,
+.combo-box-base,
+.combo-box-popup .list-view,
+.password-field,
+.player-item,
+.profile-container,
+.slider .thumb,
+.text-field
+{
+	-fx-background-color: black;
+	-fx-border-color: white;
+	background-color: black;
+	border-color: white;
+}
+
+.avatar-container,
+.progress-bar,
+.slider .track
+{
+	-fx-background-color: black;
+	-fx-border-color: white;
+	background-color: black;
+	border-color: white;
+}
+
+.button,
+.combo-box .list-cell,
+.combo-box-popup .list-cell,
+.label,
+.password-field,
+.text-field
+{
+	-fx-text-fill: white;
+}
+
+.button:hover,
+.combo-box-base:hover,
+.combo-box-popup .list-cell:filled:hover,
+.menu-item:focused,
+.menu-item:hover,
+.password-field:focused,
+.player-item:hover,
+.sidebar-item:hover,
+.slider .thumb:hover,
+.text-field:focused
+{
+	/* dark-gray */
+	-fx-background-color: rgb(30, 35, 40);
+	background-color: rgb(30, 35, 40);
+}
+
+.button:pressed,
+.menu-item:pressed,
+.player-item:pressed,
+.slider .thumb:pressed
+{
+	/* gray */
+	-fx-background-color: rgb(56, 60, 66);
+	background-color: rgb(56, 60, 66);
+}
+
+.combo-box .arrow
+{
+	-fx-background-color: white;
+	background-color: white;
+}
+
+.combo-box .list-cell
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
+.context-menu,
+.sidebar-item
+{
+	-fx-background-color: black;
+	-fx-border-color: white;
+	background-color: black;
+	border-color: white;
+}
+
+.menu-button,
+.settings-help-button
+{
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-text-fill: white;
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.menu-button:hover,
+.menu-button:pressed,
+.settings-help-button:hover,
+.settings-help-button:pressed
+{
+	-fx-background-color: rgba(255, 255, 255, 0.06);
+	background-color: rgba(255, 255, 255, 0.06);
+}
+
+.password-field,
+.text-field
+{
+	-fx-background-color: black;
+	background-color: black;
+}
+
+.progress-bar>.bar
+{
+	/* green */
+	-fx-background-color: rgb(46, 218, 119);
+	background-color: rgb(46, 218, 119);
+}
+
+.progress-bar>.track
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
+.root
+{
+	-fx-background-color: black;
+	background-color: black;
+}
+
+.scroll-bar .decrement-button,
+.scroll-bar .increment-button,
+.scroll-bar:horizontal,
+.scroll-bar:vertical
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb
+{
+	-fx-background-color: white;
+	background-color: white;
+}
+
+.scroll-pane
+{
+	-fx-background-color: transparent;
+	-fx-border-color: white;
+	background-color: transparent;
+	border-color: white;
+}
+
+.scroll-pane .viewport
+{
+	-fx-background-color: black;
+	background-color: black;
+}
+
+.sidebar
+{
+	-fx-background-color: black;
+	-fx-border-color: white;
+	background-color: black;
+	border-color: white;
+}
+
+.text-danger
+{
+	/* l60-red */
+	-fx-text-fill: rgb(240, 81, 66);
+}
+
+.text-success
+{
+	/* l60-green */
+	-fx-text-fill: rgb(82, 224, 142);
+}

@@ -32,7 +32,7 @@ public class SettingsWindow {
 			(observable, oldValue, newValue) -> updateAiDifficultyLevelTooltip(newValue));
 	}
 	private void setupTheme() {
-		themeComboBox.getItems().addAll("Light", "Dark");
+		themeComboBox.getItems().addAll("Light", "Dark", "Black");
 		themeComboBox.getSelectionModel().select(SettingsManager.theme);
 	}
 	private void setupVolume() {
