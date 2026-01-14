@@ -18,38 +18,48 @@ public class SettingsWindow {
 	@FXML private Button backButton;
 	@FXML
 	private void initialize() {
+		setupAiDifficultyLevel();
+		setupVolume();
+	}
+	private void setupAiDifficultyLevel() {
 		maxDepthComboBox.getItems().addAll("Fast", "Default", "Slowest");
-		switch (SettingsManager.maxDepth) {
-			case 1 -> maxDepthComboBox.getSelectionModel().select("Fast");
-			case 3 -> maxDepthComboBox.getSelectionModel().select("Default");
-			case 5 -> maxDepthComboBox.getSelectionModel().select("Slowest");
-			default -> maxDepthComboBox.getSelectionModel().select("Default");
-		}
-		aiDifficultyLevelTooltip.setText(switch (maxDepthComboBox.getValue()) {
+		final String aiDifficultyLevel = mapMaxDepthToAiDifficultyLevel(SettingsManager.maxDepth);
+		maxDepthComboBox.getSelectionModel().select(aiDifficultyLevel);
+		updateAiDifficultyLevelTooltip(aiDifficultyLevel);
+		maxDepthComboBox.valueProperty().addListener(
+			(observable, oldValue, newValue) -> updateAiDifficultyLevelTooltip(newValue));
+	}
+	private void setupVolume() {
+		volumeSlider.setValue(SettingsManager.volume);
+		volumeSlider.valueProperty().addListener(
+			(observable, oldValue, newValue) -> SettingsManager.setVolume(newValue.doubleValue()));
+	}
+	private void updateAiDifficultyLevelTooltip(String label) {
+		aiDifficultyLevelTooltip.setText(switch (label) {
 			case "Fast" -> "You can win";
 			case "Slowest" -> "You can lose";
 			default -> "You can draw";
 		});
-		maxDepthComboBox.valueProperty().addListener(
-			(observable, oldValue, newValue) -> aiDifficultyLevelTooltip.setText(switch (newValue) {
-				case "Fast" -> "You can win";
-				case "Slowest" -> "You can lose";
-				default -> "You can draw";
-			}));
-		volumeSlider.setValue(SettingsManager.volume);
-		volumeSlider.valueProperty().addListener(
-			(observable, oldValue, newValue) -> SettingsManager.setVolume(newValue.doubleValue()));
+	}
+	private String mapMaxDepthToAiDifficultyLevel(int depth) {
+		return switch (depth) {
+			case 1 -> "Fast";
+			case 5 -> "Slowest";
+			default -> "Default";
+		};
+	}
+	private int mapAiDifficultyLevelToMaxDepth(String label) {
+		return switch (label) {
+			case "Fast" -> 1;
+			case "Slowest" -> 5;
+			default -> 3;
+		};
 	}
 	@FXML
 	private void openMain() {
 		final String selected = maxDepthComboBox.getValue();
 		if (selected != null) {
-			final int depth = switch (selected) {
-				case "Fast" -> 1;
-				case "Slowest" -> 5;
-				default -> 3;
-			};
-			SettingsManager.setMaxDepth(depth);
+			SettingsManager.setMaxDepth(mapAiDifficultyLevelToMaxDepth(selected));
 			Thread.ofVirtual().start(() -> {
 				final Settings settings = new Settings(
 					SettingsManager.playerId, "default", true, false, SettingsManager.maxDepth);
