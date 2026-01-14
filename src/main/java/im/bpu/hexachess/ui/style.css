@@ -339,6 +339,28 @@
 	font-size: 16px;
 }
 
+.progress-bar
+{
+	-fx-border-radius: 6;
+	-fx-pref-height: 22px;
+	-fx-pref-width: 116px;
+	border-radius: 6;
+}
+
+.progress-bar>.bar
+{
+	/* green */
+	-fx-background-color: rgb(46, 218, 119);
+	-fx-background-radius: 6;
+	background-color: rgb(46, 218, 119)
+}
+
+.progress-bar>.track
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
 .root
 {
 	-fx-background-color: white;
@@ -452,26 +474,4 @@
 {
 	-fx-font-size: 18px;
 	font-size: 18px;
-}
-
-.progress-bar
-{
-	-fx-border-radius: 6;
-	-fx-pref-height: 22px;
-	-fx-pref-width: 116px;
-	border-radius: 6;
-}
-
-.progress-bar>.bar
-{
-	/* green */
-	-fx-background-color: rgb(46, 218, 119);
-	-fx-background-radius: 6;
-	background-color: rgb(46, 218, 119)
-}
-
-.progress-bar>.track
-{
-	-fx-background-color: transparent;
-	background-color: transparent;
 }
