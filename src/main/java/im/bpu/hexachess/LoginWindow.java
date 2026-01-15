@@ -35,13 +35,14 @@ public class LoginWindow {
 		final String handle = handleField.getText();
 		final String password = passwordField.getText();
 		Thread.ofVirtual().start(() -> {
+			final ResourceBundle bundle = Main.getBundle();
 			final Player player;
 			if (ROOT_HANDLE.equals(handle) && ROOT_PASSWORD.equals(password)) {
 				player = new Player(ROOT_ID, ROOT_HANDLE, ROOT_EMAIL, "", BASE_ELO, true, null);
 			} else {
 				player = API.login(handle, password);
-				System.out.println(
-					"Connected as: " + (player != null ? player.getHandle() : "null"));
+				System.out.println(bundle.getString("login.connectedas") + ": "
+					+ (player != null ? player.getHandle() : "null"));
 			}
 			if (player != null) {
 				final String playerId = player.getPlayerId();
@@ -55,7 +56,6 @@ public class LoginWindow {
 				Platform.runLater(this::openMain);
 			} else {
 				Platform.runLater(() -> {
-					final ResourceBundle bundle = Main.getBundle();
 					errorLabel.setText(bundle.getString("login.error"));
 					errorLabel.setManaged(true);
 					errorLabel.setVisible(true);
