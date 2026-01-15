@@ -1,5 +1,20 @@
 package im.bpu.hexachess.server;
 
+import im.bpu.hexachess.Config;
+import im.bpu.hexachess.dao.AchievementDAO;
+import im.bpu.hexachess.dao.PlayerDAO;
+import im.bpu.hexachess.dao.PuzzleDAO;
+import im.bpu.hexachess.dao.SettingsDAO;
+import im.bpu.hexachess.dao.TournamentDAO;
+import im.bpu.hexachess.entity.Achievement;
+import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.entity.Puzzle;
+import im.bpu.hexachess.entity.Settings;
+import im.bpu.hexachess.entity.Tournament;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -13,31 +28,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
-
 import javax.crypto.SecretKey;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-
-import im.bpu.hexachess.Config;
-import im.bpu.hexachess.dao.AchievementDAO;
-import im.bpu.hexachess.dao.PlayerDAO;
-import im.bpu.hexachess.dao.PuzzleDAO;
-import im.bpu.hexachess.dao.SettingsDAO;
-import im.bpu.hexachess.dao.TournamentDAO;
-import im.bpu.hexachess.entity.Achievement;
-import im.bpu.hexachess.entity.Player;
-import im.bpu.hexachess.entity.Puzzle;
-import im.bpu.hexachess.entity.Settings;
-import im.bpu.hexachess.entity.Tournament;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Server {
 	private static final int PORT = Integer.parseInt(Config.get("PORT", "8800"));

@@ -1,13 +1,13 @@
 package im.bpu.hexachess.dao;
 
+import im.bpu.hexachess.entity.Tournament;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import im.bpu.hexachess.entity.Tournament;
 
 public class TournamentDAO extends DAO<Tournament> {
 	private static final String CREATE =
