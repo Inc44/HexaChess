@@ -102,6 +102,18 @@ CREATE TABLE `tournaments` (
 	`end_time` datetime DEFAULT NULL,
 	`winner_id` char(11) DEFAULT NULL
 );
+
+
+
+CREATE TABLE tournament_participants (
+    tournament_id VARCHAR(36) NOT NULL,
+    player_id VARCHAR(36) NOT NULL,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (tournament_id, player_id),
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(tournament_id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES players(player_id) ON DELETE CASCADE
+);
+
 --
 -- Index pour les tables déchargées
 --
