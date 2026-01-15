@@ -80,8 +80,8 @@ public class TournamentsWindow {
 		});
 	}
 	private void openTournamentPage(Tournament tournament) {
-		TournamentWindow.targetTournament = tournament;
-		loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
+		// TournamentWindow.targetTournament = tournament;
+		// loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
