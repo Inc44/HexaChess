@@ -246,19 +246,18 @@ public class API {
 		}
 		return false;
 	}
-	
-	public static java.util.List<im.bpu.hexachess.entity.Player> getTournamentParticipants(String tournamentId) {
+	public static List<Player> getTournamentParticipants(String tournamentId) {
 		try {
-			java.net.http.HttpRequest.Builder requestBuilder =
-				java.net.http.HttpRequest.newBuilder().GET();
-			java.net.http.HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments/participants?id=" + tournamentId);
-			
+			HttpRequest.Builder requestBuilder = HttpRequest.newBuilder().GET();
+			HttpResponse<String> response =
+				sendWithFallback(requestBuilder, "/participants?id=" + tournamentId);
 			if (response.statusCode() == 200) {
-				return java.util.List.of(MAPPER.readValue(response.body(), im.bpu.hexachess.entity.Player[].class));
+				return List.of(MAPPER.readValue(response.body(), Player[].class));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (HttpTimeoutException ignored) {
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 }
