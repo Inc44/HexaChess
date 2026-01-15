@@ -120,4 +120,31 @@ public class TournamentDAO extends DAO<Tournament> {
 		}
 		return false;
 	}
+	
+		public java.util.ArrayList<im.bpu.hexachess.entity.Player> getParticipants(String tournamentId) {
+			java.util.ArrayList<im.bpu.hexachess.entity.Player> players = new java.util.ArrayList<>();
+			String sql = "SELECT p.* FROM players p " +
+			             "JOIN tournament_participants tp ON p.player_id = tp.player_id " +
+			             "WHERE tp.tournament_id = ?";
+			
+			try (java.sql.PreparedStatement pstmt = connect.prepareStatement(sql)) {
+				pstmt.setString(1, tournamentId);
+				try (java.sql.ResultSet rs = pstmt.executeQuery()) {
+					while (rs.next()) {
+						im.bpu.hexachess.entity.Player p = new im.bpu.hexachess.entity.Player(
+							rs.getString("player_id"), rs.getString("handle"), rs.getString("email"), 
+							rs.getString("password_hash"), rs.getInt("rating"), rs.getBoolean("is_verified"),
+							rs.getTimestamp("joined_at") != null ? rs.getTimestamp("joined_at").toLocalDateTime() : null
+						);
+						p.setAvatar(rs.getString("avatar"));
+						p.setLocation(rs.getString("location"));
+						players.add(p);
+					}
+				}
+			} catch (java.sql.SQLException exception) {
+				exception.printStackTrace();
+			}
+			return players;
+		}
+		
 }
