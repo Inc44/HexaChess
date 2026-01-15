@@ -6,6 +6,7 @@ import im.bpu.hexachess.network.API;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,10 +34,11 @@ public class TournamentsWindow {
 																 // parsing precedence
 		}
 		Thread.ofVirtual().start(() -> {
+			final ResourceBundle bundle = Main.getBundle();
 			final List<Tournament> tournaments = API.tournaments();
 			Platform.runLater(() -> {
 				if (tournaments.isEmpty()) {
-					final Label emptyLabel = new Label("No tournaments found.");
+					final Label emptyLabel = new Label(bundle.getString("tournaments.empty"));
 					tournamentContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Tournament tournament : tournaments) {
@@ -55,14 +57,15 @@ public class TournamentsWindow {
 							if (startTime != null) {
 								dateLabel.setText(startTime.format(DATE_TIME_FORMATTER));
 							} else {
-								dateLabel.setText("TBD");
+								dateLabel.setText(bundle.getString("tournaments.tbd"));
 							}
 							descriptionLabel.setText(tournament.getDescription());
 							if (winnerId != null) {
-								statusLabel.setText("Winner ID: " + winnerId);
+								statusLabel.setText(
+									bundle.getString("tournaments.winner") + ": " + winnerId);
 								statusLabel.getStyleClass().add("text-success");
 							} else {
-								statusLabel.setText("Status: Ongoing / Open");
+								statusLabel.setText(bundle.getString("tournaments.status"));
 								statusLabel.getStyleClass().add("text-danger");
 							}
 							tournamentContainer.getChildren().add(tournamentItem);

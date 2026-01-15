@@ -22,5 +22,5 @@
 			</VBox>
 		</HBox>
 	</HBox>
-	<Button fx:id="backButton" text="Back" onAction="#openMain" />
+	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

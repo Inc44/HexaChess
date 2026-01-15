@@ -1,5 +1,6 @@
 package im.bpu.hexachess.ui;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.SettingsManager;
 import im.bpu.hexachess.SoundManager;
 import im.bpu.hexachess.State;
@@ -12,6 +13,7 @@ import im.bpu.hexachess.network.API;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import javafx.application.Platform;
@@ -87,13 +89,21 @@ public class HexPanel {
 	private void checkGameOver() {
 		if (isGameOver)
 			return;
+		final ResourceBundle bundle = Main.getBundle();
 		if (!state.board.hasLegalMoves(state.board.isWhiteTurn)) {
 			isGameOver = true;
 			if (state.board.isInCheck(state.board.isWhiteTurn)) {
-				final String winner = state.board.isWhiteTurn ? "Black" : "White";
-				Platform.runLater(() -> gameEndCallback.accept("Checkmate!\n" + winner + " Wins"));
+				final String winner = state.board.isWhiteTurn ? bundle.getString("common.black")
+															  : bundle.getString("common.white");
+				Platform.runLater(
+					()
+						-> gameEndCallback.accept(bundle.getString("gameover.checkmate") + "\n"
+							+ winner + " " + bundle.getString("gameover.wins")));
 			} else {
-				Platform.runLater(() -> gameEndCallback.accept("Stalemate!\nDraw"));
+				Platform.runLater(
+					()
+						-> gameEndCallback.accept(bundle.getString("gameover.stalemate")
+							+ bundle.getString("gameover.draw")));
 			}
 		} else {
 			int repetitionCount = 0;
@@ -104,7 +114,10 @@ public class HexPanel {
 			}
 			if (repetitionCount >= 2) {
 				isGameOver = true;
-				Platform.runLater(() -> gameEndCallback.accept("Threefold Repetition!\nDraw"));
+				Platform.runLater(
+					()
+						-> gameEndCallback.accept(bundle.getString("gameover.threefold")
+							+ bundle.getString("gameover.draw")));
 			}
 		}
 	}

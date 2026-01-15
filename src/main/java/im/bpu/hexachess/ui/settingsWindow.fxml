@@ -22,5 +22,5 @@
 		<Slider fx:id="volumeSlider" max="1" maxWidth="200" min="0" />
 	</VBox>
 	<Button fx:id="signOutButton" text="%settings.signout" onAction="#openStart" />
-	<Button fx:id="backButton" text="%settings.back" onAction="#openMain" />
+	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

@@ -5,6 +5,7 @@ import im.bpu.hexachess.network.API;
 import im.bpu.hexachess.ui.HexPanel;
 
 import java.io.File;
+import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -34,7 +35,6 @@ public class MainWindow {
 	private static final double SIDEBAR_HIDDEN_X = -160;
 	private static final double SIDEBAR_VISIBLE_X = 0;
 	private static final int SIDEBAR_DURATION_MS = 160;
-	private static final String COMPUTER_HANDLE = "Computer";
 	private static final int BASE_ELO = 1200;
 	private static final long DEV_MODE_MS = 2000;
 	private static final int DEFAULT_MAX_DEPTH = 3;
@@ -117,6 +117,7 @@ public class MainWindow {
 	}
 	private void loadPlayerItem() {
 		Thread.ofVirtual().start(() -> {
+			final ResourceBundle bundle = Main.getBundle();
 			final String handle = SettingsManager.userHandle;
 			final Player player = API.profile(handle);
 			if (player == null) {
@@ -126,7 +127,8 @@ public class MainWindow {
 				Platform.runLater(() -> {
 					avatarIcon.setImage(avatarImage);
 					handleLabel.setText(handle);
-					ratingLabel.setText("Rating: Offline");
+					ratingLabel.setText(bundle.getString("common.rating") + ": "
+						+ bundle.getString("common.offline"));
 					playerItem.setManaged(true);
 					playerItem.setVisible(true);
 				});
@@ -144,7 +146,7 @@ public class MainWindow {
 			Platform.runLater(() -> {
 				avatarIcon.setImage(avatarImage);
 				handleLabel.setText(handle);
-				ratingLabel.setText("Rating: " + rating);
+				ratingLabel.setText(bundle.getString("common.rating") + ": " + rating);
 				if (location != null && !location.isEmpty()) {
 					countryFlagIcon.setStyle(
 						"-fx-background-image: url('" + flagsFile.toURI().toString() + "');");
@@ -159,8 +161,9 @@ public class MainWindow {
 	}
 	private void loadOpponentItem() {
 		Thread.ofVirtual().start(() -> {
+			final ResourceBundle bundle = Main.getBundle();
 			final State state = State.getState();
-			String handle = COMPUTER_HANDLE;
+			String handle = bundle.getString("common.computer");
 			int rating = ((SettingsManager.maxDepth - 1) / 2 % 3 + 1) * BASE_ELO;
 			String location = null;
 			String avatarUrl = AVATAR_URL;
@@ -185,7 +188,7 @@ public class MainWindow {
 			Platform.runLater(() -> {
 				opponentAvatarIcon.setImage(avatarImage);
 				opponentHandleLabel.setText(finalHandle);
-				opponentRatingLabel.setText("Rating: " + finalRating);
+				opponentRatingLabel.setText(bundle.getString("common.rating") + ": " + finalRating);
 				if (finalLocation != null && !finalLocation.isEmpty()) {
 					opponentCountryFlagIcon.setStyle(
 						"-fx-background-image: url('" + flagsFile.toURI().toString() + "');");
@@ -273,9 +276,10 @@ public class MainWindow {
 	}
 	@FXML
 	private void openHelpSettings() {
+		final ResourceBundle bundle = Main.getBundle();
 		final ContextMenu menu = new ContextMenu();
-		final MenuItem settingsItem = new MenuItem("Settings");
-		final MenuItem helpItem = new MenuItem("Help");
+		final MenuItem settingsItem = new MenuItem(bundle.getString("main.menu.settings"));
+		final MenuItem helpItem = new MenuItem(bundle.getString("main.menu.help"));
 		settingsItem.setOnAction(event -> openSettings());
 		helpItem.setOnAction(event -> openSettings());
 		menu.getItems().addAll(settingsItem, helpItem);

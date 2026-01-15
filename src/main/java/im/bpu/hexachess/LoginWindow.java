@@ -4,6 +4,7 @@ import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.entity.Settings;
 import im.bpu.hexachess.network.API;
 
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -54,7 +55,8 @@ public class LoginWindow {
 				Platform.runLater(this::openMain);
 			} else {
 				Platform.runLater(() -> {
-					errorLabel.setText("Invalid username or password");
+					final ResourceBundle bundle = Main.getBundle();
+					errorLabel.setText(bundle.getString("login.error"));
 					errorLabel.setManaged(true);
 					errorLabel.setVisible(true);
 				});
