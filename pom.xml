@@ -160,6 +160,7 @@
 						<list>javafx.scene.control.ScrollPane</list>
 						<list>javafx.scene.control.Slider</list>
 						<list>javafx.scene.control.TextField</list>
+						<list>javafx.scene.control.Tooltip</list>
 						<list>javafx.scene.image.ImageView</list>
 						<list>javafx.scene.layout.HBox</list>
 						<list>javafx.scene.layout.Priority</list>
