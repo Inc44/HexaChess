@@ -70,7 +70,9 @@ public class Main extends Application {
 	}
 	public static Locale getLocale() {
 		return switch (SettingsManager.language) {
+			case "Deutsch" -> Locale.GERMAN;
 			case "Français" -> Locale.FRENCH;
+			case "Polski" -> Locale.of("pl");
 			case "Русский" -> Locale.of("ru");
 			case "Українська" -> Locale.of("ua");
 			default -> Locale.ENGLISH;
