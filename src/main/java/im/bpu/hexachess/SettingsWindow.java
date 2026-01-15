@@ -42,7 +42,7 @@ public class SettingsWindow {
 		themeComboBox.getSelectionModel().select(SettingsManager.theme);
 	}
 	private void setupLanguage() {
-		languageComboBox.getItems().addAll("English", "Français");
+		languageComboBox.getItems().addAll("English", "Français", "Русский", "Українська");
 		languageComboBox.getSelectionModel().select(SettingsManager.language);
 	}
 	private void setupVolume() {

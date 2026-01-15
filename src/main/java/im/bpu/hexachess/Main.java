@@ -69,7 +69,12 @@ public class Main extends Application {
 		return ResourceBundle.getBundle(LANGUAGE_PACKAGE, getLocale());
 	}
 	public static Locale getLocale() {
-		return SettingsManager.language.equals("French") ? Locale.FRENCH : Locale.ENGLISH;
+		return switch (SettingsManager.language) {
+			case "Français" -> Locale.FRENCH;
+			case "Русский" -> Locale.of("ru");
+			case "Українська" -> Locale.of("ua");
+			default -> Locale.ENGLISH;
+		};
 	}
 	public static double getAspectRatio() {
 		final double width = Screen.getPrimary().getBounds().getWidth();
