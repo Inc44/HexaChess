@@ -2,6 +2,8 @@ package im.bpu.hexachess;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +23,7 @@ public class Main extends Application {
 	private static final double MOBILE_WIDTH = 540;
 	private static final double MOBILE_HEIGHT = 1200;
 	private static final String WINDOW_TITLE = "HexaChess";
+	private static final String LANGUAGE_PACKAGE = "im.bpu.hexachess.ui.lang";
 	@Override
 	public void start(final Stage stage) throws Exception {
 		try {
@@ -34,15 +37,16 @@ public class Main extends Application {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+		final ResourceBundle bundle = getBundle();
 		final Parent root;
 		if (SettingsManager.userHandle != null) {
 			final FXMLLoader mainWindowLoader =
-				new FXMLLoader(getClass().getResource("ui/mainWindow.fxml"));
+				new FXMLLoader(getClass().getResource("ui/mainWindow.fxml"), bundle);
 			mainWindowLoader.setController(new MainWindow());
 			root = mainWindowLoader.load();
 		} else {
 			final FXMLLoader startWindowLoader =
-				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"));
+				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"), bundle);
 			startWindowLoader.setController(new StartWindow());
 			root = startWindowLoader.load();
 		}
@@ -61,6 +65,12 @@ public class Main extends Application {
 		stage.setScene(scene);
 		stage.show();
 	}
+	public static ResourceBundle getBundle() {
+		return ResourceBundle.getBundle(LANGUAGE_PACKAGE, getLocale());
+	}
+	public static Locale getLocale() {
+		return SettingsManager.language.equals("French") ? Locale.FRENCH : Locale.ENGLISH;
+	}
 	public static double getAspectRatio() {
 		final double width = Screen.getPrimary().getBounds().getWidth();
 		final double height = Screen.getPrimary().getBounds().getHeight();
@@ -75,7 +85,8 @@ public class Main extends Application {
 	}
 	public static void loadWindow(final String path, final Object controller, final Node node) {
 		try {
-			final FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+			final ResourceBundle bundle = getBundle();
+			final FXMLLoader loader = new FXMLLoader(Main.class.getResource(path), bundle);
 			loader.setController(controller);
 			Scene scene = node.getScene();
 			scene.setRoot(loader.load());
