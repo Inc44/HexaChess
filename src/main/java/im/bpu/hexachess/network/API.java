@@ -228,16 +228,14 @@ public class API {
 		}
 		return null;
 	}
-
 	public static boolean joinTournament(String tournamentId) {
 		try {
 			ObjectNode json = MAPPER.createObjectNode();
 			json.put("tournamentId", tournamentId);
-
-			HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-				.POST(HttpRequest.BodyPublishers.ofString(json.toString()))
-				.header("Content-Type", "application/json");
-				
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.POST(HttpRequest.BodyPublishers.ofString(json.toString()))
+					.header("Content-Type", "application/json");
 			HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments/join");
 			return response.statusCode() == 200;
 		} catch (Exception e) {

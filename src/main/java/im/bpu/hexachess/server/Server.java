@@ -390,11 +390,10 @@ public class Server {
 			}
 		}
 	}
-
 	static class TournamentJoinHandler implements HttpHandler {
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			String handle = auth(exchange); 
+			String handle = auth(exchange);
 			if (handle == null) {
 				sendResponse(exchange, 401, "Unauthorized");
 				return;
@@ -406,10 +405,8 @@ public class Server {
 			try {
 				ObjectNode json = MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
 				String tournamentId = json.get("tournamentId").asText();
-
 				PlayerDAO playerDAO = new PlayerDAO();
 				Player player = playerDAO.getPlayerByHandle(handle);
-
 				if (player != null) {
 					TournamentDAO tournamentDAO = new TournamentDAO();
 					if (tournamentDAO.addParticipant(tournamentId, player.getPlayerId())) {
