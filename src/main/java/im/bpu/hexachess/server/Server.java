@@ -60,7 +60,7 @@ public class Server {
 		server.createContext("/api/tournaments", new TournamentsHandler());
 		server.createContext("/api/challenge", new ChallengeHandler());
 		server.createContext("/api/sync", new SyncHandler());
-		server.createContext("/api/tournaments/join", new TournamentJoinHandler());
+		server.createContext("/api/join", new JoinHandler());
 		server.setExecutor(Executors.newCachedThreadPool());
 		server.start();
 		System.out.println("HexaChess Server started on port " + PORT);
@@ -388,39 +388,6 @@ public class Server {
 			}
 		}
 	}
-	static class TournamentJoinHandler implements HttpHandler {
-		@Override
-		public void handle(HttpExchange exchange) throws IOException {
-			String handle = auth(exchange);
-			if (handle == null) {
-				sendResponse(exchange, 401, "Unauthorized");
-				return;
-			}
-			if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-				sendResponse(exchange, 405, "Method Not Allowed");
-				return;
-			}
-			try {
-				ObjectNode json = MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
-				String tournamentId = json.get("tournamentId").asText();
-				PlayerDAO playerDAO = new PlayerDAO();
-				Player player = playerDAO.getPlayerByHandle(handle);
-				if (player != null) {
-					TournamentDAO tournamentDAO = new TournamentDAO();
-					if (tournamentDAO.addParticipant(tournamentId, player.getPlayerId())) {
-						sendResponse(exchange, 200, "Joined");
-					} else {
-						sendResponse(exchange, 409, "Already joined or Error");
-					}
-				} else {
-					sendResponse(exchange, 404, "Player not found");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				sendResponse(exchange, 500, "Internal Error");
-			}
-		}
-	}
 	static class SyncHandler implements HttpHandler {
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
@@ -456,6 +423,40 @@ public class Server {
 				}
 				String move = MOVES.getOrDefault(gameId, "");
 				sendResponse(exchange, 200, move);
+			}
+		}
+	}
+	static class JoinHandler implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			String handle = auth(exchange);
+			if (handle == null) {
+				sendResponse(exchange, 401, "Unauthorized");
+				return;
+			}
+			if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+				sendResponse(exchange, 405, "Method Not Allowed");
+				return;
+			}
+			try {
+				ObjectNode jsonNode = MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
+				String tournamentId = jsonNode.get("tournamentId").asText();
+				PlayerDAO playerDAO = new PlayerDAO();
+				Player player = playerDAO.getPlayerByHandle(handle);
+				if (player != null) {
+					String playerId = player.getPlayerId();
+					TournamentDAO tournamentDAO = new TournamentDAO();
+					if (tournamentDAO.addParticipant(tournamentId, playerId)) {
+						sendResponse(exchange, 200, "OK");
+					} else {
+						sendResponse(exchange, 409, "Conflict: Already Joined");
+					}
+				} else {
+					sendResponse(exchange, 404, "Player Not Found");
+				}
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				sendResponse(exchange, 500, "Internal Server Error");
 			}
 		}
 	}

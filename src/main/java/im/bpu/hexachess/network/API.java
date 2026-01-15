@@ -230,17 +230,20 @@ public class API {
 	}
 	public static boolean joinTournament(String tournamentId) {
 		try {
-			ObjectNode json = MAPPER.createObjectNode();
-			json.put("tournamentId", tournamentId);
+			ObjectNode jsonNode = MAPPER.createObjectNode();
+			jsonNode.put("tournamentId", tournamentId);
+			String json = MAPPER.writeValueAsString(jsonNode);
 			HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
-					.POST(HttpRequest.BodyPublishers.ofString(json.toString()))
-					.header("Content-Type", "application/json");
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments/join");
-			return response.statusCode() == 200;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(TIMEOUT_DURATION);
+			HttpResponse<String> response = sendWithFallback(requestBuilder, "/join");
+			return response != null && response.statusCode() == 200;
+		} catch (HttpTimeoutException ignored) {
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
+		return false;
 	}
 }

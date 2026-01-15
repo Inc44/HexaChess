@@ -19,6 +19,8 @@ public class TournamentDAO extends DAO<Tournament> {
 	private static final String DELETE = "DELETE FROM tournaments WHERE tournament_id = ?";
 	private static final String READ = "SELECT * FROM tournaments WHERE tournament_id = ?";
 	private static final String READ_ALL = "SELECT * FROM tournaments";
+	private static final String ADD_PARTICIPANT =
+		"INSERT INTO participants (tournament_id, player_id) VALUES (?, ?)";
 	@Override
 	public Tournament create(Tournament tournament) {
 		try (PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
@@ -107,16 +109,15 @@ public class TournamentDAO extends DAO<Tournament> {
 		}
 		return tournaments;
 	}
-
 	public boolean addParticipant(String tournamentId, String playerId) {
-		String sql = "INSERT INTO tournament_participants (tournament_id, player_id) VALUES (?, ?)";
-		try (java.sql.PreparedStatement pstmt = connect.prepareStatement(sql)) {
+		try (PreparedStatement pstmt = connect.prepareStatement(ADD_PARTICIPANT)) {
 			pstmt.setString(1, tournamentId);
 			pstmt.setString(2, playerId);
 			pstmt.executeUpdate();
 			return true;
-		} catch (java.sql.SQLException exception) {
-			return false;
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		}
+		return false;
 	}
 }

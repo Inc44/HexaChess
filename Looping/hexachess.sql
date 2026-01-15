@@ -102,7 +102,7 @@ CREATE TABLE `tournaments` (
 	`end_time` datetime DEFAULT NULL,
 	`winner_id` char(11) DEFAULT NULL
 );
-CREATE TABLE tournament_participants (
+CREATE TABLE participants (
 	tournament_id VARCHAR(36) NOT NULL,
 	player_id VARCHAR(36) NOT NULL,
 	joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
