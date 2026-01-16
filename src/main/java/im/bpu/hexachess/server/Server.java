@@ -24,8 +24,8 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import javax.crypto.SecretKey;
@@ -434,8 +434,8 @@ public class Server {
 				} else {
 					sendResponse(exchange, 404, "Player not found");
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception exception) {
+				exception.printStackTrace();
 				sendResponse(exchange, 500, "Internal Error");
 			}
 		}
@@ -511,8 +511,8 @@ public class Server {
 				}
 				playerDAO.update(player);
 				sendResponse(exchange, 200, "Profile updated");
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception exception) {
+				exception.printStackTrace();
 				sendResponse(exchange, 500, "Internal Error");
 			}
 		}

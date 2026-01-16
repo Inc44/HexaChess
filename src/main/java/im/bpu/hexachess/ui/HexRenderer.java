@@ -106,8 +106,7 @@ class HexRenderer {
 		if (coord.equals(selected)) {
 			gc.setFill(LEGOYELLOW);
 			gc.fill();
-		}
-		else if (kingInCheck != null && coord.equals(kingInCheck)) {
+		} else if (kingInCheck != null && coord.equals(kingInCheck)) {
 			gc.setFill(CHECK_RED);
 			gc.fill();
 		} else if (highlighted.contains(coord)) {

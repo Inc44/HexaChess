@@ -4,8 +4,8 @@
 	<artifactId>hexachess</artifactId>
 	<version>2026.01.12</version>
 	<properties>
-		<maven.compiler.source>25</maven.compiler.source>
-		<maven.compiler.target>25</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>2.20.1</jackson.version>
 		<mysql.version>9.5.0</mysql.version>
