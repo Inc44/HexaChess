@@ -23,6 +23,6 @@
 		<PasswordField fx:id="currentPasswordField" />
 	</VBox>
 	<Label fx:id="statusLabel" managed="false" visible="false" styleClass="text-danger" />
-	<Button text="Save Changes" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" prefWidth="200" prefHeight="40" />
+	<Button text="Save Changes" onAction="#handleSave" styleClass="success-button" prefWidth="200" prefHeight="40" />
 	<Button fx:id="backButton" text="Cancel" onAction="#handleCancel" prefWidth="200" />
 </VBox>

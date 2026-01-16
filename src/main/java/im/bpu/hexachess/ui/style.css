@@ -372,17 +372,69 @@
 	font-size: 18px;
 }
 
+.participant-row
+{
+	-fx-background-color: white;
+	-fx-background-radius: 5;
+	-fx-padding: 10;
+	background-color: white;
+	padding: 10;
+}
+
+.participant-name
+{
+	-fx-font-size: 14px;
+	-fx-pref-width: 150px;
+	font-size: 14px;
+}
+
+.success-button
+{
+	-fx-background-color: rgb(76, 175, 80);
+	-fx-cursor: hand;
+	-fx-font-size: 14px;
+	-fx-text-fill: white;
+	background-color: rgb(76, 175, 80);
+	cursor: hand;
+	font-size: 14px;
+}
+
+.leaderboard-rank
+{
+	-fx-text-fill: orange;
+	-fx-min-width: 50px;
+	-fx-font-size: 18px;
+	min-width: 50px;
+	font-size: 18px;
+}
+
+.leaderboard-name
+{
+	-fx-text-fill: white;
+	-fx-min-width: 200px;
+	min-width: 200px;
+}
+
+.leaderboard-elo
+{
+	-fx-text-fill: lightgreen;
+}
+
+.tournament-button
+{
+	-fx-cursor: hand;
+	-fx-font-size: 14px;
+	cursor: hand;
+	font-size: 14px;
+}
+
 .timer-label
 {
 	-fx-font-size: 20px;
-	-fx-font-family: "NotoSansM NFM", monospace;
-	-fx-font-weight: bold;
 	-fx-background-color: rgba(0, 0, 0, 0.1);
 	-fx-padding: 2 6;
 	-fx-background-radius: 4;
 	font-size: 20px;
-	font-family: "NotoSansM NFM", monospace;
-	font-weight: bold;
 	background-color: rgba(0, 0, 0, 0.1);
 	padding: 2 6;
 }

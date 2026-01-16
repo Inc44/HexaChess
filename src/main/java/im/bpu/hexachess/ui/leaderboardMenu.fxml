@@ -18,6 +18,6 @@
 		</VBox>
 	</ScrollPane>
 	<HBox alignment="center">
-		<Button text="BACK" onAction="#goBack" />
+		<Button text="%common.back" onAction="#goBack" />
 	</HBox>
 </VBox>

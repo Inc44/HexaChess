@@ -35,12 +35,10 @@ public class ParticipantsWindow {
 				} else {
 					for (Player p : players) {
 						HBox row = new HBox(20);
-						row.setStyle("-fx-padding: 10; -fx-background-color: white; "
-							+ "-fx-background-radius: 5;");
+						row.getStyleClass().add("participant-row");
 						row.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 						Label name = new Label(p.getHandle());
-						name.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-						name.setPrefWidth(150);
+						name.getStyleClass().add("participant-name");
 						Label rating = new Label(p.getRating() + " ELO");
 						row.getChildren().addAll(name, rating);
 						listContainer.getChildren().add(row);

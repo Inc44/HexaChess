@@ -11,15 +11,15 @@
 	<VBox alignment="center" spacing="8" styleClass="profile-container" maxWidth="600">
 		<Label fx:id="nameLabel" styleClass="h2" wrapText="true" textAlignment="center" />
 		<Label fx:id="dateLabel" styleClass="profile-info" style="-fx-text-fill: gray;" />
-		<Label fx:id="statusLabel" style="-fx-font-weight: bold;" />
+		<Label fx:id="statusLabel" />
 	</VBox>
 	<VBox alignment="top_left" spacing="16" maxWidth="600" styleClass="player-item">
 		<Label text="Description" style="-fx-font-weight: bold; -fx-underline: true;" />
 		<Label fx:id="descriptionLabel" wrapText="true" />
 	</VBox>
 	<HBox alignment="center" spacing="20">
-		<Button fx:id="joinButton" onAction="#handleParticipate" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" prefWidth="200" prefHeight="50" />
-		<Button fx:id="participantsButton" onAction="#handleViewParticipants" style="-fx-font-size: 14px; -fx-cursor: hand;" prefWidth="200" prefHeight="50" />
+		<Button fx:id="joinButton" onAction="#handleParticipate" styleClass="success-button" prefWidth="200" prefHeight="50" />
+		<Button fx:id="participantsButton" onAction="#handleViewParticipants" styleClass="tournament-button" prefWidth="200" prefHeight="50" />
 	</HBox>
 	<Button fx:id="backButton" text="%common.back" onAction="#openTournaments" />
 </VBox>
