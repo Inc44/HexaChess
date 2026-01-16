@@ -1,11 +1,14 @@
 package im.bpu.hexachess.test;
 
 import im.bpu.hexachess.HelpWindow;
+import im.bpu.hexachess.SoundManager;
 import im.bpu.hexachess.State;
+import im.bpu.hexachess.dao.AchievementDAO;
 import im.bpu.hexachess.dao.GameDAO;
 import im.bpu.hexachess.dao.PlayerDAO;
 import im.bpu.hexachess.dao.SettingsDAO;
 import im.bpu.hexachess.dao.TournamentDAO;
+import im.bpu.hexachess.entity.Achievement;
 import im.bpu.hexachess.entity.Game;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.entity.Puzzle;
@@ -17,11 +20,6 @@ import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 import im.bpu.hexachess.model.Piece;
 import im.bpu.hexachess.model.PieceType;
-import im.bpu.hexachess.dao.AchievementDAO;
-import im.bpu.hexachess.entity.Achievement;
-import im.bpu.hexachess.SoundManager;
-import org.mindrot.jbcrypt.BCrypt;
-
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -35,6 +33,8 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Test {
 	private static int passedTests = 0;
@@ -64,7 +64,6 @@ public class Test {
 		// Tests de l'IA
 		testAIInitialization();
 		testAIEvaluation();
-
 		// Test sécurité
 		testPasswordHashing();
 		testSoundManagerLogic();
@@ -199,49 +198,42 @@ public class Test {
 		}
 	}
 	private static void testSoundManagerLogic() {
-        try {
-            // Test de la formule logarithmique de volume via réflexion car la méthode est privée
-            Method calcMethod = SoundManager.class.getDeclaredMethod("calculatePerceivedVolume", double.class);
-            calcMethod.setAccessible(true);
-            
-            double vol0 = (double) calcMethod.invoke(null, 0.0);
-            double vol1 = (double) calcMethod.invoke(null, 1.0);
-            
-            assert vol0 < vol1 : "Volume should increase with slider value";
-            assert vol0 >= 0.0 && vol1 <= 1.0 : "Volume must be bounded";
-            
-            pass("SoundManager volume logic");
-        } catch (Exception e) {
-            // Si SoundManager n'est pas trouvable ou erreur de réflexion
-            fail("SoundManager logic", e.getMessage());
-        }
-    }
+		try {
+			// Test de la formule logarithmique de volume via réflexion car la méthode est privée
+			Method calcMethod =
+				SoundManager.class.getDeclaredMethod("calculatePerceivedVolume", double.class);
+			calcMethod.setAccessible(true);
+			double vol0 = (double) calcMethod.invoke(null, 0.0);
+			double vol1 = (double) calcMethod.invoke(null, 1.0);
+			assert vol0 < vol1 : "Volume should increase with slider value";
+			assert vol0 >= 0.0 && vol1 <= 1.0 : "Volume must be bounded";
+			pass("SoundManager volume logic");
+		} catch (Exception exception) {
+			// Si SoundManager n'est pas trouvable ou erreur de réflexion
+			fail("SoundManager logic", exception.getMessage());
+		}
+	}
 	private static void testIllegalMoveCheck() {
-        try {
-            Board board = new Board();
-            // On vide le plateau pour un scénario précis
-            board.pieces.clear(); 
-            
-            // Scénario : Roi blanc en (0,0), Tour noire en (0,5) qui l'attaque
-            // Le Roi ne devrait pas pouvoir aller en (0,1) car toujours sur la ligne de la tour
-            
-            AxialCoordinate kingPos = new AxialCoordinate(0, 0);
-            AxialCoordinate rookPos = new AxialCoordinate(0, 4); // Tour en ligne droite
-            
-            board.pieces.put(kingPos, new Piece(PieceType.KING, true));
-            board.pieces.put(rookPos, new Piece(PieceType.ROOK, false));
-            
-            // Vérifier que le système détecte l'échec si on bouge
-            Move illegalMove = new Move(kingPos, new AxialCoordinate(0, 1));
-            
-            // wouldResultInCheck renvoie true si le coup met le roi en danger
-            assert board.wouldResultInCheck(illegalMove) : "Move exposing King to check should be detected as dangerous";
-            
-            pass("Illegal move detection (Check)");
-        } catch (AssertionError | Exception e) {
-            fail("Illegal move detection", e.getMessage());
-        }
-    }
+		try {
+			Board board = new Board();
+			// On vide le plateau pour un scénario précis
+			board.pieces.clear();
+			// Scénario : Roi blanc en (0,0), Tour noire en (0,5) qui l'attaque
+			// Le Roi ne devrait pas pouvoir aller en (0,1) car toujours sur la ligne de la tour
+			AxialCoordinate kingPos = new AxialCoordinate(0, 0);
+			AxialCoordinate rookPos = new AxialCoordinate(0, 4); // Tour en ligne droite
+			board.pieces.put(kingPos, new Piece(PieceType.KING, true));
+			board.pieces.put(rookPos, new Piece(PieceType.ROOK, false));
+			// Vérifier que le système détecte l'échec si on bouge
+			Move illegalMove = new Move(kingPos, new AxialCoordinate(0, 1));
+			// wouldResultInCheck renvoie true si le coup met le roi en danger
+			assert board.wouldResultInCheck(illegalMove)
+				: "Move exposing King to check should be detected as dangerous";
+			pass("Illegal move detection (Check)");
+		} catch (AssertionError | Exception exception) {
+			fail("Illegal move detection", exception.getMessage());
+		}
+	}
 	// ============ Tests Coordonnées ============
 	private static void testAxialCoordinates() {
 		try {
@@ -386,21 +378,17 @@ public class Test {
 		try {
 			AchievementDAO dao = new AchievementDAO();
 			Achievement a = new Achievement("TEST_ACH_001", "Test Name", "Desc", false);
-			
 			// Création
 			dao.create(a);
-			
 			// Lecture
 			Achievement read = dao.read("TEST_ACH_001");
 			assert read != null : "Achievement read failed";
 			assert read.getName().equals("Test Name") : "Achievement content mismatch";
-			
 			// Nettoyage
 			dao.delete(a);
-			
 			pass("AchievementDAO CRUD operations");
-		} catch (Exception e) {
-			fail("AchievementDAO", e.getMessage() + " (DB unavailable?)");
+		} catch (Exception exception) {
+			fail("AchievementDAO", exception.getMessage() + " (DB unavailable?)");
 		}
 	}
 	// ============ Tests State ============
@@ -414,7 +402,6 @@ public class Test {
 			fail("State singleton", exception.getMessage());
 		}
 	}
-	
 	private static void testStateClear() {
 		try {
 			State state = State.getState();
@@ -455,10 +442,11 @@ public class Test {
 				if (!bestMoveLabel.getText().toLowerCase().contains("calculating"))
 					throw new AssertionError("Label incorrect (calculating)");
 				pass("HelpWindow UI Logic");
-			} catch (Exception | AssertionError e) {
-				error[0] = (e instanceof AssertionError) ? (AssertionError) e
-														 : new AssertionError(e.getMessage());
-				fail("HelpWindow UI Logic", e.getMessage());
+			} catch (Exception | AssertionError exception) {
+				error[0] = (exception instanceof AssertionError)
+					? (AssertionError) exception
+					: new AssertionError(exception.getMessage());
+				fail("HelpWindow UI Logic", exception.getMessage());
 			} finally {
 				latch.countDown();
 			}
@@ -468,9 +456,9 @@ public class Test {
 				fail("HelpWindow UI Logic", "Timeout");
 			if (error[0] != null)
 				throw error[0];
-		} catch (InterruptedException e) {
+		} catch (InterruptedException exception) {
 			fail("HelpWindow UI Logic", "Interrupted");
-		} catch (AssertionError e) {
+		} catch (AssertionError exception) {
 			// Already handled via fail()
 		}
 	}
@@ -494,27 +482,24 @@ public class Test {
 		});
 		try {
 			latch.await(1, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException exception) {
 			fail("HelpWindow Draw Logic", "Interrupted");
 		}
 	}
 	// ============ Tests Sécurité ============
-
-    private static void testPasswordHashing() {
-        try {
-            String password = "mySecretPassword123";
-            String hash = BCrypt.hashpw(password, BCrypt.gensalt());
-            
-            assert hash != null : "Hash should not be null";
-            assert !hash.equals(password) : "Password should be hashed, not plain text";
-            assert BCrypt.checkpw(password, hash) : "Password verification failed";
-            assert !BCrypt.checkpw("wrongPassword", hash) : "Wrong password accepted";
-            
-            pass("BCrypt password hashing");
-        } catch (Exception e) {
-            fail("BCrypt security", e.getMessage());
-        }
-    }
+	private static void testPasswordHashing() {
+		try {
+			String password = "mySecretPassword123";
+			String hash = BCrypt.hashpw(password, BCrypt.gensalt());
+			assert hash != null : "Hash should not be null";
+			assert !hash.equals(password) : "Password should be hashed, not plain text";
+			assert BCrypt.checkpw(password, hash) : "Password verification failed";
+			assert !BCrypt.checkpw("wrongPassword", hash) : "Wrong password accepted";
+			pass("BCrypt password hashing");
+		} catch (Exception exception) {
+			fail("BCrypt security", exception.getMessage());
+		}
+	}
 	// ============ Utilitaires ============
 	private static void injectField(Object target, String fieldName, Object value)
 		throws Exception {

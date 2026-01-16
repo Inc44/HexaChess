@@ -171,8 +171,8 @@ public class PlayerDAO extends DAO<Player> {
 				p.setRating(rs.getInt("rating"));
 				players.add(p);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		}
 		return players;
 	}
