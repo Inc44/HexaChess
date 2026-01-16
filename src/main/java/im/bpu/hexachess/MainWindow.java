@@ -3,6 +3,7 @@ package im.bpu.hexachess;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.network.API;
 import im.bpu.hexachess.ui.HexPanel;
+import im.bpu.hexachess.ui.LeaderboardMenu;
 
 import java.io.File;
 import javafx.animation.TranslateTransition;
@@ -22,6 +23,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 
 import static im.bpu.hexachess.Main.loadWindow;
 
@@ -40,6 +44,9 @@ public class MainWindow {
 	private HexPanel hexPanel;
 	private int restartClickCount = 0;
 	private long startRestartClickTime = 0;
+	private int playerTimeSeconds = 600; 
+	private int opponentTimeSeconds = 600;
+	private Timeline clockTimeline;
 	@FXML private Button settingsHelpButton;
 	@FXML private VBox sidebar;
 	@FXML private Canvas canvas;
@@ -58,6 +65,8 @@ public class MainWindow {
 	@FXML private ProgressBar opponentProgressBar;
 	@FXML private Label fontFamilyLabel;
 	@FXML private Label fontNameLabel;
+	@FXML private Label playerTimerLabel;
+	@FXML private Label opponentTimerLabel;
 	@FXML
 	private void initialize() {
 		final State state = State.getState();
@@ -92,6 +101,7 @@ public class MainWindow {
 				fontFamilyLabel.getParent().setManaged(true);
 			});
 		}
+		setupTimers();
 	}
 	private void loadPlayerItem() {
 		Thread.ofVirtual().start(() -> {
@@ -201,6 +211,10 @@ public class MainWindow {
 	}
 	@FXML
 	private void restart() {
+		playerTimeSeconds = 600;
+		opponentTimeSeconds = 600;
+		updateTimerLabels(playerTimerLabel, playerTimeSeconds);
+		updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
 		if (!State.getState().isMultiplayer) {
 			hexPanel.restart();
 			final long startTime = System.currentTimeMillis();
@@ -255,5 +269,49 @@ public class MainWindow {
 	@FXML
 	private void openTournaments() {
 		loadWindow("ui/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
+	}
+	@FXML
+    private void openAchievements() {
+        loadWindow("ui/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
+    }
+	@FXML
+    private void openLeaderboard() {
+        loadWindow("ui/leaderboardMenu.fxml", new LeaderboardMenu(), settingsHelpButton);
+    }
+	private void setupTimers() {
+		updateTimerLabels(playerTimerLabel, playerTimeSeconds);
+		updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
+		clockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+			State state = State.getState();
+
+			boolean isWhiteTurn = state.board.isWhiteTurn;
+			boolean isPlayerWhite = state.isWhitePlayer;
+
+			if (isWhiteTurn == isPlayerWhite) {
+				if (playerTimeSeconds > 0) {
+					playerTimeSeconds--;
+					updateTimerLabels(playerTimerLabel, playerTimeSeconds);
+				}
+			} else {
+				if (opponentTimeSeconds > 0) {
+					opponentTimeSeconds--;
+					updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
+				}
+			}
+			if (playerTimeSeconds == 0 || opponentTimeSeconds == 0) {
+				clockTimeline.stop();
+				System.out.println("Time's up!");
+			}
+		}));
+		clockTimeline.setCycleCount(Animation.INDEFINITE);
+		clockTimeline.play();
+	}
+
+	private void updateTimerLabels(Label label, int totalSeconds) {
+		if (label == null) return;
+		int minutes = totalSeconds / 60;
+		int seconds = totalSeconds % 60;
+		String timeString = String.format("%02d:%02d", minutes, seconds);
+		label.setText(timeString);
 	}
 }

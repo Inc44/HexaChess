@@ -32,6 +32,7 @@
 				<Region fx:id="countryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
 			</HBox>
 			<Label fx:id="ratingLabel" />
+			<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
 		</VBox>
 	</HBox>
 	<HBox fx:id="opponentItem" StackPane.alignment="bottom_right" managed="false" spacing="12" visible="false" styleClass="player-info-box">
@@ -40,6 +41,7 @@
 				<Region fx:id="opponentCountryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
 				<Label fx:id="opponentHandleLabel" />
 			</HBox>
+			<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
 			<Label fx:id="opponentRatingLabel" />
 			<ProgressBar fx:id="opponentProgressBar" managed="false" visible="false" progress="0" />
 		</VBox>
@@ -50,8 +52,9 @@
 	<VBox fx:id="sidebar" managed="false" maxWidth="160" translateX="-160" visible="false" styleClass="sidebar">
 		<Button text="Search" onAction="#openSearch" styleClass="sidebar-item" />
 		<Button text="Profile" onAction="#openProfile" styleClass="sidebar-item" />
-		<Button text="Achievements" onAction="#openSettings" styleClass="sidebar-item" />
-		<Button text="Puzzles" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="Achievements" onAction="#openAchievements" styleClass="sidebar-item" />
+		<Button text="Leaderboard" onAction="#openLeaderboard" styleClass="sidebar-item" />
+		<Button text="Puzzles" onAction="#openPuzzles" styleClass="sidebar-item" />
 		<Button text="Tournaments" onAction="#openTournaments" styleClass="sidebar-item" />
 	</VBox>
 </StackPane>

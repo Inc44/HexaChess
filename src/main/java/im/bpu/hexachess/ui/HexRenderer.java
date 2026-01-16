@@ -33,6 +33,7 @@ class HexRenderer {
 	private static final int TEXT_Y_OFFSET = 1;
 	private static final int BORDER_LINE_WIDTH = 3;
 	private static final int RADIUS = 5;
+	private static final Color CHECK_RED = Color.rgb(255, 0, 0, 0.7); // Rouge un peu transparent
 	private final HexGeometry geometry;
 	private Board board;
 	HexRenderer(final HexGeometry geometry, final Board board) {
@@ -92,7 +93,7 @@ class HexRenderer {
 	}
 	void drawHex(final GraphicsContext gc, final double cx, final double cy,
 		final AxialCoordinate coord, final AxialCoordinate selected,
-		final List<AxialCoordinate> highlighted) {
+		final List<AxialCoordinate> highlighted, final AxialCoordinate kingInCheck) {
 		final Point2D center = geometry.hexToPixel(coord.q, coord.r, cx, cy);
 		final Path hexPath = geometry.createHexPath(center);
 		gc.setFill(HEX_COLORS[Math.floorMod(coord.q + coord.r, 3)]);
@@ -100,6 +101,10 @@ class HexRenderer {
 		gc.fill();
 		if (coord.equals(selected)) {
 			gc.setFill(LEGOYELLOW);
+			gc.fill();
+		}
+		else if (kingInCheck != null && coord.equals(kingInCheck)) {
+			gc.setFill(CHECK_RED);
 			gc.fill();
 		} else if (highlighted.contains(coord)) {
 			gc.setFill(GREEN);

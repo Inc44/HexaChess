@@ -444,3 +444,12 @@
 	-fx-background-color: transparent;
 	background-color: transparent;
 }
+
+.timer-label {
+    -fx-font-size: 20px;
+    -fx-font-family: "NotoSansM NFM", monospace;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-padding: 2 6;
+    -fx-background-radius: 4;
+}

@@ -228,4 +228,67 @@ public class API {
 		}
 		return null;
 	}
+
+	public static void unlockAchievement(String achievementId) {
+    try {
+        String playerId = SettingsManager.playerId; 
+        if (playerId == null) return;
+
+        ObjectNode jsonNode = MAPPER.createObjectNode();
+        jsonNode.put("playerId", playerId);
+        jsonNode.put("achievementId", achievementId);
+        String json = MAPPER.writeValueAsString(jsonNode);
+
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(json))
+            .timeout(TIMEOUT_DURATION);
+        sendWithFallback(requestBuilder, "/unlock"); 
+    } catch (Exception e) {
+        e.printStackTrace();
+    	}
+	}
+
+public static List<Player> getLeaderboard() {
+    try {
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+            .GET()
+            .timeout(TIMEOUT_DURATION);
+        HttpResponse<String> response = sendWithFallback(requestBuilder, "/leaderboard"); 
+        
+        if (response != null && response.statusCode() == 200) {
+            return List.of(MAPPER.readValue(response.body(), Player[].class));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return Collections.emptyList();
+	}
+
+	public static List<Achievement> achievementsForPlayer(String playerId) {
+    if (playerId == null) return Collections.emptyList();
+
+    try {
+        HttpRequest.Builder requestBuilder =
+            HttpRequest.newBuilder()
+                .GET()
+                .timeout(TIMEOUT_DURATION);
+
+        HttpResponse<String> response =
+            sendWithFallback(
+                requestBuilder,
+                "/achievements?playerId=" + playerId
+            );
+
+        if (response != null && response.statusCode() == 200) {
+            return List.of(
+                MAPPER.readValue(response.body(), Achievement[].class)
+            );
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return Collections.emptyList();
+}
+
 }
