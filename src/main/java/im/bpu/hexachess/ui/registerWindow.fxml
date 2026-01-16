@@ -5,16 +5,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="20">
-	<Label text="Sign Up" styleClass="h2" />
+	<Label text="%register.title" styleClass="h2" />
 	<VBox alignment="center" maxWidth="300" spacing="10">
-		<Label text="Username" />
+		<Label text="%common.username" />
 		<TextField fx:id="handleField" onAction="#handleRegister" />
-		<Label text="Email" />
+		<Label text="%register.email" />
 		<TextField fx:id="emailField" onAction="#handleRegister" />
-		<Label text="Password" />
+		<Label text="%common.password" />
 		<PasswordField fx:id="passwordField" onAction="#handleRegister" />
 	</VBox>
 	<Label fx:id="statusLabel" managed="false" visible="false" styleClass="text-danger" />
-	<Button fx:id="signUpButton" text="Sign Up" onAction="#handleRegister" />
-	<Button fx:id="backButton" text="Back" onAction="#openStart" />
+	<Button fx:id="signUpButton" text="%register.button" onAction="#handleRegister" />
+	<Button fx:id="backButton" text="%common.back" onAction="#openStart" />
 </VBox>

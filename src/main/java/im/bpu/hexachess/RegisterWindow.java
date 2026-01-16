@@ -5,6 +5,7 @@ import im.bpu.hexachess.network.API;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -35,23 +36,26 @@ public class RegisterWindow {
 			passwordField.requestFocus();
 			return;
 		}
+		final ResourceBundle bundle = Main.getBundle();
 		final String handle = handleField.getText();
 		final String email = emailField.getText();
 		final String password = passwordField.getText();
 		if (handle.length() > MAX_HANDLE_LENGTH) {
-			statusLabel.setText(MAX_HANDLE_LENGTH + " characters max");
+			statusLabel.setText(
+				MAX_HANDLE_LENGTH + " " + bundle.getString("register.error.handle"));
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
 		}
 		if (!email.contains("@") || !email.contains(".")) {
-			statusLabel.setText("That's not an email");
+			statusLabel.setText(bundle.getString("register.error.email"));
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
 		}
 		if (password.length() < MIN_PASSWORD_LENGTH) {
-			statusLabel.setText(MIN_PASSWORD_LENGTH + " characters minimum");
+			statusLabel.setText(
+				MIN_PASSWORD_LENGTH + " " + bundle.getString("register.error.password"));
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
@@ -70,7 +74,7 @@ public class RegisterWindow {
 					SettingsManager.setUserHandle(handle);
 					openMain();
 				} else {
-					statusLabel.setText("Error (Username taken or server error)");
+					statusLabel.setText(bundle.getString("register.error.server"));
 					statusLabel.setManaged(true);
 					statusLabel.setVisible(true);
 				}

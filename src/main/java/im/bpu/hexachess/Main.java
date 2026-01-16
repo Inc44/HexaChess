@@ -2,6 +2,8 @@ package im.bpu.hexachess;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +23,7 @@ public class Main extends Application {
 	private static final double MOBILE_WIDTH = 540;
 	private static final double MOBILE_HEIGHT = 1200;
 	private static final String WINDOW_TITLE = "HexaChess";
+	private static final String LANGUAGE_PACKAGE = "im.bpu.hexachess.ui.lang";
 	@Override
 	public void start(final Stage stage) throws Exception {
 		try {
@@ -34,15 +37,16 @@ public class Main extends Application {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+		final ResourceBundle bundle = getBundle();
 		final Parent root;
 		if (SettingsManager.userHandle != null) {
 			final FXMLLoader mainWindowLoader =
-				new FXMLLoader(getClass().getResource("ui/mainWindow.fxml"));
+				new FXMLLoader(getClass().getResource("ui/mainWindow.fxml"), bundle);
 			mainWindowLoader.setController(new MainWindow());
 			root = mainWindowLoader.load();
 		} else {
 			final FXMLLoader startWindowLoader =
-				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"));
+				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"), bundle);
 			startWindowLoader.setController(new StartWindow());
 			root = startWindowLoader.load();
 		}
@@ -56,10 +60,23 @@ public class Main extends Application {
 			height = MOBILE_HEIGHT;
 		}
 		final Scene scene = new Scene(root, width, height);
-		scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
+		applyTheme(scene);
 		stage.setTitle(WINDOW_TITLE);
 		stage.setScene(scene);
 		stage.show();
+	}
+	public static ResourceBundle getBundle() {
+		return ResourceBundle.getBundle(LANGUAGE_PACKAGE, getLocale());
+	}
+	public static Locale getLocale() {
+		return switch (SettingsManager.language) {
+			case "Deutsch" -> Locale.GERMAN;
+			case "Français" -> Locale.FRENCH;
+			case "Polski" -> Locale.of("pl");
+			case "Русский" -> Locale.of("ru");
+			case "Українська" -> Locale.of("ua");
+			default -> Locale.ENGLISH;
+		};
 	}
 	public static double getAspectRatio() {
 		final double width = Screen.getPrimary().getBounds().getWidth();
@@ -67,11 +84,20 @@ public class Main extends Application {
 		final double aspectRatio = width / height;
 		return aspectRatio;
 	}
+	public static void applyTheme(Scene scene) {
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add(Main.class.getResource("ui/style.css").toExternalForm());
+		String themeFileName = "ui/" + SettingsManager.theme.toLowerCase() + ".css";
+		scene.getStylesheets().add(Main.class.getResource(themeFileName).toExternalForm());
+	}
 	public static void loadWindow(final String path, final Object controller, final Node node) {
 		try {
-			final FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+			final ResourceBundle bundle = getBundle();
+			final FXMLLoader loader = new FXMLLoader(Main.class.getResource(path), bundle);
 			loader.setController(controller);
-			node.getScene().setRoot(loader.load());
+			Scene scene = node.getScene();
+			scene.setRoot(loader.load());
+			applyTheme(scene);
 		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}

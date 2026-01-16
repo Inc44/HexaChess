@@ -51,7 +51,7 @@ public class AchievementDAO extends DAO<Achievement> {
 	}
 	private Achievement resultSetToAchievement(ResultSet rs) throws SQLException {
 		Achievement achievement = new Achievement(
-			rs.getString("achievement_id"), rs.getString("name"), rs.getString("description"));
+			rs.getString("achievement_id"), rs.getString("name"), rs.getString("description"), rs.getBoolean("unlocked"));
 		return achievement;
 	}
 	public Achievement read(String achievementId) {
@@ -80,4 +80,58 @@ public class AchievementDAO extends DAO<Achievement> {
 		}
 		return achievements;
 	}
+    public void unlock(String playerId, String achievementId) {
+        String sql = "INSERT IGNORE INTO player_achievements (player_id, achievement_id) VALUES (?, ?)";
+        
+        try (PreparedStatement pstmt = connect.prepareStatement(sql)) {
+            pstmt.setString(1, playerId);
+            pstmt.setString(2, achievementId);
+            pstmt.executeUpdate();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+	public ArrayList<Achievement> readAllForPlayer(String playerId) {
+    ArrayList<Achievement> achievements = new ArrayList<>();
+
+    String sql = """
+        SELECT
+            a.achievement_id,
+            a.name,
+            a.description,
+            CASE
+                WHEN pa.player_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+            END AS unlocked
+        FROM achievements a
+        LEFT JOIN player_achievements pa
+            ON a.achievement_id = pa.achievement_id
+            AND pa.player_id = ?
+        ORDER BY a.name
+    """;
+
+    try (PreparedStatement pstmt = connect.prepareStatement(sql)) {
+        pstmt.setString(1, playerId);
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Achievement achievement = new Achievement(
+                    rs.getString("achievement_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+					rs.getBoolean("unlocked")
+                );
+                achievement.setUnlocked(rs.getBoolean("unlocked"));
+
+                achievements.add(achievement);
+            }
+        }
+    } catch (SQLException exception) {
+        exception.printStackTrace();
+    }
+
+    return achievements;
+}
+
+	
 }

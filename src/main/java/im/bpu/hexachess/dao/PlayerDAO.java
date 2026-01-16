@@ -1,13 +1,13 @@
 package im.bpu.hexachess.dao;
 
 import im.bpu.hexachess.entity.Player;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDAO extends DAO<Player> {
 	private static final String CREATE =
@@ -22,11 +22,12 @@ public class PlayerDAO extends DAO<Player> {
 	private static final String GET_PLAYER_BY_HANDLE = "SELECT * FROM players WHERE handle = ?";
 	private static final String SEARCH_PLAYERS = "SELECT * FROM players WHERE handle LIKE ?";
 	private static final String UPDATE_PASSWORD =
-		"UPDATE players SET password = ? WHERE handle = ?";
-	private static final String CHECK_PASSWORD = "SELECT password FROM players WHERE handle = ?";
+		"UPDATE players SET password_hash = ? WHERE handle = ?";
+	private static final String CHECK_PASSWORD =
+		"SELECT password_hash FROM players WHERE handle = ?";
 	@Override
-	public Player create(Player player) {
-		try (PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
+	public Player create(final Player player) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
 			pstmt.setString(1, player.getPlayerId());
 			pstmt.setString(2, player.getHandle());
 			pstmt.setString(3, player.getEmail());
@@ -40,14 +41,14 @@ public class PlayerDAO extends DAO<Player> {
 			else
 				pstmt.setTimestamp(9, null);
 			pstmt.executeUpdate();
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return player;
 	}
 	@Override
-	public Player update(Player player) {
-		try (PreparedStatement pstmt = connect.prepareStatement(UPDATE)) {
+	public Player update(final Player player) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(UPDATE)) {
 			pstmt.setString(1, player.getHandle());
 			pstmt.setString(2, player.getEmail());
 			pstmt.setString(3, player.getPasswordHash());
@@ -57,22 +58,22 @@ public class PlayerDAO extends DAO<Player> {
 			pstmt.setBoolean(7, player.isVerified());
 			pstmt.setString(8, player.getPlayerId());
 			pstmt.executeUpdate();
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return player;
 	}
 	@Override
-	public void delete(Player player) {
-		try (PreparedStatement pstmt = connect.prepareStatement(DELETE)) {
+	public void delete(final Player player) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(DELETE)) {
 			pstmt.setString(1, player.getPlayerId());
 			pstmt.executeUpdate();
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 	}
-	private Player resultSetToPlayer(ResultSet rs) throws SQLException {
-		Player player = new Player(rs.getString("player_id"), rs.getString("handle"),
+	public static Player resultSetToPlayer(final ResultSet rs) throws SQLException {
+		final Player player = new Player(rs.getString("player_id"), rs.getString("handle"),
 			rs.getString("email"), rs.getString("password_hash"), rs.getInt("rating"),
 			rs.getBoolean("is_verified"),
 			rs.getTimestamp("joined_at") != null ? rs.getTimestamp("joined_at").toLocalDateTime()
@@ -81,81 +82,100 @@ public class PlayerDAO extends DAO<Player> {
 		player.setLocation(rs.getString("location"));
 		return player;
 	}
-	public Player read(String playerId) {
+	public Player read(final String playerId) {
 		Player player = null;
-		try (PreparedStatement pstmt = connect.prepareStatement(READ)) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(READ)) {
 			pstmt.setString(1, playerId);
-			try (ResultSet rs = pstmt.executeQuery()) {
+			try (final ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					player = resultSetToPlayer(rs);
 				}
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return player;
 	}
 	public ArrayList<Player> readAll() {
-		ArrayList<Player> players = new ArrayList<>();
-		try (Statement stmt = connect.createStatement();
-			ResultSet rs = stmt.executeQuery(READ_ALL)) {
+		final ArrayList<Player> players = new ArrayList<>();
+		try (final Statement stmt = connect.createStatement();
+			final ResultSet rs = stmt.executeQuery(READ_ALL)) {
 			while (rs.next()) {
 				players.add(resultSetToPlayer(rs));
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return players;
 	}
-	public Player getPlayerByHandle(String handle) {
+	public Player getPlayerByHandle(final String handle) {
 		Player player = null;
-		try (PreparedStatement pstmt = connect.prepareStatement(GET_PLAYER_BY_HANDLE)) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(GET_PLAYER_BY_HANDLE)) {
 			pstmt.setString(1, handle);
-			try (ResultSet rs = pstmt.executeQuery()) {
+			try (final ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					player = resultSetToPlayer(rs);
 				}
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return player;
 	}
-	public ArrayList<Player> searchPlayers(String handle) {
-		ArrayList<Player> players = new ArrayList<>();
-		try (PreparedStatement pstmt = connect.prepareStatement(SEARCH_PLAYERS)) {
+	public ArrayList<Player> searchPlayers(final String handle) {
+		final ArrayList<Player> players = new ArrayList<>();
+		try (final PreparedStatement pstmt = connect.prepareStatement(SEARCH_PLAYERS)) {
 			pstmt.setString(1, "%" + handle + "%");
-			try (ResultSet rs = pstmt.executeQuery()) {
+			try (final ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
 					players.add(resultSetToPlayer(rs));
 				}
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return players;
 	}
-	public boolean updatePassword(String handle, String password) {
-		try (PreparedStatement pstmt = connect.prepareStatement(UPDATE_PASSWORD)) {
+	public boolean updatePassword(final String handle, final String password) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(UPDATE_PASSWORD)) {
 			pstmt.setString(1, password);
 			pstmt.setString(2, handle);
 			return pstmt.executeUpdate() > 0;
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 			return false;
 		}
 	}
-	public boolean checkPassword(String handle, String password) {
-		try (PreparedStatement pstmt = connect.prepareStatement(CHECK_PASSWORD)) {
+	public boolean checkPassword(final String handle, final String password) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(CHECK_PASSWORD)) {
 			pstmt.setString(1, handle);
-			try (ResultSet rs = pstmt.executeQuery()) {
+			try (final ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					return rs.getString("password").equals(password);
+					return rs.getString("password_hash").equals(password);
 				}
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return false;
+	}
+
+	public List<Player> getLeaderboard() {
+    	List<Player> players = new ArrayList<>();
+		 String sql = "SELECT handle, rating FROM players ORDER BY rating DESC LIMIT 50";
+
+    	try (PreparedStatement stmt = connect.prepareStatement(sql);
+         	ResultSet rs = stmt.executeQuery()) {
+
+        	while (rs.next()) {
+            	Player p = new Player();
+            	p.setHandle(rs.getString("handle"));
+            	p.setRating(rs.getInt("rating"));
+            	players.add(p);
+        	}
+    	} catch (SQLException e) {
+        e.printStackTrace();
+    	}
+    	return players;
 	}
 }

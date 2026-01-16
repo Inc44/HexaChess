@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
-	<Label text="Search" styleClass="h2" />
+	<Label text="%search.title" styleClass="h2" />
 	<HBox alignment="center" spacing="16">
 		<TextField fx:id="searchField" onAction="#handleSearch" />
 		<Button fx:id="searchButton" text="🔍" onAction="#handleSearch" styleClass="square-button" />
@@ -14,5 +14,5 @@
 	<ScrollPane fx:id="searchPane">
 		<VBox fx:id="playerContainer" alignment="center" spacing="16" />
 	</ScrollPane>
-	<Button fx:id="backButton" text="Back" onAction="#openMain" />
+	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

@@ -4,15 +4,15 @@
 	<artifactId>hexachess</artifactId>
 	<version>2026.01.12</version>
 	<properties>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+		<maven.compiler.source>25</maven.compiler.source>
+		<maven.compiler.target>25</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>2.20.1</jackson.version>
 		<mysql.version>9.5.0</mysql.version>
 		<cdimascio.version>3.2.0</cdimascio.version>
 		<jsonwebtoken.version>0.13.0</jsonwebtoken.version>
 		<mindrot.version>0.4</mindrot.version>
-		<javafx.version>21.0.9</javafx.version>
+		<javafx.version>21.0.1</javafx.version>
 		<maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
 		<javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
 		<gluonfx.maven.plugin.version>1.0.25</gluonfx.maven.plugin.version>
@@ -88,6 +88,7 @@
 				<includes>
 					<include>**/*.css</include>
 					<include>**/*.fxml</include>
+					<include>**/*.properties</include>
 				</includes>
 			</resource>
 			<resource>
@@ -158,7 +159,9 @@
 						<list>javafx.scene.control.PasswordField</list>
 						<list>javafx.scene.control.ProgressBar</list>
 						<list>javafx.scene.control.ScrollPane</list>
+						<list>javafx.scene.control.Slider</list>
 						<list>javafx.scene.control.TextField</list>
+						<list>javafx.scene.control.Tooltip</list>
 						<list>javafx.scene.image.ImageView</list>
 						<list>javafx.scene.layout.HBox</list>
 						<list>javafx.scene.layout.Priority</list>
@@ -168,6 +171,7 @@
 					</reflectionList>
 					<resourcesList>
 						<list>com/mysql/cj/LocalizedErrorMessages.properties</list>
+						<list>im/bpu/hexachess/ui/lang_.*.properties</list>
 					</resourcesList>
 				</configuration>
 			</plugin>

@@ -1,3 +1,28 @@
+#gameOverContainer
+{
+	-fx-max-height: 128px;
+	-fx-max-width: 420px;
+	max-height: 128px;
+	max-width: 420px;
+}
+
+#gameOverContainer,
+.button,
+.combo-box-base,
+.combo-box-popup .list-view,
+.password-field,
+.player-item,
+.profile-container,
+.slider .thumb,
+.text-field
+{
+	-fx-background-radius: 6;
+	-fx-border-radius: 6;
+	-fx-border-width: 3px;
+	border-radius: 6;
+	border-width: 3px;
+}
+
 #loginButton,
 #signOutButton,
 #signUpButton
@@ -6,13 +31,10 @@
 }
 
 .avatar-container,
-.progress-bar
+.progress-bar,
+.slider .track
 {
-	-fx-background-color: white;
-	-fx-border-color: black;
 	-fx-border-width: 3px;
-	background-color: white;
-	border-color: black;
 	border-width: 3px;
 }
 
@@ -31,7 +53,6 @@
 	-fx-font-family: "NotoSansM NFM";
 	-fx-font-size: 16px;
 	-fx-font-weight: bold;
-	-fx-text-fill: black;
 	font-family: "NotoSansM NFM";
 	font-size: 16px;
 	font-weight: bold;
@@ -49,72 +70,17 @@
 
 .button,
 .combo-box-base,
-.combo-box-popup .list-view,
-.password-field,
 .player-item,
-.profile-container,
-.text-field
-{
-	/* sandybrown */
-	-fx-background-color: rgb(232, 171, 111);
-	-fx-background-radius: 6;
-	-fx-border-color: black;
-	-fx-border-radius: 6;
-	-fx-border-width: 3px;
-	background-color: rgb(232, 171, 111);
-	border-color: black;
-	border-radius: 6;
-	border-width: 3px;
-}
-
-.button,
-.combo-box-base,
-.player-item
+.slider
 {
 	-fx-cursor: hand;
 	cursor: hand;
-}
-
-.button:hover,
-.combo-box-base:hover,
-.combo-box-popup .list-cell:filled:hover,
-.menu-item:focused,
-.menu-item:hover,
-.password-field:focused,
-.player-item:hover,
-.sidebar-item:hover,
-.text-field:focused
-{
-	/* navajowhite */
-	-fx-background-color: rgb(255, 206, 158);
-	background-color: rgb(255, 206, 158);
-}
-
-.button:pressed,
-.menu-item:pressed,
-.player-item:pressed
-{
-	/* peru */
-	-fx-background-color: rgb(209, 139, 71);
-	background-color: rgb(209, 139, 71);
 }
 
 .caret-handle
 {
 	-fx-opacity: 0;
 	opacity: 0;
-}
-
-.combo-box .arrow
-{
-	-fx-background-color: black;
-	background-color: black;
-}
-
-.combo-box .list-cell
-{
-	-fx-background-color: transparent;
-	background-color: transparent;
 }
 
 .context-menu
@@ -128,12 +94,8 @@
 .context-menu,
 .sidebar-item
 {
-	-fx-background-color: white;
 	-fx-background-radius: 0;
-	-fx-border-color: black;
 	-fx-border-radius: 0;
-	background-color: white;
-	border-color: black;
 	border-radius: 0;
 }
 
@@ -246,15 +208,10 @@
 .menu-button,
 .settings-help-button
 {
-	-fx-background-color: transparent;
-	-fx-border-color: transparent;
 	-fx-cursor: hand;
 	-fx-font-size: 24px;
 	-fx-padding: 6 0;
 	-fx-pref-width: 54px;
-	-fx-text-fill: black;
-	background-color: transparent;
-	border-color: transparent;
 	cursor: hand;
 	font-size: 24px;
 	padding: 6 0;
@@ -265,17 +222,13 @@
 .settings-help-button:hover,
 .settings-help-button:pressed
 {
-	-fx-background-color: rgba(0, 0, 0, 0.06);
 	-fx-background-radius: 27;
-	background-color: rgba(0, 0, 0, 0.06);
 }
 
 .password-field,
 .text-field
 {
-	-fx-background-color: white;
 	-fx-pref-width: 240px;
-	background-color: white;
 }
 
 .password-field,
@@ -325,41 +278,33 @@
 	font-size: 16px;
 }
 
-.root
+.progress-bar
 {
-	-fx-background-color: white;
-	background-color: white;
+	-fx-border-radius: 6;
+	-fx-pref-height: 22px;
+	-fx-pref-width: 116px;
+	border-radius: 6;
 }
 
-.scroll-bar .decrement-button,
-.scroll-bar .increment-button,
-.scroll-bar:horizontal,
-.scroll-bar:vertical
+.progress-bar>.bar
 {
-	-fx-background-color: transparent;
-	background-color: transparent;
+	-fx-background-radius: 6;
 }
 
 .scroll-bar:vertical .thumb,
 .scroll-bar:horizontal .thumb
 {
-	-fx-background-color: black;
 	-fx-background-radius: 6;
-	background-color: black;
 }
 
 .scroll-pane
 {
-	-fx-background-color: transparent;
-	-fx-border-color: black;
 	-fx-border-radius: 6;
 	-fx-border-width: 3px;
 	-fx-fit-to-width: true;
 	-fx-max-height: 480px;
 	-fx-max-width: 480px;
 	-fx-min-height: 320px;
-	background-color: transparent;
-	border-color: black;
 	border-radius: 6;
 	border-width: 3px;
 	max-height: 480px;
@@ -369,18 +314,12 @@
 
 .scroll-pane .viewport
 {
-	-fx-background-color: white;
 	-fx-background-radius: 6;
-	background-color: white;
 }
 
 .sidebar
 {
-	-fx-background-color: white;
-	-fx-border-color: black;
 	-fx-border-width: 0 3px 0 0;
-	background-color: white;
-	border-color: black;
 	border-width: 0 3px 0 0;
 }
 
@@ -392,22 +331,32 @@
 	border-width: 0 0 3px 0;
 }
 
+.slider .thumb
+{
+	-fx-background-radius: 12;
+	-fx-border-radius: 12;
+	-fx-pref-height: 24px;
+	-fx-pref-width: 24px;
+	border-radius: 12;
+}
+
+.slider .track
+{
+	-fx-background-radius: 6;
+	-fx-border-radius: 6;
+	-fx-pref-height: 12px;
+	border-radius: 6;
+}
+
 .square-button
 {
 	-fx-pref-height: 42px;
 	-fx-pref-width: 42px;
 }
 
-.text-danger
+.tooltip
 {
-	/* l40-red */
-	-fx-text-fill: rgb(189, 30, 15);
-}
-
-.text-success
-{
-	/* l40-green */
-	-fx-text-fill: rgb(31, 173, 91);
+	-fx-background-radius: 0;
 }
 
 .tournament-item-date,
@@ -423,24 +372,17 @@
 	font-size: 18px;
 }
 
-.progress-bar
+.timer-label
 {
-	-fx-border-radius: 6;
-	-fx-pref-height: 22px;
-	-fx-pref-width: 116px;
-	border-radius: 6;
-}
-
-.progress-bar>.bar
-{
-	/* green */
-	-fx-background-color: rgb(46, 218, 119);
-	-fx-background-radius: 6;
-	background-color: rgb(46, 218, 119)
-}
-
-.progress-bar>.track
-{
-	-fx-background-color: transparent;
-	background-color: transparent;
+	-fx-font-size: 20px;
+	-fx-font-family: "NotoSansM NFM", monospace;
+	-fx-font-weight: bold;
+	-fx-background-color: rgba(0, 0, 0, 0.1);
+	-fx-padding: 2 6;
+	-fx-background-radius: 4;
+	font-size: 20px;
+	font-family: "NotoSansM NFM", monospace;
+	font-weight: bold;
+	background-color: rgba(0, 0, 0, 0.1);
+	padding: 2 6;
 }

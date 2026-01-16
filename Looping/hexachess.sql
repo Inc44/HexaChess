@@ -102,6 +102,14 @@ CREATE TABLE `tournaments` (
 	`end_time` datetime DEFAULT NULL,
 	`winner_id` char(11) DEFAULT NULL
 );
+CREATE TABLE participants (
+	tournament_id VARCHAR(36) NOT NULL,
+	player_id VARCHAR(36) NOT NULL,
+	joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (tournament_id, player_id),
+	FOREIGN KEY (tournament_id) REFERENCES tournaments(tournament_id) ON DELETE CASCADE,
+	FOREIGN KEY (player_id) REFERENCES players(player_id) ON DELETE CASCADE
+);
 --
 -- Index pour les tables déchargées
 --
@@ -198,6 +206,33 @@ ADD
 SET
 	NULL ON UPDATE CASCADE;
 COMMIT;
+
+INSERT INTO achievements (achievement_id, name, description) VALUES
+('ACH_0000001', '♟️ Premier pas', 'Jouer sa première partie'),
+('ACH_0000002', '♟️ Échec et mat', 'Gagner une partie'),
+('ACH_0000003', '♟️ Mat du berger', 'Gagner par le mat du berger'),
+('ACH_0000004', '♟️ Roque parfait', 'Effectuer un roque'),
+('ACH_0000005', '♟️ En passant', 'Capturer un pion en passant'),
+('ACH_0000006', '♟️ Promotion royale', 'Promouvoir un pion en dame'),
+('ACH_0000007', '♟️ Sous-promotion', 'Promouvoir un pion en cavalier, fou ou tour'),
+('ACH_0000008', '♟️ Pat', 'Faire nulle par pat'),
+('ACH_0000009', '🏆 Sans pitié', 'Gagner sans perdre une pièce'),
+('ACH_0000010', '🏆 Massacre', 'Capturer toutes les pièces adverses sauf le roi'),
+('ACH_0000011', '🏆 Victoire rapide', 'Gagner en moins de 20 coups'),
+('ACH_0000012', '🏆 Survivant', 'Gagner avec moins de 5 pièces restantes'),
+('ACH_0000013', '🏆 Comeback', 'Gagner après avoir été en désavantage matériel'),
+('ACH_0000014', '⏳ Habitué', 'Jouer 10 parties'),
+('ACH_0000015', '⏳ Série gagnante', 'Gagner 5 parties d’affilée'),
+('ACH_0000016', '⏳ Marathonien', 'Jouer pendant plus d’une heure');
+
+CREATE TABLE player_achievements (
+    player_id CHAR(11) NOT NULL,
+    achievement_id CHAR(11) NOT NULL,
+    unlocked_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (player_id, achievement_id),
+    FOREIGN KEY (player_id) REFERENCES players(player_id) ON DELETE CASCADE,
+    FOREIGN KEY (achievement_id) REFERENCES achievements(achievement_id) ON DELETE CASCADE
+);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
 ;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */

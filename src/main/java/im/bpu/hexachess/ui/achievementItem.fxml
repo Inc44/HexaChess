@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="im.bpu.hexachess.ui.AchievementItemController" spacing="16" alignment="CENTER_LEFT" styleClass="player-item">
+    <Label fx:id="nameLabel" styleClass="h2" minWidth="250" text="Nom du succès"/>
+    
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <Label fx:id="descriptionLabel" text="Description du succès..." wrapText="true" style="-fx-font-size: 14px;"/>
+        <Label fx:id="statusLabel" text="Verrouillé 🔒" styleClass="text-danger" style="-fx-font-size: 12px;"/>
+    </VBox>
+</HBox>

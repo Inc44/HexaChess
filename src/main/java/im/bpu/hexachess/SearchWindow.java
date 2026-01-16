@@ -5,6 +5,7 @@ import im.bpu.hexachess.network.API;
 
 import java.io.File;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,11 +52,12 @@ public class SearchWindow {
 			return;
 		}
 		Thread.ofVirtual().start(() -> {
+			final ResourceBundle bundle = Main.getBundle();
 			final List<Player> players = API.search(query);
 			Platform.runLater(() -> {
 				playerContainer.getChildren().clear();
 				if (players.isEmpty()) {
-					final Label emptyLabel = new Label("No players found.");
+					final Label emptyLabel = new Label(bundle.getString("search.empty"));
 					playerContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Player player : players) {
@@ -86,7 +88,7 @@ public class SearchWindow {
 								CacheManager.save("images", flagsFileName, FLAGS_URL);
 							avatarIcon.setImage(avatarImage);
 							handleLabel.setText(handle);
-							ratingLabel.setText("Rating: " + rating);
+							ratingLabel.setText(bundle.getString("common.rating") + ": " + rating);
 							if (location != null && !location.isEmpty()) {
 								countryFlagIcon.setStyle("-fx-background-image: url('"
 									+ flagsFile.toURI().toString() + "');");

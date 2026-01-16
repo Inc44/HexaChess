@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32" styleClass="main-container">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <VBox alignment="CENTER" spacing="8" styleClass="profile-container" maxWidth="600">
-        <Label fx:id="nameLabel" styleClass="h2" wrapText="true" textAlignment="CENTER"/>
-        <Label fx:id="dateLabel" styleClass="profile-info" style="-fx-text-fill: gray;"/>
-        <Label fx:id="statusLabel" style="-fx-font-weight: bold;"/>
-    </VBox>
-
-    <VBox alignment="TOP_LEFT" spacing="16" maxWidth="600" styleClass="player-item">
-        <Label text="Description" style="-fx-font-weight: bold; -fx-underline: true;"/>
-        <Label fx:id="descriptionLabel" wrapText="true"/>
-    </VBox>
-
-<HBox alignment="CENTER" spacing="20">
-        <Button text="Join" onAction="#handleParticipate"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;"
-                prefWidth="200" prefHeight="50"/>
-        
-        <Button text="List" onAction="#handleViewParticipants"
-                style="-fx-font-size: 14px; -fx-cursor: hand;"
-                prefWidth="200" prefHeight="50"/>
-    </HBox>
-    <Button fx:id="backButton" text="Back" onAction="#openTournaments" />
+	<padding>
+		<Insets top="20" right="20" bottom="20" left="20" />
+	</padding>
+	<VBox alignment="center" spacing="8" styleClass="profile-container" maxWidth="600">
+		<Label fx:id="nameLabel" styleClass="h2" wrapText="true" textAlignment="CENTER" />
+		<Label fx:id="dateLabel" styleClass="profile-info" style="-fx-text-fill: gray;" />
+		<Label fx:id="statusLabel" style="-fx-font-weight: bold;" />
+	</VBox>
+	<VBox alignment="top_left" spacing="16" maxWidth="600" styleClass="player-item">
+		<Label text="Description" style="-fx-font-weight: bold; -fx-underline: true;" />
+		<Label fx:id="descriptionLabel" wrapText="true" />
+	</VBox>
+	<HBox alignment="center" spacing="20">
+		<Button fx:id="joinButton" onAction="#handleParticipate" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" prefWidth="200" prefHeight="50" />
+		<Button fx:id="participantsButton" onAction="#handleViewParticipants" style="-fx-font-size: 14px; -fx-cursor: hand;" prefWidth="200" prefHeight="50" />
+	</HBox>
+	<Button fx:id="backButton" text="%common.back" onAction="#openTournaments" />
 </VBox>

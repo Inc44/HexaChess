@@ -1,0 +1,178 @@
+#gameOverContainer,
+.button,
+.combo-box-base,
+.combo-box-popup .list-view,
+.password-field,
+.player-item,
+.profile-container,
+.slider .thumb,
+.text-field
+{
+	/* sandybrown */
+	-fx-background-color: rgb(232, 171, 111);
+	-fx-border-color: black;
+	background-color: rgb(232, 171, 111);
+	border-color: black;
+}
+
+.avatar-container,
+.progress-bar,
+.slider .track
+{
+	-fx-background-color: white;
+	-fx-border-color: black;
+	background-color: white;
+	border-color: black;
+}
+
+.button,
+.combo-box .list-cell,
+.combo-box-popup .list-cell,
+.label,
+.password-field,
+.text-field
+{
+	-fx-text-fill: black;
+}
+
+.button:hover,
+.combo-box-base:hover,
+.combo-box-popup .list-cell:filled:hover,
+.menu-item:focused,
+.menu-item:hover,
+.password-field:focused,
+.player-item:hover,
+.sidebar-item:hover,
+.slider .thumb:hover,
+.text-field:focused
+{
+	/* navajowhite */
+	-fx-background-color: rgb(255, 206, 158);
+	background-color: rgb(255, 206, 158);
+}
+
+.button:pressed,
+.menu-item:pressed,
+.player-item:pressed,
+.slider .thumb:pressed
+{
+	/* peru */
+	-fx-background-color: rgb(209, 139, 71);
+	background-color: rgb(209, 139, 71);
+}
+
+.combo-box .arrow
+{
+	-fx-background-color: black;
+	background-color: black;
+}
+
+.combo-box .list-cell
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
+.context-menu,
+.sidebar-item
+{
+	-fx-background-color: white;
+	-fx-border-color: black;
+	background-color: white;
+	border-color: black;
+}
+
+.menu-button,
+.settings-help-button
+{
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-text-fill: black;
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.menu-button:hover,
+.menu-button:pressed,
+.settings-help-button:hover,
+.settings-help-button:pressed
+{
+	-fx-background-color: rgba(0, 0, 0, 0.06);
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+.password-field,
+.text-field
+{
+	-fx-background-color: white;
+	background-color: white;
+}
+
+.progress-bar>.bar
+{
+	/* green */
+	-fx-background-color: rgb(46, 218, 119);
+	background-color: rgb(46, 218, 119);
+}
+
+.progress-bar>.track
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
+.root
+{
+	-fx-background-color: white;
+	background-color: white;
+}
+
+.scroll-bar .decrement-button,
+.scroll-bar .increment-button,
+.scroll-bar:horizontal,
+.scroll-bar:vertical
+{
+	-fx-background-color: transparent;
+	background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb
+{
+	-fx-background-color: black;
+	background-color: black;
+}
+
+.scroll-pane
+{
+	-fx-background-color: transparent;
+	-fx-border-color: black;
+	background-color: transparent;
+	border-color: black;
+}
+
+.scroll-pane .viewport
+{
+	-fx-background-color: white;
+	background-color: white;
+}
+
+.sidebar
+{
+	-fx-background-color: white;
+	-fx-border-color: black;
+	background-color: white;
+	border-color: black;
+}
+
+.text-danger
+{
+	/* l40-red */
+	-fx-text-fill: rgb(189, 30, 15);
+}
+
+.text-success
+{
+	/* l40-green */
+	-fx-text-fill: rgb(31, 173, 91);
+}

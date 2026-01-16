@@ -1,5 +1,13 @@
 package im.bpu.hexachess.network;
 
+import im.bpu.hexachess.Config;
+import im.bpu.hexachess.SettingsManager;
+import im.bpu.hexachess.entity.Achievement;
+import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.entity.Puzzle;
+import im.bpu.hexachess.entity.Settings;
+import im.bpu.hexachess.entity.Tournament;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -12,14 +20,6 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
-import im.bpu.hexachess.Config;
-import im.bpu.hexachess.SettingsManager;
-import im.bpu.hexachess.entity.Achievement;
-import im.bpu.hexachess.entity.Player;
-import im.bpu.hexachess.entity.Puzzle;
-import im.bpu.hexachess.entity.Settings;
-import im.bpu.hexachess.entity.Tournament;
 
 public class API {
 	private static final String DEFAULT_DEV_URL = "http://localhost:8800/api";
@@ -38,121 +38,121 @@ public class API {
 		MAPPER.registerModule(new JavaTimeModule());
 	}
 	private static HttpResponse<String> sendWithFallback(
-		HttpRequest.Builder requestBuilder, String endpoint) throws Exception {
-		String authToken = SettingsManager.authToken;
+		final HttpRequest.Builder requestBuilder, final String endpoint) throws Exception {
+		final String authToken = SettingsManager.authToken;
 		if (authToken != null)
 			requestBuilder.header("Authorization", "Bearer " + authToken);
 		try {
 			return sendRequest(requestBuilder, DEV_URL, endpoint);
-		} catch (HttpTimeoutException ignored) {
+		} catch (final HttpTimeoutException ignored) {
 			throw ignored;
-		} catch (Exception developerException) {
+		} catch (final Exception developerException) {
 			try {
 				return sendRequest(requestBuilder, PROD_URL, endpoint);
-			} catch (HttpTimeoutException ignored) {
+			} catch (final HttpTimeoutException ignored) {
 				throw ignored;
-			} catch (Exception productionException) {
+			} catch (final Exception productionException) {
 				return null;
 			}
 		}
 	}
-	private static HttpResponse<String> sendRequest(
-		HttpRequest.Builder requestBuilder, String baseUrl, String endpoint) throws Exception {
-		HttpRequest request = requestBuilder.uri(URI.create(baseUrl + endpoint)).build();
+	private static HttpResponse<String> sendRequest(final HttpRequest.Builder requestBuilder,
+		final String baseUrl, final String endpoint) throws Exception {
+		final HttpRequest request = requestBuilder.uri(URI.create(baseUrl + endpoint)).build();
 		return CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 	}
-	public static Player login(String handle, String password) {
+	public static Player login(final String handle, final String password) {
 		try {
-			ObjectNode jsonNode = MAPPER.createObjectNode();
+			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("handle", handle);
 			jsonNode.put("password", password);
-			String json = MAPPER.writeValueAsString(jsonNode);
-			HttpRequest.Builder requestBuilder =
+			final String json = MAPPER.writeValueAsString(jsonNode);
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/login");
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/login");
 			if (response != null && response.statusCode() == 200)
 				return MAPPER.readValue(response.body(), Player.class);
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return null;
 	}
-	public static boolean register(Player player) {
+	public static boolean register(final Player player) {
 		try {
-			String json = MAPPER.writeValueAsString(player);
-			HttpRequest.Builder requestBuilder =
+			final String json = MAPPER.writeValueAsString(player);
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/register");
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/register");
 			return response != null && response.statusCode() == 200;
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return false;
 	}
-	public static Settings settings(String playerId) {
+	public static Settings settings(final String playerId) {
 		try {
-			HttpRequest.Builder requestBuilder =
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response =
+			final HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/settings?playerId=" + playerId);
 			if (response != null && response.statusCode() == 200)
 				return MAPPER.readValue(response.body(), Settings.class);
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return null;
 	}
-	public static boolean settings(Settings settings) {
+	public static boolean settings(final Settings settings) {
 		try {
-			String json = MAPPER.writeValueAsString(settings);
-			HttpRequest.Builder requestBuilder =
+			final String json = MAPPER.writeValueAsString(settings);
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/settings");
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/settings");
 			return response != null && response.statusCode() == 200;
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return false;
 	}
-	public static List<Player> search(String handle) {
+	public static List<Player> search(final String handle) {
 		try {
-			HttpRequest.Builder requestBuilder =
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response =
+			final HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/search?handle=" + handle);
 			if (response != null && response.statusCode() == 200)
 				return List.of(MAPPER.readValue(response.body(), Player[].class));
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return Collections.emptyList();
 	}
-	public static Player profile(String handle) {
+	public static Player profile(final String handle) {
 		if (ROOT_HANDLE.equals(handle))
 			return new Player(ROOT_ID, ROOT_HANDLE, ROOT_EMAIL, "", BASE_ELO, true, null);
 		try {
-			HttpRequest.Builder requestBuilder =
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response =
+			final HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/profile?handle=" + handle);
 			if (response != null && response.statusCode() == 200)
 				return MAPPER.readValue(response.body(), Player.class);
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return null;
@@ -166,99 +166,136 @@ public class API {
 	public static List<Tournament> tournaments() {
 		return fetch("/tournaments", Tournament[].class);
 	}
-	private static <T> List<T> fetch(String endpoint, Class<T[]> clazz) {
+	private static <T> List<T> fetch(final String endpoint, final Class<T[]> clazz) {
 		try {
-			HttpRequest.Builder requestBuilder =
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response = sendWithFallback(requestBuilder, endpoint);
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, endpoint);
 			if (response != null && response.statusCode() == 200)
 				return List.of(MAPPER.readValue(response.body(), clazz));
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return Collections.emptyList();
 	}
-	public static String challenge(String from, String to) {
+	public static String challenge(final String from, final String to) {
 		try {
-			ObjectNode jsonNode = MAPPER.createObjectNode();
+			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("from", from);
 			jsonNode.put("to", to);
-			String json = MAPPER.writeValueAsString(jsonNode);
-			HttpRequest.Builder requestBuilder =
+			final String json = MAPPER.writeValueAsString(jsonNode);
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/challenge");
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/challenge");
 			return response != null ? response.body() : null;
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return null;
 	}
-	public static void sendMove(String gameId, String move) {
+	public static void sendMove(final String gameId, final String move) {
 		try {
-			ObjectNode jsonNode = MAPPER.createObjectNode();
+			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("gameId", gameId);
 			jsonNode.put("move", move);
-			String json = MAPPER.writeValueAsString(jsonNode);
-			HttpRequest.Builder requestBuilder =
+			final String json = MAPPER.writeValueAsString(jsonNode);
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			sendWithFallback(requestBuilder, "/sync");
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 	}
-	public static String getMove(String gameId) {
+	public static String getMove(final String gameId) {
 		try {
-			HttpRequest.Builder requestBuilder =
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response =
+			final HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/sync?gameId=" + gameId);
 			return response != null ? response.body() : null;
-		} catch (HttpTimeoutException ignored) {
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		return null;
 	}
-
-	public static boolean joinTournament(String tournamentId) {
+	public static void unlockAchievement(String achievementId) {
 		try {
-			ObjectNode json = MAPPER.createObjectNode();
-			json.put("tournamentId", tournamentId);
-
-			HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-				.POST(HttpRequest.BodyPublishers.ofString(json.toString()))
-				.header("Content-Type", "application/json");
-				
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments/join");
-			return response.statusCode() == 200;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			String playerId = SettingsManager.playerId;
+			if (playerId == null)
+				return;
+			ObjectNode jsonNode = MAPPER.createObjectNode();
+			jsonNode.put("playerId", playerId);
+			jsonNode.put("achievementId", achievementId);
+			String json = MAPPER.writeValueAsString(jsonNode);
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(TIMEOUT_DURATION);
+			sendWithFallback(requestBuilder, "/unlock");
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
-	
-	public static java.util.List<im.bpu.hexachess.entity.Player> getTournamentParticipants(String tournamentId) {
+	public static List<Player> getLeaderboard() {
 		try {
-			java.net.http.HttpRequest.Builder requestBuilder =
-				java.net.http.HttpRequest.newBuilder().GET();
-			java.net.http.HttpResponse<String> response = sendWithFallback(requestBuilder, "/tournaments/participants?id=" + tournamentId);
-			
-			if (response.statusCode() == 200) {
-				return java.util.List.of(MAPPER.readValue(response.body(), im.bpu.hexachess.entity.Player[].class));
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
+			HttpResponse<String> response = sendWithFallback(requestBuilder, "/leaderboard");
+			if (response != null && response.statusCode() == 200) {
+				return List.of(MAPPER.readValue(response.body(), Player[].class));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
+	}
+	public static List<Achievement> achievementsForPlayer(String playerId) {
+		if (playerId == null)
+			return Collections.emptyList();
+		try {
+			HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
+			HttpResponse<String> response =
+				sendWithFallback(requestBuilder, "/achievements?playerId=" + playerId);
+			if (response != null && response.statusCode() == 200) {
+				return List.of(MAPPER.readValue(response.body(), Achievement[].class));
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+	public static boolean joinTournament(final String tournamentId) {
+		try {
+			final ObjectNode jsonNode = MAPPER.createObjectNode();
+			jsonNode.put("tournamentId", tournamentId);
+			final String json = MAPPER.writeValueAsString(jsonNode);
+			final HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(TIMEOUT_DURATION);
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/join");
+			return response != null && response.statusCode() == 200;
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
+			exception.printStackTrace();
+		}
+		return false;
+	}
+	public static List<Player> participants(final String tournamentId) {
+		return fetch("/participants?id=" + tournamentId, Player[].class);
 	}
 
 

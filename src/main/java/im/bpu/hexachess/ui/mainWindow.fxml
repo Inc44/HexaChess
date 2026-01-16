@@ -9,15 +9,23 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml" alignment="top_left">
-	<VBox StackPane.alignment="top_right" alignment="top_right" managed="false" visible="false">
+	<VBox fx:id="devModeContainer" StackPane.alignment="top_right" alignment="top_right" managed="false" visible="false">
 		<Label fx:id="fontFamilyLabel" />
 		<Label fx:id="fontNameLabel" />
+		<Label fx:id="screenWidthLabel" />
+		<Label fx:id="screenHeightLabel" />
+		<Label fx:id="aspectRatioLabel" />
 	</VBox>
 	<VBox StackPane.alignment="center" alignment="center" onMouseClicked="#onBoardClicked">
-		<Canvas fx:id="canvas" width="666" height="666" />
+		<StackPane prefWidth="666" prefHeight="666">
+			<Canvas fx:id="canvas" width="666" height="666" />
+			<VBox fx:id="gameOverContainer" alignment="center" visible="false" managed="false">
+				<Label fx:id="gameOverLabel" styleClass="h2" textAlignment="CENTER" />
+			</VBox>
+		</StackPane>
 		<HBox alignment="center" spacing="16">
-			<Button fx:id="restartButton" text="Restart" onAction="#restart" />
-			<Button fx:id="rewindButton" text="Rewind" onAction="#rewind" />
+			<Button fx:id="restartButton" text="%main.restart" onAction="#restart" />
+			<Button fx:id="rewindButton" text="%main.rewind" onAction="#rewind" />
 		</HBox>
 	</VBox>
 	<Button fx:id="menuButton" StackPane.alignment="top_left" text="≡" onAction="#toggleSidebar" styleClass="menu-button" />
@@ -32,6 +40,7 @@
 				<Region fx:id="countryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
 			</HBox>
 			<Label fx:id="ratingLabel" />
+			<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
 		</VBox>
 	</HBox>
 	<HBox fx:id="opponentItem" StackPane.alignment="bottom_right" managed="false" spacing="12" visible="false" styleClass="player-info-box">
@@ -40,6 +49,7 @@
 				<Region fx:id="opponentCountryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
 				<Label fx:id="opponentHandleLabel" />
 			</HBox>
+			<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
 			<Label fx:id="opponentRatingLabel" />
 			<ProgressBar fx:id="opponentProgressBar" managed="false" visible="false" progress="0" />
 		</VBox>
@@ -48,10 +58,10 @@
 		</VBox>
 	</HBox>
 	<VBox fx:id="sidebar" managed="false" maxWidth="160" translateX="-160" visible="false" styleClass="sidebar">
-		<Button text="Search" onAction="#openSearch" styleClass="sidebar-item" />
-		<Button text="Profile" onAction="#openProfile" styleClass="sidebar-item" />
-		<Button text="Achievements" onAction="#openSettings" styleClass="sidebar-item" />
-		<Button text="Puzzles" onAction="#openSettings" styleClass="sidebar-item" />
-		<Button text="Tournaments" onAction="#openTournaments" styleClass="sidebar-item" />
+		<Button text="%main.search" onAction="#openSearch" styleClass="sidebar-item" />
+		<Button text="%main.profile" onAction="#openProfile" styleClass="sidebar-item" />
+		<Button text="%main.achievements" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="%main.puzzles" onAction="#openSettings" styleClass="sidebar-item" />
+		<Button text="%main.tournaments" onAction="#openTournaments" styleClass="sidebar-item" />
 	</VBox>
 </StackPane>

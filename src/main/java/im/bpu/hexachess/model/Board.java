@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Board {
 	private static final int[][] ROOK_DIRECTIONS = {
@@ -21,9 +22,9 @@ public class Board {
 	private static final int[][] KNIGHTS = {{3, 5}, {5, 3}};
 	private static final int[][] PAWNS = {
 		{1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {2, 1}, {3, 1}, {4, 1}, {5, 1}};
-	final Map<AxialCoordinate, Piece> pieces = new HashMap<>();
 	public boolean isWhiteTurn = true;
 	private AxialCoordinate enPassant;
+	final Map<AxialCoordinate, Piece> pieces = new HashMap<>();
 	public Board() {
 		placeSymmetricPieces(KINGS, PieceType.KING, PieceType.QUEEN);
 		placeSymmetricPieces(QUEENS, PieceType.QUEEN, PieceType.KING);
@@ -113,7 +114,7 @@ public class Board {
 			}
 		}
 	}
-	private List<Move> getMoves(final AxialCoordinate pos, final Piece piece) {
+	public List<Move> getMoves(final AxialCoordinate pos, final Piece piece) {
 		final List<Move> moves = new ArrayList<>();
 		switch (piece.type) {
 			case KING -> {
@@ -148,5 +149,80 @@ public class Board {
 			placePiece(pos[0], pos[1], whiteType, true);
 			placePiece(-pos[0], -pos[1], blackType, false);
 		}
+	}
+	// 1. Find the king position
+	public AxialCoordinate findKing(boolean isWhite) {
+		for (AxialCoordinate c : pieces.keySet()) {
+			Piece piece = pieces.get(c);
+			if (piece.isWhite == isWhite && piece.type == PieceType.KING) {
+				return c;
+			}
+		}
+		return null;
+	}
+	// 2. Is the square attacked by opponent pieces?
+	public boolean isSquareAttacked(AxialCoordinate target, boolean byWhite) {
+		for (AxialCoordinate c : pieces.keySet()) {
+			Piece piece = pieces.get(c);
+			if (piece.isWhite == byWhite) {
+				List<Move> moves = getMoves(c, piece);
+				for (Move m : moves) {
+					if (m.to.equals(target)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public boolean wouldResultInCheck(Move move) {
+		Board tempBoard = new Board(this);
+		tempBoard.movePiece(move.from, move.to);
+		boolean amIWhite = pieces.get(move.from).isWhite;
+		AxialCoordinate myKingPos = tempBoard.findKing(amIWhite);
+		return tempBoard.isSquareAttacked(myKingPos, !amIWhite);
+	}
+	public boolean isInCheck(boolean isWhite) {
+		AxialCoordinate kingPos = null;
+		for (Map.Entry<AxialCoordinate, Piece> entry : pieces.entrySet()) {
+			if (entry.getValue().type == PieceType.KING && entry.getValue().isWhite == isWhite) {
+				kingPos = entry.getKey();
+				break;
+			}
+		}
+		if (kingPos == null)
+			return false;
+		for (Map.Entry<AxialCoordinate, Piece> entry : pieces.entrySet()) {
+			if (entry.getValue().isWhite != isWhite) {
+				for (Move move : getMoves(entry.getKey(), entry.getValue())) {
+					if (move.to.equals(kingPos))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+	public boolean hasLegalMoves(final boolean isWhite) {
+		final List<Move> moves = listMoves(isWhite);
+		for (final Move move : moves) {
+			final Board clone = new Board(this);
+			clone.movePiece(move.from, move.to);
+			if (!clone.isInCheck(isWhite))
+				return true;
+		}
+		return false;
+	}
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof final Board other))
+			return false;
+		return isWhiteTurn == other.isWhiteTurn && Objects.equals(enPassant, other.enPassant)
+			&& pieces.equals(other.pieces);
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(isWhiteTurn, enPassant, pieces);
 	}
 }

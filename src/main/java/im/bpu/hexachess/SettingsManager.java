@@ -6,6 +6,9 @@ public class SettingsManager {
 	private static final Preferences PREFERENCES =
 		Preferences.userNodeForPackage(SettingsManager.class);
 	public static int maxDepth = PREFERENCES.getInt("maxDepth", 3);
+	public static double volume = PREFERENCES.getDouble("volume", 1.0);
+	public static String theme = PREFERENCES.get("theme", "Light");
+	public static String language = PREFERENCES.get("language", "English");
 	public static String playerId = PREFERENCES.get("playerId", null);
 	public static String userHandle = PREFERENCES.get("userHandle", null);
 	public static String authToken = PREFERENCES.get("authToken", null);
@@ -13,6 +16,24 @@ public class SettingsManager {
 		if (maxDepth != value) {
 			maxDepth = value;
 			PREFERENCES.putInt("maxDepth", value);
+		}
+	}
+	public static void setVolume(double value) {
+		if (volume != value) {
+			volume = value;
+			PREFERENCES.putDouble("volume", value);
+		}
+	}
+	public static void setTheme(String value) {
+		if (!theme.equals(value)) {
+			theme = value;
+			PREFERENCES.put("theme", value);
+		}
+	}
+	public static void setLanguage(String value) {
+		if (!language.equals(value)) {
+			language = value;
+			PREFERENCES.put("language", value);
 		}
 	}
 	public static void setPlayerId(String value) {
