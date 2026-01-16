@@ -40,6 +40,7 @@
 				<Region fx:id="countryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
 			</HBox>
 			<Label fx:id="ratingLabel" />
+			<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
 		</VBox>
 	</HBox>
 	<HBox fx:id="opponentItem" StackPane.alignment="bottom_right" managed="false" spacing="12" visible="false" styleClass="player-info-box">
@@ -48,6 +49,7 @@
 				<Region fx:id="opponentCountryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
 				<Label fx:id="opponentHandleLabel" />
 			</HBox>
+			<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
 			<Label fx:id="opponentRatingLabel" />
 			<ProgressBar fx:id="opponentProgressBar" managed="false" visible="false" progress="0" />
 		</VBox>

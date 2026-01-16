@@ -9,6 +9,7 @@ import im.bpu.hexachess.model.AxialCoordinate;
 import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 import im.bpu.hexachess.model.Piece;
+import im.bpu.hexachess.model.PieceType;
 import im.bpu.hexachess.network.API;
 
 import java.util.ArrayList;
@@ -67,11 +68,29 @@ public class HexPanel {
 		repaint();
 	}
 	private void drawBoard(final GraphicsContext gc, final double cx, final double cy) {
+
+        AxialCoordinate kingInCheck = null;
+        
+		try {
+
+            AxialCoordinate whiteKing = state.board.findKing(true);
+            if (whiteKing != null && state.board.isSquareAttacked(whiteKing, false)) {
+                kingInCheck = whiteKing;
+            }
+
+            if (kingInCheck == null) { 
+                AxialCoordinate blackKing = state.board.findKing(false);
+                if (blackKing != null && state.board.isSquareAttacked(blackKing, true)) {
+                    kingInCheck = blackKing;
+                }
+            }
+        } catch (Exception e) {
+        }
 		for (int q = -5; q <= 5; q++)
 			for (int r = -5; r <= 5; r++) {
 				final AxialCoordinate coord = new AxialCoordinate(q, r);
 				if (coord.isValid())
-					renderer.drawHex(gc, cx, cy, coord, selected, highlighted);
+					renderer.drawHex(gc, cx, cy, coord, selected, highlighted, kingInCheck);
 			}
 	}
 	public void repaint() {
@@ -124,9 +143,20 @@ public class HexPanel {
 	private void executeMove(final AxialCoordinate target) {
 		if (isLockedIn || isGameOver)
 			return;
+		if(state.history.isEmpty()){
+			Thread.ofVirtual().start(() -> API.unlockAchievement("ACH_0000001"));
+			System.out.println("Achievement: First step unlocked!");
+		}
+		Piece pieceBeforeMove = state.board.getPiece(selected);
+		boolean wasPawn = (pieceBeforeMove != null && pieceBeforeMove.type == PieceType.PAWN);
 		final String moveString = selected.q + "," + selected.r + "->" + target.q + "," + target.r;
 		state.history.push(new Board(state.board));
 		state.board.movePiece(selected, target);
+		Piece pieceAfterMove = state.board.getPiece(target);
+		if (wasPawn && pieceAfterMove != null && pieceAfterMove.type == PieceType.QUEEN){
+			Thread.ofVirtual().start(() -> API.unlockAchievement("ACH_0000006"));
+			System.out.println("Achievement: Promotion Royal unlocked!");
+		}
 		deselect();
 		checkGameOver();
 		if (isGameOver)
@@ -190,11 +220,26 @@ public class HexPanel {
 		});
 	}
 	private void selectPiece(final AxialCoordinate coord) {
-		selected = coord;
-		highlighted.clear();
-		for (final Move move : state.board.listMoves(state.board.isWhiteTurn))
-			if (move.from.equals(coord))
-				highlighted.add(move.to);
+		if (isLockedIn) return;
+
+        Piece p = state.board.getPiece(coord);
+        if (p == null || p.isWhite != state.board.isWhiteTurn) return;
+        if (state.isMultiplayer && p.isWhite != state.isWhitePlayer) return;
+
+        selected = coord;
+
+        ArrayList<AxialCoordinate> rawMoves = p.getPossibleMoves(state.board, coord);
+        
+        highlighted.clear(); 
+
+        for (AxialCoordinate target : rawMoves) {
+            Move moveToCheck = new Move(selected, target);
+
+            if (!state.board.wouldResultInCheck(moveToCheck)) {
+                highlighted.add(target);
+            }
+        }
+
 		repaint();
 	}
 	private void handleMouseClick(final double x, final double y) {

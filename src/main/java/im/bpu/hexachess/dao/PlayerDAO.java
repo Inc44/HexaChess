@@ -1,13 +1,13 @@
 package im.bpu.hexachess.dao;
 
 import im.bpu.hexachess.entity.Player;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDAO extends DAO<Player> {
 	private static final String CREATE =
@@ -158,5 +158,24 @@ public class PlayerDAO extends DAO<Player> {
 			exception.printStackTrace();
 		}
 		return false;
+	}
+
+	public List<Player> getLeaderboard() {
+    	List<Player> players = new ArrayList<>();
+		 String sql = "SELECT handle, rating FROM players ORDER BY rating DESC LIMIT 50";
+
+    	try (PreparedStatement stmt = connect.prepareStatement(sql);
+         	ResultSet rs = stmt.executeQuery()) {
+
+        	while (rs.next()) {
+            	Player p = new Player();
+            	p.setHandle(rs.getString("handle"));
+            	p.setRating(rs.getInt("rating"));
+            	players.add(p);
+        	}
+    	} catch (SQLException e) {
+        e.printStackTrace();
+    	}
+    	return players;
 	}
 }

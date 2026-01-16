@@ -55,11 +55,13 @@ public class Server {
 		server.createContext("/api/settings", new SettingsHandler());
 		server.createContext("/api/search", new SearchHandler());
 		server.createContext("/api/profile", new ProfileHandler());
+		server.createContext("/api/leaderboard", new LeaderboardHandler());
 		server.createContext("/api/achievements", new AchievementsHandler());
 		server.createContext("/api/puzzles", new PuzzlesHandler());
 		server.createContext("/api/tournaments", new TournamentsHandler());
 		server.createContext("/api/challenge", new ChallengeHandler());
 		server.createContext("/api/sync", new SyncHandler());
+		server.createContext("/api/unlock", new UnlockHandler());
 		server.createContext("/api/join", new JoinHandler());
 		server.setExecutor(Executors.newCachedThreadPool());
 		server.start();
@@ -310,6 +312,16 @@ public class Server {
 				return;
 			}
 			try {
+				String query = exchange.getRequestURI().getQuery();
+				AchievementDAO achievementDAO = new AchievementDAO();
+				List<Achievement> achievements;
+				if (query != null && query.contains("playerId=")) {
+					String playerId = query.split("playerId=")[1];
+					achievements = achievementDAO.readAllForPlayer(playerId);
+				} else {
+					achievements = achievementDAO.readAll();
+				}
+				String response = MAPPER.writeValueAsString(achievements);
 				final AchievementDAO achievementDAO = new AchievementDAO();
 				final List<Achievement> achievements = achievementDAO.readAll();
 				final String response = MAPPER.writeValueAsString(achievements);
@@ -473,6 +485,58 @@ public class Server {
 		exchange.sendResponseHeaders(statusCode, bytes.length);
 		try (final OutputStream os = exchange.getResponseBody()) {
 			os.write(bytes);
+		}
+	}
+	static class UnlockHandler implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+				sendResponse(exchange, 405, "Method Not Allowed");
+				return;
+			}
+			String handle = auth(exchange);
+			if (handle == null) {
+				sendResponse(exchange, 401, "Unauthorized");
+				return;
+			}
+			try {
+				ObjectNode jsonNode = MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
+				if (jsonNode == null || !jsonNode.has("playerId")
+					|| !jsonNode.has("achievementId")) {
+					sendResponse(exchange, 400, "Bad Request: Missing IDs");
+					return;
+				}
+				String playerId = jsonNode.get("playerId").asText();
+				String achievementId = jsonNode.get("achievementId").asText();
+				AchievementDAO dao = new AchievementDAO();
+				dao.unlock(playerId, achievementId);
+				System.out.println("Succès débloqué pour " + handle + " : " + achievementId);
+				sendResponse(exchange, 200, "OK");
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				sendResponse(exchange, 500, "Internal Server Error");
+			}
+		}
+	}
+	static class LeaderboardHandler implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+				sendResponse(exchange, 405, "Method Not Allowed");
+				return;
+			}
+			try {
+				PlayerDAO playerDAO = new PlayerDAO();
+				List<Player> players = playerDAO.getLeaderboard();
+				for (Player player : players) {
+					player.setPasswordHash(null);
+				}
+				String response = MAPPER.writeValueAsString(players);
+				sendResponse(exchange, 200, response);
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				sendResponse(exchange, 500, "Internal Server Error");
+			}
 		}
 	}
 }
