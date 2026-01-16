@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" 
+      alignment="center" spacing="20" styleClass="main-container">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <Label text="Edit Profile" styleClass="h2"/>
+
+    <VBox spacing="10" maxWidth="400" alignment="CENTER">
+        <Label text="Email Address"/>
+        <TextField fx:id="emailField" />
+        
+        <Label text="Location / Country Code (ex: fr, us, jp)"/>
+        <TextField fx:id="locationField" />
+        
+        <Label text="Avatar URL (Image Link)"/>
+        <TextField fx:id="avatarField" promptText="https://example.com/image.png"/>
+        
+        <Label text="New Password (Leave empty to keep)"/>
+        <PasswordField fx:id="newPasswordField" />
+        
+        <Label text="Current Password (Required to save)" style="-fx-font-weight: bold;"/>
+        <PasswordField fx:id="currentPasswordField" />
+    </VBox>
+
+    <Label fx:id="statusLabel" managed="false" visible="false" styleClass="text-danger"/>
+
+    <Button text="Save Changes" onAction="#handleSave" 
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white;" 
+            prefWidth="200" prefHeight="40"/>
+            
+    <Button fx:id="backButton" text="Cancel" onAction="#handleCancel" prefWidth="200"/>
+</VBox>
