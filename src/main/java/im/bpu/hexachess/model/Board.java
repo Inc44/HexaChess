@@ -23,8 +23,8 @@ public class Board {
 	private static final int[][] PAWNS = {
 		{1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {2, 1}, {3, 1}, {4, 1}, {5, 1}};
 	public boolean isWhiteTurn = true;
-	private AxialCoordinate enPassant;
-	final Map<AxialCoordinate, Piece> pieces = new HashMap<>();
+	public AxialCoordinate enPassant;
+	public final Map<AxialCoordinate, Piece> pieces = new HashMap<>();
 	public Board() {
 		placeSymmetricPieces(KINGS, PieceType.KING, PieceType.QUEEN);
 		placeSymmetricPieces(QUEENS, PieceType.QUEEN, PieceType.KING);

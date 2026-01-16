@@ -27,8 +27,7 @@ public class ParticipantsWindow {
 		}
 		titleLabel.setText("Participants: " + targetTournament.getName());
 		Thread.ofVirtual().start(() -> {
-			List<Player> players =
-				API.getTournamentParticipants(targetTournament.getTournamentId());
+			List<Player> players = API.participants(targetTournament.getTournamentId());
 			Platform.runLater(() -> {
 				listContainer.getChildren().clear();
 				if (players.isEmpty()) {
@@ -52,7 +51,7 @@ public class ParticipantsWindow {
 	}
 	@FXML
 	private void handleBack() {
-		TournamentWindow.targetTournament = this.targetTournament;
+		TournamentWindow.targetTournament = targetTournament;
 		loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}
 }

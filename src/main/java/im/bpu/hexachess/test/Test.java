@@ -17,7 +17,6 @@ import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 import im.bpu.hexachess.model.Piece;
 import im.bpu.hexachess.model.PieceType;
-import im.bpu.hexachess.network.API;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -31,8 +30,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 public class Test {
 	private static int passedTests = 0;
