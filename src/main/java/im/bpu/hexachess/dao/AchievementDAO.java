@@ -16,6 +16,10 @@ public class AchievementDAO extends DAO<Achievement> {
 	private static final String DELETE = "DELETE FROM achievements WHERE achievement_id = ?";
 	private static final String READ = "SELECT * FROM achievements WHERE achievement_id = ?";
 	private static final String READ_ALL = "SELECT * FROM achievements";
+	private static final String READ_ALL_FOR_PLAYER =
+		"SELECT a.achievement_id, a.name, a.description, CASE WHEN pa.player_id IS NOT NULL THEN "
+		+ "TRUE ELSE FALSE END AS unlocked FROM achievements a LEFT JOIN player_achievements pa ON "
+		+ "a.achievement_id = pa.achievement_id AND pa.player_id = ? ORDER BY a.name ";
 	@Override
 	public Achievement create(Achievement achievement) {
 		try (PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
@@ -93,15 +97,7 @@ public class AchievementDAO extends DAO<Achievement> {
 	}
 	public ArrayList<Achievement> readAllForPlayer(String playerId) {
 		ArrayList<Achievement> achievements = new ArrayList<>();
-		String sql = "" "
-					 SELECT a.achievement_id,
-			   a.name, a.description,
-			   CASE WHEN
-				   pa.player_id IS NOT NULL THEN TRUE ELSE FALSE END AS unlocked FROM achievements a
-					   LEFT JOIN player_achievements pa ON a.achievement_id =
-				   pa.achievement_id AND pa.player_id =
-					   ? ORDER BY a.name "" ";
-						 try (PreparedStatement pstmt = connect.prepareStatement(sql)) {
+		try (PreparedStatement pstmt = connect.prepareStatement(READ_ALL_FOR_PLAYER)) {
 			pstmt.setString(1, playerId);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {

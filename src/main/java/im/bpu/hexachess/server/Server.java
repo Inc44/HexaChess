@@ -316,17 +316,14 @@ public class Server {
 			}
 			try {
 				String query = exchange.getRequestURI().getQuery();
-				AchievementDAO achievementDAO = new AchievementDAO();
-				List<Achievement> achievements;
+				final AchievementDAO achievementDAO = new AchievementDAO();
+				final List<Achievement> achievements;
 				if (query != null && query.contains("playerId=")) {
 					String playerId = query.split("playerId=")[1];
 					achievements = achievementDAO.readAllForPlayer(playerId);
 				} else {
 					achievements = achievementDAO.readAll();
 				}
-				String response = MAPPER.writeValueAsString(achievements);
-				final AchievementDAO achievementDAO = new AchievementDAO();
-				final List<Achievement> achievements = achievementDAO.readAll();
 				final String response = MAPPER.writeValueAsString(achievements);
 				sendResponse(exchange, 200, response);
 			} catch (final Exception exception) {

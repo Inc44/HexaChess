@@ -6,8 +6,6 @@ import im.bpu.hexachess.network.API;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -100,7 +98,7 @@ public class ProfileWindow {
 	}
 	@FXML
 	private void openEditProfile() {
-		loadWindow("ui/editProfileWindow.fxml", new EditProfileWindow(), backButton);
+		// loadWindow("ui/editProfileWindow.fxml", new EditProfileWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
