@@ -7,7 +7,7 @@ public class SoundManager {
 	private static final String CLICK_URL =
 		"/sounds/mixkit-quick-win-video-game-notification-269.wav";
 	private static final AudioClip CLICK = loadClick(CLICK_URL);
-	private static final double SCALING_FACTOR = 9.0;
+	// private static final double SCALING_FACTOR = 9.0;
 	private static AudioClip loadClick(final String path) {
 		final URL resource = SoundManager.class.getResource(path);
 		if (resource == null) {
@@ -16,7 +16,9 @@ public class SoundManager {
 		return new AudioClip(resource.toString());
 	}
 	private static double calculatePerceivedVolume(double sliderValue) {
-		return Math.log10(1 + SCALING_FACTOR * sliderValue); // log10(1) = 0 to log10(10) = 1
+		// grows too quickly at low slider values
+		// return Math.log10(1 + SCALING_FACTOR * sliderValue); // log10(1) = 0 to log10(10) = 1
+		return Math.pow(10, 3 * (sliderValue - 1)); // 10^(3*(0-1))=0.001 to 10^(3*(1-1))=1
 	}
 	public static void playClick() {
 		if (CLICK == null) {
