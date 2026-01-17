@@ -28,8 +28,8 @@
 			<Button fx:id="rewindButton" text="%main.rewind" onAction="#rewind" />
 		</HBox>
 	</VBox>
-	<Button fx:id="menuButton" StackPane.alignment="top_left" text="≡" onAction="#toggleSidebar" styleClass="menu-button" />
-	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="⋮" onAction="#openHelpSettings" styleClass="settings-help-button" />
+	<Button fx:id="menuButton" StackPane.alignment="top_left" text="%menu.icon" onAction="#toggleSidebar" styleClass="menu-button" />
+	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="%settings.icon" onAction="#openHelpSettings" styleClass="settings-help-button" />
 	<HBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false" styleClass="player-info-box">
 		<VBox styleClass="avatar-container">
 			<ImageView fx:id="avatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />

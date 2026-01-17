@@ -15,7 +15,6 @@ import static im.bpu.hexachess.Main.loadWindow;
 
 public class LeaderboardWindow {
 	@FXML private VBox listContainer;
-	@FXML private VBox root;
 	@FXML
 	public void initialize() {
 		Thread.ofVirtual().start(() -> {
@@ -41,6 +40,6 @@ public class LeaderboardWindow {
 	}
 	@FXML
 	private void goBack() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), root);
+		loadWindow("ui/mainWindow.fxml", new MainWindow(), listContainer);
 	}
 }

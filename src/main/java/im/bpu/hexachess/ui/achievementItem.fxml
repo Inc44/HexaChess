@@ -6,6 +6,6 @@
 	<Label fx:id="nameLabel" styleClass="h2" minWidth="250" text="%achievement.item.name" />
 	<VBox spacing="4" HBox.hgrow="ALWAYS">
 		<Label fx:id="descriptionLabel" text="%achievement.item.description" wrapText="true" style="-fx-font-size: 14px;" />
-		<Label fx:id="statusLabel" text="%achievements.locked 🔒" styleClass="text-danger" style="-fx-font-size: 12px;" />
+		<Label fx:id="statusLabel" text="%achievements.locked" styleClass="text-danger" style="-fx-font-size: 12px;" />
 	</VBox>
 </HBox>
