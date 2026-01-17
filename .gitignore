@@ -1,6 +1,7 @@
 *.obj
 *.res
 .env
+.gradle
 bin
 lib
 target

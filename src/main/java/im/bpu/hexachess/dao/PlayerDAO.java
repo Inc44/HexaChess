@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerDAO extends DAO<Player> {
 	private static final String CREATE =
@@ -24,8 +23,9 @@ public class PlayerDAO extends DAO<Player> {
 	private static final String SEARCH_PLAYERS = "SELECT * FROM players WHERE handle LIKE ?";
 	private static final String UPDATE_PASSWORD =
 		"UPDATE players SET password_hash = ? WHERE handle = ?";
-	private static final String CHECK_PASSWORD =
-		"SELECT password_hash FROM players WHERE handle = ?";
+	private static final String CHECK_PASSWORD = "SELECT * FROM players WHERE handle = ?";
+	private static final String GET_LEADERBOARD =
+		"SELECT * FROM players ORDER BY rating DESC LIMIT 50";
 	@Override
 	public Player create(final Player player) {
 		try (final PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
@@ -144,15 +144,17 @@ public class PlayerDAO extends DAO<Player> {
 			return pstmt.executeUpdate() > 0;
 		} catch (final SQLException exception) {
 			exception.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 	public boolean checkPassword(final String handle, final String password) {
+		Player player = null;
 		try (final PreparedStatement pstmt = connect.prepareStatement(CHECK_PASSWORD)) {
 			pstmt.setString(1, handle);
 			try (final ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					return rs.getString("password_hash").equals(password);
+					player = resultSetToPlayer(rs);
+					return player.getPasswordHash().equals(password);
 				}
 			}
 		} catch (final SQLException exception) {
@@ -160,18 +162,14 @@ public class PlayerDAO extends DAO<Player> {
 		}
 		return false;
 	}
-	public List<Player> getLeaderboard() {
-		List<Player> players = new ArrayList<>();
-		String sql = "SELECT handle, rating FROM players ORDER BY rating DESC LIMIT 50";
-		try (PreparedStatement stmt = connect.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery()) {
+	public ArrayList<Player> getLeaderboard() {
+		final ArrayList<Player> players = new ArrayList<>();
+		try (final Statement stmt = connect.createStatement();
+			final ResultSet rs = stmt.executeQuery(GET_LEADERBOARD)) {
 			while (rs.next()) {
-				Player player = new Player();
-				player.setHandle(rs.getString("handle"));
-				player.setRating(rs.getInt("rating"));
-				players.add(player);
+				players.add(resultSetToPlayer(rs));
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return players;

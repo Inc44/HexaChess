@@ -40,13 +40,13 @@ public class Test {
 	private static int passedTests = 0;
 	private static int failedTests = 0;
 	private static final List<String> failures = new ArrayList<>();
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		System.out.println("=== HexaChess Test Suite ===\n");
 		// Initialiser JavaFX pour les tests UI
 		try {
 			new JFXPanel();
 			Platform.runLater(() -> {});
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			System.err.println(
 				"Note: JavaFX initialization failed or already initialized (continuing...)");
 		}
@@ -93,11 +93,11 @@ public class Test {
 	// ============ Tests Logique du Jeu ============
 	private static void testBoardInitialization() {
 		try {
-			Board board = new Board();
+			final Board board = new Board();
 			// Vérifier que toutes les pièces sont placées
 			int whitePieces = 0;
 			int blackPieces = 0;
-			for (Piece piece : board.pieces.values()) {
+			for (final Piece piece : board.pieces.values()) {
 				if (piece.isWhite)
 					whitePieces++;
 				else
@@ -108,17 +108,17 @@ public class Test {
 			// Vérifier que c'est au tour des blancs
 			assert board.isWhiteTurn : "White should start";
 			pass("Board initialization");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Board initialization", exception.getMessage());
 		}
 	}
 	private static void testPieceMovement() {
 		try {
-			Board board = new Board();
+			final Board board = new Board();
 			// Déplacer un pion blanc
-			AxialCoordinate from = new AxialCoordinate(1, 1);
-			AxialCoordinate to = new AxialCoordinate(0, 0);
-			Piece piece = board.getPiece(from);
+			final AxialCoordinate from = new AxialCoordinate(1, 1);
+			final AxialCoordinate to = new AxialCoordinate(0, 0);
+			final Piece piece = board.getPiece(from);
 			assert piece != null : "Piece should exist at starting position";
 			assert piece.type == PieceType.PAWN : "Piece should be a pawn";
 			board.movePiece(from, to);
@@ -126,18 +126,18 @@ public class Test {
 			assert board.getPiece(to) != null : "Target position should have piece";
 			assert !board.isWhiteTurn : "Turn should switch to black";
 			pass("Piece movement");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Piece movement", exception.getMessage());
 		}
 	}
 	private static void testPawnMovement() {
 		try {
-			Board board = new Board();
+			final Board board = new Board();
 			// Test mouvement simple du pion
-			AxialCoordinate pawnPos = new AxialCoordinate(1, 1);
-			List<Move> moves = board.listMoves(true);
+			final AxialCoordinate pawnPos = new AxialCoordinate(1, 1);
+			final List<Move> moves = board.listMoves(true);
 			boolean canMoveForward = false;
-			for (Move move : moves) {
+			for (final Move move : moves) {
 				if (move.from.equals(pawnPos)) {
 					canMoveForward = true;
 					break;
@@ -145,273 +145,274 @@ public class Test {
 			}
 			assert canMoveForward : "Pawn should be able to move";
 			pass("Pawn movement");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Pawn movement", exception.getMessage());
 		}
 	}
 	private static void testEnPassant() {
 		try {
-			Board board = new Board();
+			final Board board = new Board();
 			assert board.enPassant == null : "enPassant should be null initially";
 			pass("En passant initialization");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("En passant", exception.getMessage());
 		}
 	}
 	private static void testPromotion() {
 		try {
-			Board board = new Board();
+			final Board board = new Board();
 			// Placer un pion blanc en position de promotion
-			AxialCoordinate promotionPos = new AxialCoordinate(-5, 4);
-			Piece pawn = new Piece(PieceType.PAWN, true);
+			final AxialCoordinate promotionPos = new AxialCoordinate(-5, 4);
+			final Piece pawn = new Piece(PieceType.PAWN, true);
 			board.pieces.put(promotionPos, pawn);
 			// Déplacer vers case de promotion
-			AxialCoordinate targetPos = new AxialCoordinate(-5, 3);
+			final AxialCoordinate targetPos = new AxialCoordinate(-5, 3);
 			board.movePiece(promotionPos, targetPos);
-			Piece promoted = board.getPiece(targetPos);
+			final Piece promoted = board.getPiece(targetPos);
 			assert promoted.type == PieceType.QUEEN : "Pawn should be promoted to queen";
 			pass("Pawn promotion");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Pawn promotion", exception.getMessage());
 		}
 	}
 	private static void testCheckValidMoves() {
 		try {
-			Board board = new Board();
-			List<Move> whiteMoves = board.listMoves(true);
-			List<Move> blackMoves = board.listMoves(false);
+			final Board board = new Board();
+			final List<Move> whiteMoves = board.listMoves(true);
+			final List<Move> blackMoves = board.listMoves(false);
 			assert !whiteMoves.isEmpty() : "White should have legal moves";
 			assert !blackMoves.isEmpty() : "Black should have legal moves";
 			pass("Valid moves generation");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Valid moves generation", exception.getMessage());
 		}
 	}
 	private static void testMoveGeneration() {
 		try {
-			Board board = new Board();
-			List<Move> initialMoves = board.listMoves(true);
+			final Board board = new Board();
+			final List<Move> initialMoves = board.listMoves(true);
 			assert initialMoves.size() > 0 : "Should have moves at start";
 			pass("Move generation count");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Move generation", exception.getMessage());
 		}
 	}
 	private static void testSoundManagerLogic() {
 		try {
 			// Test de la formule logarithmique de volume via réflexion car la méthode est privée
-			Method calcMethod =
+			final Method calcMethod =
 				SoundManager.class.getDeclaredMethod("calculatePerceivedVolume", double.class);
 			calcMethod.setAccessible(true);
-			double vol0 = (double) calcMethod.invoke(null, 0.0);
-			double vol1 = (double) calcMethod.invoke(null, 1.0);
+			final double vol0 = (double) calcMethod.invoke(null, 0.0);
+			final double vol1 = (double) calcMethod.invoke(null, 1.0);
 			assert vol0 < vol1 : "Volume should increase with slider value";
 			assert vol0 >= 0.0 && vol1 <= 1.0 : "Volume must be bounded";
 			pass("SoundManager volume logic");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			// Si SoundManager n'est pas trouvable ou erreur de réflexion
 			fail("SoundManager logic", exception.getMessage());
 		}
 	}
 	private static void testIllegalMoveCheck() {
 		try {
-			Board board = new Board();
+			final Board board = new Board();
 			// On vide le plateau pour un scénario précis
 			board.pieces.clear();
 			// Scénario : Roi blanc en (0,0), Tour noire en (0,5) qui l'attaque
 			// Le Roi ne devrait pas pouvoir aller en (0,1) car toujours sur la ligne de la tour
-			AxialCoordinate kingPos = new AxialCoordinate(0, 0);
-			AxialCoordinate rookPos = new AxialCoordinate(0, 4); // Tour en ligne droite
+			final AxialCoordinate kingPos = new AxialCoordinate(0, 0);
+			final AxialCoordinate rookPos = new AxialCoordinate(0, 4); // Tour en ligne droite
 			board.pieces.put(kingPos, new Piece(PieceType.KING, true));
 			board.pieces.put(rookPos, new Piece(PieceType.ROOK, false));
 			// Vérifier que le système détecte l'échec si on bouge
-			Move illegalMove = new Move(kingPos, new AxialCoordinate(0, 1));
-			// wouldResultInCheck renvoie true si le coup met le roi en danger
-			assert board.wouldResultInCheck(illegalMove)
+			final Move illegalMove = new Move(kingPos, new AxialCoordinate(0, 1));
+			// isMoveIntoCheck renvoie true si le coup met le roi en danger
+			assert board.isMoveIntoCheck(illegalMove, true)
 				: "Move exposing King to check should be detected as dangerous";
 			pass("Illegal move detection (Check)");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Illegal move detection", exception.getMessage());
 		}
 	}
 	// ============ Tests Coordonnées ============
 	private static void testAxialCoordinates() {
 		try {
-			AxialCoordinate coord = new AxialCoordinate(0, 0);
+			final AxialCoordinate coord = new AxialCoordinate(0, 0);
 			assert coord.q == 0 : "Q should be 0";
 			assert coord.r == 0 : "R should be 0";
-			AxialCoordinate sum = coord.add(1, 1);
+			final AxialCoordinate sum = coord.add(1, 1);
 			assert sum.q == 1 && sum.r == 1 : "Addition failed";
-			AxialCoordinate invalid = new AxialCoordinate(10, 10);
+			final AxialCoordinate invalid = new AxialCoordinate(10, 10);
 			assert !invalid.isValid() : "Should be invalid";
-			AxialCoordinate valid = new AxialCoordinate(0, 0);
+			final AxialCoordinate valid = new AxialCoordinate(0, 0);
 			assert valid.isValid() : "Should be valid";
 			pass("Axial coordinates");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Axial coordinates", exception.getMessage());
 		}
 	}
 	// ============ Tests IA ============
 	private static void testAIInitialization() {
 		try {
-			AI ai = new AI();
+			final AI ai = new AI();
 			ai.setMaxDepth(3);
 			pass("AI initialization");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("AI initialization", exception.getMessage());
 		}
 	}
 	private static void testAIEvaluation() {
 		try {
-			AI ai = new AI();
+			final AI ai = new AI();
 			ai.setMaxDepth(1);
-			Board board = new Board();
-			Move bestMove = ai.getBestMove(board, progress -> {});
+			final Board board = new Board();
+			final Move bestMove = ai.getBestMove(board, progress -> {});
 			assert bestMove != null : "AI should find a move";
 			pass("AI evaluation");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("AI evaluation", exception.getMessage());
 		}
 	}
 	// ============ Tests Entités ============
 	private static void testPlayerEntity() {
 		try {
-			Player player = new Player("testId123", "testHandle", "test@example.com", "hash", 1200,
-				false, LocalDateTime.now());
+			final Player player = new Player("testId123", "testHandle", "test@example.com", "hash",
+				1200, false, LocalDateTime.now());
 			assert player.getPlayerId().equals("testId123") : "Player ID mismatch";
 			pass("Player entity");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Player entity", exception.getMessage());
 		}
 	}
 	private static void testGameEntity() {
 		try {
-			Game game = new Game(
+			final Game game = new Game(
 				"gameId123", "whiteId", "blackId", null, null, "", LocalDateTime.now(), null, null);
 			assert game.getGameId().equals("gameId123") : "Game ID mismatch";
 			pass("Game entity");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Game entity", exception.getMessage());
 		}
 	}
 	private static void testTournamentEntity() {
 		try {
-			Tournament tournament =
+			final Tournament tournament =
 				new Tournament("tournId123", "Test", "Desc", LocalDateTime.now(), null, null);
 			assert tournament.getTournamentId().equals("tournId123") : "Tournament ID mismatch";
 			pass("Tournament entity");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Tournament entity", exception.getMessage());
 		}
 	}
 	private static void testPuzzleEntity() {
 		try {
-			Puzzle puzzle = new Puzzle("pid123", "m", "s", 1500, "t", LocalDateTime.now());
+			final Puzzle puzzle = new Puzzle("pid123", "m", "s", 1500, "t", LocalDateTime.now());
 			assert puzzle.getPuzzleId().equals("pid123") : "Puzzle ID mismatch";
 			pass("Puzzle entity");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Puzzle entity", exception.getMessage());
 		}
 	}
 	private static void testSettingsEntity() {
 		try {
-			Settings settings = new Settings("pid123", "dark", true, false, 3);
+			final Settings settings = new Settings("pid123", "dark", true, false, 3);
 			assert settings.getPlayerId().equals("pid123") : "Player ID mismatch";
 			pass("Settings entity");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("Settings entity", exception.getMessage());
 		}
 	}
 	// ============ Tests DAO ============
 	private static void testPlayerDAO() {
 		try {
-			PlayerDAO playerDAO = new PlayerDAO();
-			Player player =
+			final PlayerDAO playerDAO = new PlayerDAO();
+			final Player player =
 				new Player("testDAO123", "h", "e@e.com", "pw", 1200, false, LocalDateTime.now());
 			playerDAO.create(player);
 			assert playerDAO.read("testDAO123") != null : "Player read failed";
 			playerDAO.delete(player);
 			pass("PlayerDAO CRUD operations");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("PlayerDAO", exception.getMessage() + " (DB unavailable?)");
 		}
 	}
 	private static void testGameDAO() {
 		try {
-			GameDAO gameDAO = new GameDAO();
-			Game game =
+			final GameDAO gameDAO = new GameDAO();
+			final Game game =
 				new Game("testGameDAO", "1", "2", null, null, "", LocalDateTime.now(), null, null);
 			gameDAO.create(game);
 			assert gameDAO.read("testGameDAO") != null : "Game read failed";
 			gameDAO.delete(game);
 			pass("GameDAO CRUD operations");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("GameDAO", exception.getMessage() + " (DB unavailable?)");
 		}
 	}
 	private static void testTournamentDAO() {
 		try {
-			TournamentDAO tournamentDAO = new TournamentDAO();
-			Tournament tournament =
+			final TournamentDAO tournamentDAO = new TournamentDAO();
+			final Tournament tournament =
 				new Tournament("testTournDAO", "N", "D", LocalDateTime.now(), null, null);
 			tournamentDAO.create(tournament);
 			assert tournamentDAO.read("testTournDAO") != null : "Tournament read failed";
 			tournamentDAO.delete(tournament);
 			pass("TournamentDAO CRUD operations");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("TournamentDAO", exception.getMessage() + " (DB unavailable?)");
 		}
 	}
 	private static void testSettingsDAO() {
 		try {
-			SettingsDAO settingsDAO = new SettingsDAO();
-			Settings settings = new Settings("00000000001", "d", true, false, 3);
+			final SettingsDAO settingsDAO = new SettingsDAO();
+			final Settings settings = new Settings("00000000001", "d", true, false, 3);
 			settingsDAO.create(settings);
 			assert settingsDAO.read("00000000001") != null : "Settings read failed";
 			settingsDAO.delete(settings);
 			pass("SettingsDAO CRUD operations");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("SettingsDAO", exception.getMessage() + " (DB unavailable?)");
 		}
 	}
 	private static void testAchievementDAO() {
 		try {
-			AchievementDAO achievementDAO = new AchievementDAO();
-			Achievement achievement = new Achievement("TEST_ACH_001", "Test Name", "Desc", false);
+			final AchievementDAO achievementDAO = new AchievementDAO();
+			final Achievement achievement =
+				new Achievement("TEST_ACH_001", "Test Name", "Desc", false);
 			// Création
 			achievementDAO.create(achievement);
 			// Lecture
-			Achievement read = achievementDAO.read("TEST_ACH_001");
+			final Achievement read = achievementDAO.read("TEST_ACH_001");
 			assert read != null : "Achievement read failed";
 			assert read.getName().equals("Test Name") : "Achievement content mismatch";
 			// Nettoyage
 			achievementDAO.delete(achievement);
 			pass("AchievementDAO CRUD operations");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("AchievementDAO", exception.getMessage() + " (DB unavailable?)");
 		}
 	}
 	// ============ Tests State ============
 	private static void testStateSingleton() {
 		try {
-			State state1 = State.getState();
-			State state2 = State.getState();
+			final State state1 = State.getState();
+			final State state2 = State.getState();
 			assert state1 == state2 : "State should be singleton";
 			pass("State singleton");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("State singleton", exception.getMessage());
 		}
 	}
 	private static void testStateClear() {
 		try {
-			State state = State.getState();
+			final State state = State.getState();
 			state.isMultiplayer = true;
 			state.gameId = "testGame";
 			state.clear();
 			assert state.board != null : "Board should exist after clear";
 			assert !state.isMultiplayer : "Should not be multiplayer";
 			pass("State clear");
-		} catch (AssertionError | Exception exception) {
+		} catch (final AssertionError | Exception exception) {
 			fail("State clear", exception.getMessage());
 		}
 	}
@@ -421,9 +422,9 @@ public class Test {
 		final AssertionError[] error = {null};
 		Platform.runLater(() -> {
 			try {
-				HelpWindow helpWindow = new HelpWindow();
-				Button showBestMoveButton = new Button();
-				Label bestMoveLabel = new Label();
+				final HelpWindow helpWindow = new HelpWindow();
+				final Button showBestMoveButton = new Button();
+				final Label bestMoveLabel = new Label();
 				injectField(helpWindow, "showBestMoveButton", showBestMoveButton);
 				injectField(helpWindow, "bestMoveLabel", bestMoveLabel);
 				// Test sans partie
@@ -442,7 +443,7 @@ public class Test {
 				if (!bestMoveLabel.getText().toLowerCase().contains("calculating"))
 					throw new AssertionError("Label incorrect (calculating)");
 				pass("HelpWindow UI Logic");
-			} catch (Exception | AssertionError exception) {
+			} catch (final Exception | AssertionError exception) {
 				error[0] = (exception instanceof AssertionError)
 					? (AssertionError) exception
 					: new AssertionError(exception.getMessage());
@@ -456,9 +457,9 @@ public class Test {
 				fail("HelpWindow UI Logic", "Timeout");
 			if (error[0] != null)
 				throw error[0];
-		} catch (InterruptedException exception) {
+		} catch (final InterruptedException exception) {
 			fail("HelpWindow UI Logic", "Interrupted");
-		} catch (AssertionError exception) {
+		} catch (final AssertionError exception) {
 			// Already handled via fail()
 		}
 	}
@@ -466,15 +467,15 @@ public class Test {
 		final CountDownLatch latch = new CountDownLatch(1);
 		Platform.runLater(() -> {
 			try {
-				HelpWindow helpWindow = new HelpWindow();
-				Canvas canvas = new Canvas(300, 100);
+				final HelpWindow helpWindow = new HelpWindow();
+				final Canvas canvas = new Canvas(300, 100);
 				injectField(helpWindow, "moveCanvas", canvas);
-				Move move = new Move(new im.bpu.hexachess.model.AxialCoordinate(0, 0),
+				final Move move = new Move(new im.bpu.hexachess.model.AxialCoordinate(0, 0),
 					new im.bpu.hexachess.model.AxialCoordinate(0, 1));
 				injectField(helpWindow, "bestMove", move);
 				invokeMethod(helpWindow, "drawBestMove");
 				pass("HelpWindow Draw Logic");
-			} catch (Exception exception) {
+			} catch (final Exception exception) {
 				fail("HelpWindow Draw Logic", exception.getMessage());
 			} finally {
 				latch.countDown();
@@ -482,43 +483,44 @@ public class Test {
 		});
 		try {
 			latch.await(1, TimeUnit.SECONDS);
-		} catch (InterruptedException exception) {
+		} catch (final InterruptedException exception) {
 			fail("HelpWindow Draw Logic", "Interrupted");
 		}
 	}
 	// ============ Tests Sécurité ============
 	private static void testPasswordHashing() {
 		try {
-			String password = "mySecretPassword123";
-			String hash = BCrypt.hashpw(password, BCrypt.gensalt());
+			final String password = "mySecretPassword123";
+			final String hash = BCrypt.hashpw(password, BCrypt.gensalt());
 			assert hash != null : "Hash should not be null";
 			assert !hash.equals(password) : "Password should be hashed, not plain text";
 			assert BCrypt.checkpw(password, hash) : "Password verification failed";
 			assert !BCrypt.checkpw("wrongPassword", hash) : "Wrong password accepted";
 			pass("BCrypt password hashing");
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			fail("BCrypt security", exception.getMessage());
 		}
 	}
 	// ============ Utilitaires ============
-	private static void injectField(Object target, String fieldName, Object value)
+	private static void injectField(final Object target, final String fieldName, final Object value)
 		throws Exception {
-		Field field = target.getClass().getDeclaredField(fieldName);
+		final Field field = target.getClass().getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(target, value);
 	}
-	private static void invokeMethod(Object target, String methodName) throws Exception {
-		Method method = target.getClass().getDeclaredMethod(methodName);
+	private static void invokeMethod(final Object target, final String methodName)
+		throws Exception {
+		final Method method = target.getClass().getDeclaredMethod(methodName);
 		method.setAccessible(true);
 		method.invoke(target);
 	}
-	private static void pass(String testName) {
+	private static void pass(final String testName) {
 		passedTests++;
 		System.out.println("✓ " + testName);
 	}
-	private static void fail(String testName, String reason) {
+	private static void fail(final String testName, final String reason) {
 		failedTests++;
-		String message = "✗ " + testName + ": " + reason;
+		final String message = "✗ " + testName + ": " + reason;
 		System.out.println(message);
 		failures.add(message);
 	}
@@ -529,7 +531,7 @@ public class Test {
 		System.out.println("Total: " + (passedTests + failedTests));
 		if (failedTests > 0) {
 			System.out.println("\n=== Failures ===");
-			for (String failure : failures) System.out.println(failure);
+			for (final String failure : failures) System.out.println(failure);
 		} else {
 			System.out.println("\nAll tests passed!");
 		}

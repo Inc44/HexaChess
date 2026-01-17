@@ -68,21 +68,17 @@ public class HexPanel {
 		// accumulate opacity to remove hex gaps
 		repaint();
 	}
+	private AxialCoordinate findKingInCheck() {
+		final AxialCoordinate whiteKing = state.board.findKingPos(true);
+		if (whiteKing != null && state.board.isInDanger(whiteKing, false))
+			return whiteKing;
+		final AxialCoordinate blackKing = state.board.findKingPos(false);
+		if (blackKing != null && state.board.isInDanger(blackKing, true))
+			return blackKing;
+		return null;
+	}
 	private void drawBoard(final GraphicsContext gc, final double cx, final double cy) {
-		AxialCoordinate kingInCheck = null;
-		try {
-			AxialCoordinate whiteKing = state.board.findKing(true);
-			if (whiteKing != null && state.board.isSquareAttacked(whiteKing, false)) {
-				kingInCheck = whiteKing;
-			}
-			if (kingInCheck == null) {
-				AxialCoordinate blackKing = state.board.findKing(false);
-				if (blackKing != null && state.board.isSquareAttacked(blackKing, true)) {
-					kingInCheck = blackKing;
-				}
-			}
-		} catch (Exception exception) {
-		}
+		final AxialCoordinate kingInCheck = findKingInCheck();
 		for (int q = -5; q <= 5; q++)
 			for (int r = -5; r <= 5; r++) {
 				final AxialCoordinate coord = new AxialCoordinate(q, r);
@@ -123,11 +119,9 @@ public class HexPanel {
 			}
 		} else {
 			int repetitionCount = 0;
-			for (Board historyBoard : state.history) {
-				if (historyBoard.equals(state.board)) {
+			for (final Board historyBoard : state.history)
+				if (historyBoard.equals(state.board))
 					repetitionCount++;
-				}
-			}
 			if (repetitionCount >= 2) {
 				isGameOver = true;
 				Platform.runLater(
@@ -137,28 +131,35 @@ public class HexPanel {
 			}
 		}
 	}
+	private void unlockMoveAchievements(
+		final AxialCoordinate selected, final AxialCoordinate target) {
+		final ResourceBundle bundle = Main.getBundle();
+		if (state.history.isEmpty())
+			Thread.ofVirtual().start(() -> {
+				API.unlock("ACH_0000001");
+				System.out.println(bundle.getString("achievement.firststep"));
+			});
+		final Piece pieceBefore = state.board.getPiece(selected);
+		final Piece pieceAfter = state.board.getPiece(target);
+		if (pieceBefore != null && pieceBefore.type == PieceType.PAWN && pieceAfter != null
+			&& pieceAfter.type == PieceType.QUEEN)
+			Thread.ofVirtual().start(() -> {
+				API.unlock("ACH_0000006");
+				System.out.println(bundle.getString("achievement.promotionroyal"));
+			});
+	}
 	private void executeMove(final AxialCoordinate target) {
 		if (isLockedIn || isGameOver)
 			return;
-		if (state.history.isEmpty()) {
-			Thread.ofVirtual().start(() -> API.unlockAchievement("ACH_0000001"));
-			System.out.println("Achievement: First step unlocked!");
-		}
-		Piece pieceBeforeMove = state.board.getPiece(selected);
-		boolean wasPawn = (pieceBeforeMove != null && pieceBeforeMove.type == PieceType.PAWN);
-		final Move playedMove = new Move(selected, target);
 		final String moveString = selected.q + "," + selected.r + "->" + target.q + "," + target.r;
 		state.history.push(new Board(state.board));
 		state.board.movePiece(selected, target);
-		Piece pieceAfterMove = state.board.getPiece(target);
-		if (wasPawn && pieceAfterMove != null && pieceAfterMove.type == PieceType.QUEEN) {
-			Thread.ofVirtual().start(() -> API.unlockAchievement("ACH_0000006"));
-			System.out.println("Achievement: Promotion Royal unlocked!");
-		}
+		unlockMoveAchievements(selected, target);
 		deselect();
 		checkGameOver();
-		if(state.isPuzzleMode){
-			if(onPuzzleMove!=null){
+		if (state.isPuzzleMode) {
+			if (onPuzzleMove != null) {
+				final Move playedMove = new Move(selected, target);
 				onPuzzleMove.accept(playedMove);
 			}
 			repaint();
@@ -219,7 +220,7 @@ public class HexPanel {
 				try {
 					Thread.sleep(dt);
 					dt = Math.min(MAX_DT, dt * BACKOFF_FACTOR);
-				} catch (Exception ignored) { // high-frequency polling operation
+				} catch (final Exception ignored) { // high-frequency polling operation
 				}
 			}
 		});
@@ -227,20 +228,16 @@ public class HexPanel {
 	private void selectPiece(final AxialCoordinate coord) {
 		if (isLockedIn)
 			return;
-		Piece piece = state.board.getPiece(coord);
+		final Piece piece = state.board.getPiece(coord);
 		if (piece == null || piece.isWhite != state.board.isWhiteTurn)
 			return;
 		if (state.isMultiplayer && piece.isWhite != state.isWhitePlayer)
 			return;
 		selected = coord;
-		ArrayList<AxialCoordinate> rawMoves = piece.getPossibleMoves(state.board, coord);
 		highlighted.clear();
-		for (AxialCoordinate target : rawMoves) {
-			Move moveToCheck = new Move(selected, target);
-			if (!state.board.wouldResultInCheck(moveToCheck)) {
-				highlighted.add(target);
-			}
-		}
+		for (final Move move : state.board.getMoves(coord, piece))
+			if (!state.board.isMoveIntoCheck(move, state.board.isWhiteTurn))
+				highlighted.add(move.to);
 		repaint();
 	}
 	private void handleMouseClick(final double x, final double y) {

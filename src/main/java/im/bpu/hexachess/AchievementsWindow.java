@@ -1,10 +1,11 @@
 package im.bpu.hexachess;
 
-import im.bpu.hexachess.dao.AchievementDAO;
 import im.bpu.hexachess.entity.Achievement;
+import im.bpu.hexachess.network.API;
 import im.bpu.hexachess.ui.AchievementItemController;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,23 +29,25 @@ public class AchievementsWindow {
 			scrollPane.setStyle("-fx-pref-width: 400px; -fx-max-width: 400px;");
 		}
 		Thread.ofVirtual().start(() -> {
-			String playerId = SettingsManager.playerId;
-			List<Achievement> achievements = new AchievementDAO().readAllForPlayer(playerId);
+			final ResourceBundle bundle = Main.getBundle();
+			final String playerId = SettingsManager.playerId;
+			final List<Achievement> achievements = API.achievements(playerId);
 			Platform.runLater(() -> {
 				achievementsContainer.getChildren().clear();
 				if (achievements == null || achievements.isEmpty()) {
-					achievementsContainer.getChildren().add(new Label("No achievements found."));
+					achievementsContainer.getChildren().add(
+						new Label(bundle.getString("achievements.empty")));
 					return;
 				}
-				for (Achievement achievement : achievements) {
+				for (final Achievement achievement : achievements) {
 					try {
-						FXMLLoader loader =
-							new FXMLLoader(getClass().getResource("ui/achievementItem.fxml"));
-						HBox item = loader.load();
-						AchievementItemController controller = loader.getController();
+						final FXMLLoader loader = new FXMLLoader(
+							getClass().getResource("ui/achievementItem.fxml"), bundle);
+						final HBox item = loader.load();
+						final AchievementItemController controller = loader.getController();
 						controller.setAchievement(achievement);
 						achievementsContainer.getChildren().add(item);
-					} catch (Exception exception) {
+					} catch (final Exception exception) {
 						exception.printStackTrace();
 					}
 				}

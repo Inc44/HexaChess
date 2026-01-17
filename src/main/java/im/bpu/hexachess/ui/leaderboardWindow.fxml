@@ -9,7 +9,7 @@
 	<padding>
 		<Insets top="20" right="20" bottom="20" left="20" />
 	</padding>
-	<Label text="LEADERBOARD" styleClass="h2" />
+	<Label text="%main.leaderboard" styleClass="h2" />
 	<ScrollPane fitToWidth="true">
 		<VBox fx:id="listContainer" spacing="10">
 			<padding>

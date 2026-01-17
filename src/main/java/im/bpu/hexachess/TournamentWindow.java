@@ -53,7 +53,7 @@ public class TournamentWindow {
 	private void handleParticipate() {
 		Thread.ofVirtual().start(() -> {
 			final String tournamentId = targetTournament.getTournamentId();
-			final boolean joinSuccess = API.joinTournament(tournamentId);
+			final boolean joinSuccess = API.join(tournamentId);
 			final ResourceBundle bundle = Main.getBundle();
 			Platform.runLater(() -> {
 				statusLabel.getStyleClass().clear();
@@ -69,8 +69,8 @@ public class TournamentWindow {
 	}
 	@FXML
 	private void handleViewParticipants() {
-		// ParticipantsWindow.targetTournament = this.targetTournament;
-		// loadWindow("ui/participantsWindow.fxml", new ParticipantsWindow(), backButton);
+		ParticipantsWindow.targetTournament = targetTournament;
+		loadWindow("ui/participantsWindow.fxml", new ParticipantsWindow(), backButton);
 	}
 	@FXML
 	private void openTournaments() {

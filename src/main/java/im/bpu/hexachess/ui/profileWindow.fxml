@@ -22,6 +22,6 @@
 			</VBox>
 		</HBox>
 	</HBox>
-	<Button fx:id="editButton" text="Edit Profile" onAction="#openEditProfile" visible="false" />
+	<Button fx:id="editButton" text="%profile.edit.title" onAction="#openEditProfile" visible="false" />
 	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

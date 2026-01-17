@@ -243,11 +243,20 @@
 	-fx-max-height: 80px;
 	-fx-max-width: 240px;
 	-fx-padding: 12px;
-	-fx-translate-x: 16px;
 	-fx-translate-y: -16px;
 	max-height: 80px;
 	max-width: 240px;
 	padding: 12px;
+}
+
+.player-info-box-left
+{
+	-fx-translate-x: 16px;
+}
+
+.player-info-box-right
+{
+	-fx-translate-x: -16px;
 }
 
 .player-item,
@@ -390,18 +399,20 @@
 
 .success-button
 {
-	-fx-background-color: rgb(76, 175, 80);
+	/* l40-green */
+	-fx-background-color: rgb(31, 173, 91);
 	-fx-cursor: hand;
 	-fx-font-size: 14px;
 	-fx-text-fill: white;
-	background-color: rgb(76, 175, 80);
+	background-color: rgb(31, 173, 91);
 	cursor: hand;
 	font-size: 14px;
 }
 
 .leaderboard-rank
 {
-	-fx-text-fill: orange;
+	/* orange */
+	-fx-text-fill: rgb(250, 157, 1);
 	-fx-min-width: 50px;
 	-fx-font-size: 18px;
 	min-width: 50px;

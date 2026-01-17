@@ -21,7 +21,7 @@ public class Achievement {
 	public String getDescription() {
 		return description;
 	}
-	public boolean isUnlocked() {
+	public boolean getUnlocked() {
 		return unlocked;
 	}
 	public void setName(String name) {

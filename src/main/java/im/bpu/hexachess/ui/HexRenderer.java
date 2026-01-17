@@ -28,6 +28,7 @@ class HexRenderer {
 	private static final Color NAVAJOWHITE = Color.rgb(255, 206, 158);
 	private static final Color PERU = Color.rgb(209, 139, 71);
 	private static final Color LEGOYELLOW = Color.rgb(255, 215, 0, 0.63);
+	private static final Color RED = Color.rgb(237, 53, 36, 0.63);
 	private static final Color GREEN = Color.rgb(46, 218, 119, 0.63);
 	private static final Color[] HEX_COLORS = {SANDYBROWN, NAVAJOWHITE, PERU};
 	private static final int[][] HEX_NEIGHBOR_OFFSETS = {
@@ -37,7 +38,6 @@ class HexRenderer {
 	private static final int TEXT_Y_OFFSET = 1;
 	private static final int BORDER_LINE_WIDTH = 3;
 	private static final int RADIUS = 5;
-	private static final Color CHECK_RED = Color.rgb(255, 0, 0, 0.7); // Rouge un peu transparent
 	private final HexGeometry geometry;
 	private Board board;
 	HexRenderer(final HexGeometry geometry, final Board board) {
@@ -107,7 +107,7 @@ class HexRenderer {
 			gc.setFill(LEGOYELLOW);
 			gc.fill();
 		} else if (kingInCheck != null && coord.equals(kingInCheck)) {
-			gc.setFill(CHECK_RED);
+			gc.setFill(RED);
 			gc.fill();
 		} else if (highlighted.contains(coord)) {
 			gc.setFill(GREEN);

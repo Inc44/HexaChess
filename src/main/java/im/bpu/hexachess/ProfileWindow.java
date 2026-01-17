@@ -98,7 +98,7 @@ public class ProfileWindow {
 	}
 	@FXML
 	private void openEditProfile() {
-		// loadWindow("ui/editProfileWindow.fxml", new EditProfileWindow(), backButton);
+		loadWindow("ui/editProfileWindow.fxml", new EditProfileWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {

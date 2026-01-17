@@ -28,40 +28,45 @@
 			<Button fx:id="rewindButton" text="%main.rewind" onAction="#rewind" />
 		</HBox>
 	</VBox>
-	<Button fx:id="menuButton" StackPane.alignment="top_left" text="≡" onAction="#toggleSidebar" styleClass="menu-button" />
-	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="⋮" onAction="#openHelpSettings" styleClass="settings-help-button" />
-	<HBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false" styleClass="player-info-box">
-		<VBox styleClass="avatar-container">
-			<ImageView fx:id="avatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
-		</VBox>
-		<VBox alignment="center_left" spacing="4">
-			<HBox alignment="center_left" spacing="8">
-				<Label fx:id="handleLabel" />
-				<Region fx:id="countryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
-			</HBox>
-			<Label fx:id="ratingLabel" />
-			<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
-		</VBox>
-	</HBox>
-	<HBox fx:id="opponentItem" StackPane.alignment="bottom_right" managed="false" spacing="12" visible="false" styleClass="player-info-box">
-		<VBox alignment="center_right" spacing="4">
-			<HBox alignment="center_right" spacing="8">
-				<Region fx:id="opponentCountryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
-				<Label fx:id="opponentHandleLabel" />
-			</HBox>
-			<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
-			<Label fx:id="opponentRatingLabel" />
-			<ProgressBar fx:id="opponentProgressBar" managed="false" visible="false" progress="0" />
-		</VBox>
-		<VBox styleClass="avatar-container">
-			<ImageView fx:id="opponentAvatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
-		</VBox>
-	</HBox>
+	<Button fx:id="menuButton" StackPane.alignment="top_left" text="%menu.icon" onAction="#toggleSidebar" styleClass="menu-button" />
+	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="%settings.icon" onAction="#openHelpSettings" styleClass="settings-help-button" />
+	<VBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-left">
+		<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
+		<HBox spacing="12">
+			<VBox styleClass="avatar-container">
+				<ImageView fx:id="avatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
+			</VBox>
+			<VBox alignment="center_left" spacing="4">
+				<HBox alignment="center_left" spacing="8">
+					<Label fx:id="handleLabel" />
+					<Region fx:id="countryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
+				</HBox>
+				<Label fx:id="ratingLabel" />
+			</VBox>
+		</HBox>
+	</VBox>
+	<VBox fx:id="opponentItem" StackPane.alignment="bottom_right" alignment="top_right" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-right">
+		<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
+		<HBox alignment="top_right" spacing="12">
+			<VBox alignment="center_right" spacing="4">
+				<HBox alignment="center_right" spacing="8">
+					<Region fx:id="opponentCountryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
+					<Label fx:id="opponentHandleLabel" />
+				</HBox>
+				<Label fx:id="opponentRatingLabel" />
+				<ProgressBar fx:id="opponentProgressBar" managed="false" visible="false" progress="0" />
+			</VBox>
+			<VBox styleClass="avatar-container">
+				<ImageView fx:id="opponentAvatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
+			</VBox>
+		</HBox>
+	</VBox>
 	<VBox fx:id="sidebar" managed="false" maxWidth="160" translateX="-160" visible="false" styleClass="sidebar">
 		<Button text="%main.search" onAction="#openSearch" styleClass="sidebar-item" />
 		<Button text="%main.profile" onAction="#openProfile" styleClass="sidebar-item" />
 		<Button text="%main.achievements" onAction="#openAchievements" styleClass="sidebar-item" />
 		<Button text="%main.puzzles" onAction="#openPuzzles" styleClass="sidebar-item" />
 		<Button text="%main.tournaments" onAction="#openTournaments" styleClass="sidebar-item" />
+		<Button text="%main.leaderboard" onAction="#openLeaderboard" styleClass="sidebar-item" />
 	</VBox>
 </StackPane>

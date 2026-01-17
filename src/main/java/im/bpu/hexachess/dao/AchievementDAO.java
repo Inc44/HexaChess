@@ -17,100 +17,98 @@ public class AchievementDAO extends DAO<Achievement> {
 	private static final String READ = "SELECT * FROM achievements WHERE achievement_id = ?";
 	private static final String READ_ALL = "SELECT * FROM achievements";
 	private static final String READ_ALL_FOR_PLAYER =
-		"SELECT a.achievement_id, a.name, a.description, CASE WHEN pa.player_id IS NOT NULL THEN "
-		+ "TRUE ELSE FALSE END AS unlocked FROM achievements a LEFT JOIN player_achievements pa ON "
-		+ "a.achievement_id = pa.achievement_id AND pa.player_id = ? ORDER BY a.name ";
+		"SELECT achievements.achievement_id, name, description, CASE WHEN player_id IS NOT NULL "
+		+ "THEN TRUE ELSE FALSE END AS unlocked FROM achievements LEFT JOIN unlocks ON "
+		+ "achievements.achievement_id = unlocks.achievement_id AND player_id = ? ORDER BY name";
+	private static final String UNLOCK =
+		"INSERT IGNORE INTO unlocks (player_id, achievement_id) VALUES (?, ?)";
 	@Override
-	public Achievement create(Achievement achievement) {
-		try (PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
+	public Achievement create(final Achievement achievement) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(CREATE)) {
 			pstmt.setString(1, achievement.getAchievementId());
 			pstmt.setString(2, achievement.getName());
 			pstmt.setString(3, achievement.getDescription());
 			pstmt.executeUpdate();
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return achievement;
 	}
 	@Override
-	public Achievement update(Achievement achievement) {
-		try (PreparedStatement pstmt = connect.prepareStatement(UPDATE)) {
+	public Achievement update(final Achievement achievement) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(UPDATE)) {
 			pstmt.setString(1, achievement.getName());
 			pstmt.setString(2, achievement.getDescription());
 			pstmt.setString(3, achievement.getAchievementId());
 			pstmt.executeUpdate();
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return achievement;
 	}
 	@Override
-	public void delete(Achievement achievement) {
-		try (PreparedStatement pstmt = connect.prepareStatement(DELETE)) {
+	public void delete(final Achievement achievement) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(DELETE)) {
 			pstmt.setString(1, achievement.getAchievementId());
 			pstmt.executeUpdate();
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 	}
-	private Achievement resultSetToAchievement(ResultSet rs) throws SQLException {
-		Achievement achievement = new Achievement(rs.getString("achievement_id"),
+	private Achievement resultSetToAchievement(final ResultSet rs) throws SQLException {
+		final Achievement achievement = new Achievement(rs.getString("achievement_id"),
 			rs.getString("name"), rs.getString("description"), rs.getBoolean("unlocked"));
 		return achievement;
 	}
-	public Achievement read(String achievementId) {
+	public Achievement read(final String achievementId) {
 		Achievement achievement = null;
-		try (PreparedStatement pstmt = connect.prepareStatement(READ)) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(READ)) {
 			pstmt.setString(1, achievementId);
-			try (ResultSet rs = pstmt.executeQuery()) {
+			try (final ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					achievement = resultSetToAchievement(rs);
 				}
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return achievement;
 	}
 	public ArrayList<Achievement> readAll() {
-		ArrayList<Achievement> achievements = new ArrayList<>();
-		try (Statement stmt = connect.createStatement();
-			ResultSet rs = stmt.executeQuery(READ_ALL)) {
+		final ArrayList<Achievement> achievements = new ArrayList<>();
+		try (final Statement stmt = connect.createStatement();
+			final ResultSet rs = stmt.executeQuery(READ_ALL)) {
 			while (rs.next()) {
 				achievements.add(resultSetToAchievement(rs));
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return achievements;
 	}
-	public void unlock(String playerId, String achievementId) {
-		String sql =
-			"INSERT IGNORE INTO player_achievements (player_id, achievement_id) VALUES (?, ?)";
-		try (PreparedStatement pstmt = connect.prepareStatement(sql)) {
+	public ArrayList<Achievement> readAllForPlayer(final String playerId) {
+		final ArrayList<Achievement> achievements = new ArrayList<>();
+		try (final PreparedStatement pstmt = connect.prepareStatement(READ_ALL_FOR_PLAYER)) {
 			pstmt.setString(1, playerId);
-			pstmt.setString(2, achievementId);
-			pstmt.executeUpdate();
-		} catch (SQLException exception) {
-			exception.printStackTrace();
-		}
-	}
-	public ArrayList<Achievement> readAllForPlayer(String playerId) {
-		ArrayList<Achievement> achievements = new ArrayList<>();
-		try (PreparedStatement pstmt = connect.prepareStatement(READ_ALL_FOR_PLAYER)) {
-			pstmt.setString(1, playerId);
-			try (ResultSet rs = pstmt.executeQuery()) {
+			try (final ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
-					Achievement achievement =
-						new Achievement(rs.getString("achievement_id"), rs.getString("name"),
-							rs.getString("description"), rs.getBoolean("unlocked"));
+					final Achievement achievement = resultSetToAchievement(rs);
 					achievement.setUnlocked(rs.getBoolean("unlocked"));
 					achievements.add(achievement);
 				}
 			}
-		} catch (SQLException exception) {
+		} catch (final SQLException exception) {
 			exception.printStackTrace();
 		}
 		return achievements;
+	}
+	public void unlock(final String playerId, final String achievementId) {
+		try (final PreparedStatement pstmt = connect.prepareStatement(UNLOCK)) {
+			pstmt.setString(1, playerId);
+			pstmt.setString(2, achievementId);
+			pstmt.executeUpdate();
+		} catch (final SQLException exception) {
+			exception.printStackTrace();
+		}
 	}
 }

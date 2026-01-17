@@ -3,7 +3,6 @@ package im.bpu.hexachess;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.network.API;
 import im.bpu.hexachess.ui.HexPanel;
-import im.bpu.hexachess.ui.LeaderboardMenu;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -22,7 +21,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -42,11 +40,12 @@ public class MainWindow {
 	private static final int BASE_ELO = 1200;
 	private static final long DEV_MODE_MS = 2000;
 	private static final int DEFAULT_MAX_DEPTH = 3;
+	private static final int DEFAULT_TIMER_SECONDS = 600;
 	private HexPanel hexPanel;
 	private int restartClickCount = 0;
 	private long startRestartClickTime = 0;
-	private int playerTimeSeconds = 600;
-	private int opponentTimeSeconds = 600;
+	private int playerTimeSeconds = DEFAULT_TIMER_SECONDS;
+	private int opponentTimeSeconds = DEFAULT_TIMER_SECONDS;
 	private Timeline clockTimeline;
 	@FXML private Button settingsHelpButton;
 	@FXML private VBox sidebar;
@@ -55,12 +54,12 @@ public class MainWindow {
 	@FXML private Label gameOverLabel;
 	@FXML private Button restartButton;
 	@FXML private Button rewindButton;
-	@FXML private HBox playerItem;
+	@FXML private VBox playerItem;
 	@FXML private ImageView avatarIcon;
 	@FXML private Label handleLabel;
 	@FXML private Region countryFlagIcon;
 	@FXML private Label ratingLabel;
-	@FXML private HBox opponentItem;
+	@FXML private VBox opponentItem;
 	@FXML private ImageView opponentAvatarIcon;
 	@FXML private Label opponentHandleLabel;
 	@FXML private Region opponentCountryFlagIcon;
@@ -97,6 +96,7 @@ public class MainWindow {
 				gameOverLabel.setText(gameOverMessage);
 				gameOverContainer.setManaged(true);
 				gameOverContainer.setVisible(true);
+				stopTimer();
 			}));
 		loadPlayerItem();
 		loadOpponentItem();
@@ -239,10 +239,12 @@ public class MainWindow {
 	}
 	@FXML
 	private void restart() {
-		playerTimeSeconds = 600;
-		opponentTimeSeconds = 600;
+		playerTimeSeconds = DEFAULT_TIMER_SECONDS;
+		opponentTimeSeconds = DEFAULT_TIMER_SECONDS;
 		updateTimerLabels(playerTimerLabel, playerTimeSeconds);
 		updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
+		if (clockTimeline != null)
+			clockTimeline.play();
 		if (!State.getState().isMultiplayer) {
 			gameOverContainer.setManaged(false);
 			gameOverContainer.setVisible(false);
@@ -282,6 +284,7 @@ public class MainWindow {
 	}
 	@FXML
 	private void openSettings() {
+		stopTimer();
 		loadWindow("ui/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
 	}
 	@FXML
@@ -295,44 +298,49 @@ public class MainWindow {
 		menu.getItems().addAll(settingsItem, helpItem);
 		menu.show(settingsHelpButton, Side.BOTTOM, 0, 0);
 	}
-
 	@FXML
 	private void openHelp() {
-    loadWindow("ui/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
-}	
- 
+		stopTimer();
+		loadWindow("ui/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
+	}
 	@FXML
 	private void openSearch() {
+		stopTimer();
 		loadWindow("ui/searchWindow.fxml", new SearchWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openProfile() {
+		stopTimer();
 		ProfileWindow.targetHandle = SettingsManager.userHandle;
 		loadWindow("ui/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openPuzzles() {
-    	loadWindow("ui/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
+		loadWindow("ui/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openTournaments() {
+		stopTimer();
 		loadWindow("ui/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openAchievements() {
+		stopTimer();
 		loadWindow("ui/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openLeaderboard() {
-		loadWindow("ui/leaderboardMenu.fxml", new LeaderboardMenu(), settingsHelpButton);
+		stopTimer();
+		loadWindow("ui/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
 	}
 	private void setupTimers() {
 		updateTimerLabels(playerTimerLabel, playerTimeSeconds);
 		updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
 		clockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-			State state = State.getState();
-			boolean isWhiteTurn = state.board.isWhiteTurn;
-			boolean isPlayerWhite = state.isWhitePlayer;
+			final ResourceBundle bundle = Main.getBundle();
+			final State state = State.getState();
+			final boolean isWhiteTurn = state.board.isWhiteTurn;
+			final boolean isPlayerWhite = state.isWhitePlayer;
 			if (isWhiteTurn == isPlayerWhite) {
 				if (playerTimeSeconds > 0) {
 					playerTimeSeconds--;
@@ -345,19 +353,23 @@ public class MainWindow {
 				}
 			}
 			if (playerTimeSeconds == 0 || opponentTimeSeconds == 0) {
-				clockTimeline.stop();
-				System.out.println("Time's up!");
+				stopTimer();
+				System.out.println(bundle.getString("main.timer"));
 			}
 		}));
 		clockTimeline.setCycleCount(Animation.INDEFINITE);
 		clockTimeline.play();
 	}
-	private void updateTimerLabels(Label label, int totalSeconds) {
+	private void stopTimer() {
+		if (clockTimeline != null)
+			clockTimeline.stop();
+	}
+	private void updateTimerLabels(final Label label, final int totalSeconds) {
 		if (label == null)
 			return;
-		int minutes = totalSeconds / 60;
-		int seconds = totalSeconds % 60;
-		String timeString = String.format("%02d:%02d", minutes, seconds);
+		final int minutes = totalSeconds / 60;
+		final int seconds = totalSeconds % 60;
+		final String timeString = String.format("%02d:%02d", minutes, seconds);
 		label.setText(timeString);
 	}
 }

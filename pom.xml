@@ -131,13 +131,19 @@
 						<list>com.mysql.cj.conf.url.SingleConnectionUrl</list>
 						<list>com.mysql.cj.log.StandardLogger</list>
 						<list>com.mysql.cj.protocol.StandardSocketFactory</list>
+						<list>im.bpu.hexachess.AchievementsWindow</list>
+						<list>im.bpu.hexachess.EditProfileWindow</list>
+						<list>im.bpu.hexachess.HelpWindow</list>
+						<list>im.bpu.hexachess.LeaderboardWindow</list>
 						<list>im.bpu.hexachess.LoginWindow</list>
 						<list>im.bpu.hexachess.MainWindow</list>
+						<list>im.bpu.hexachess.ParticipantsWindow</list>
 						<list>im.bpu.hexachess.ProfileWindow</list>
 						<list>im.bpu.hexachess.RegisterWindow</list>
 						<list>im.bpu.hexachess.SearchWindow</list>
 						<list>im.bpu.hexachess.SettingsWindow</list>
 						<list>im.bpu.hexachess.StartWindow</list>
+						<list>im.bpu.hexachess.TournamentWindow</list>
 						<list>im.bpu.hexachess.TournamentsWindow</list>
 						<list>im.bpu.hexachess.entity.Achievement</list>
 						<list>im.bpu.hexachess.entity.Game</list>
@@ -145,6 +151,7 @@
 						<list>im.bpu.hexachess.entity.Puzzle</list>
 						<list>im.bpu.hexachess.entity.Settings</list>
 						<list>im.bpu.hexachess.entity.Tournament</list>
+						<list>im.bpu.hexachess.ui.AchievementItemController</list>
 						<list>io.jsonwebtoken.impl.DefaultClaimsBuilder$Supplier</list>
 						<list>io.jsonwebtoken.impl.DefaultJwtBuilder$Supplier</list>
 						<list>io.jsonwebtoken.impl.DefaultJwtHeaderBuilder$Supplier</list>

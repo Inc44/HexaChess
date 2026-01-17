@@ -8,11 +8,11 @@
 	<padding>
 		<Insets top="20" right="20" bottom="20" left="20" />
 	</padding>
-	<Label fx:id="titleLabel" text="Participants" styleClass="h2" />
+	<Label fx:id="titleLabel" text="%tournament.participants.title" styleClass="h2" />
 	<ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
 		<content>
 			<VBox fx:id="listContainer" spacing="10" alignment="top_center" />
 		</content>
 	</ScrollPane>
-	<Button fx:id="backButton" text="Back" onAction="#handleBack" prefWidth="100" />
+	<Button fx:id="backButton" text="%common.back" onAction="#handleBack" prefWidth="100" />
 </VBox>

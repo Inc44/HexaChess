@@ -37,6 +37,11 @@ public class API {
 	static {
 		MAPPER.registerModule(new JavaTimeModule());
 	}
+	private static HttpResponse<String> sendRequest(final HttpRequest.Builder requestBuilder,
+		final String baseUrl, final String endpoint) throws Exception {
+		final HttpRequest request = requestBuilder.uri(URI.create(baseUrl + endpoint)).build();
+		return CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+	}
 	private static HttpResponse<String> sendWithFallback(
 		final HttpRequest.Builder requestBuilder, final String endpoint) throws Exception {
 		final String authToken = SettingsManager.authToken;
@@ -56,10 +61,18 @@ public class API {
 			}
 		}
 	}
-	private static HttpResponse<String> sendRequest(final HttpRequest.Builder requestBuilder,
-		final String baseUrl, final String endpoint) throws Exception {
-		final HttpRequest request = requestBuilder.uri(URI.create(baseUrl + endpoint)).build();
-		return CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+	private static <T> List<T> fetch(final String endpoint, final Class<T[]> clazz) {
+		try {
+			final HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, endpoint);
+			if (response != null && response.statusCode() == 200)
+				return List.of(MAPPER.readValue(response.body(), clazz));
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
+			exception.printStackTrace();
+		}
+		return Collections.emptyList();
 	}
 	public static Player login(final String handle, final String password) {
 		try {
@@ -90,36 +103,6 @@ public class API {
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/register");
-			return response != null && response.statusCode() == 200;
-		} catch (final HttpTimeoutException ignored) {
-		} catch (final Exception exception) {
-			exception.printStackTrace();
-		}
-		return false;
-	}
-	public static Settings settings(final String playerId) {
-		try {
-			final HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			final HttpResponse<String> response =
-				sendWithFallback(requestBuilder, "/settings?playerId=" + playerId);
-			if (response != null && response.statusCode() == 200)
-				return MAPPER.readValue(response.body(), Settings.class);
-		} catch (final HttpTimeoutException ignored) {
-		} catch (final Exception exception) {
-			exception.printStackTrace();
-		}
-		return null;
-	}
-	public static boolean settings(final Settings settings) {
-		try {
-			final String json = MAPPER.writeValueAsString(settings);
-			final HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder()
-					.header("Content-Type", "application/json")
-					.POST(HttpRequest.BodyPublishers.ofString(json))
-					.timeout(TIMEOUT_DURATION);
-			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/settings");
 			return response != null && response.statusCode() == 200;
 		} catch (final HttpTimeoutException ignored) {
 		} catch (final Exception exception) {
@@ -160,24 +143,48 @@ public class API {
 	public static List<Achievement> achievements() {
 		return fetch("/achievements", Achievement[].class);
 	}
+
+	public static List<Achievement> achievements(final String playerId) {
+		return fetch("/achievements?playerId=" + playerId, Achievement[].class);
+	}
 	public static List<Puzzle> puzzles() {
 		return fetch("/puzzles", Puzzle[].class);
 	}
 	public static List<Tournament> tournaments() {
 		return fetch("/tournaments", Tournament[].class);
 	}
-	private static <T> List<T> fetch(final String endpoint, final Class<T[]> clazz) {
+	public static List<Player> leaderboard() {
+		return fetch("/leaderboard", Player[].class);
+	}
+	public static Settings settings(final String playerId) {
 		try {
 			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			final HttpResponse<String> response = sendWithFallback(requestBuilder, endpoint);
+			final HttpResponse<String> response =
+				sendWithFallback(requestBuilder, "/settings?playerId=" + playerId);
 			if (response != null && response.statusCode() == 200)
-				return List.of(MAPPER.readValue(response.body(), clazz));
+				return MAPPER.readValue(response.body(), Settings.class);
 		} catch (final HttpTimeoutException ignored) {
 		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
-		return Collections.emptyList();
+		return null;
+	}
+	public static boolean settings(final Settings settings) {
+		try {
+			final String json = MAPPER.writeValueAsString(settings);
+			final HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(TIMEOUT_DURATION);
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/settings");
+			return response != null && response.statusCode() == 200;
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
+			exception.printStackTrace();
+		}
+		return false;
 	}
 	public static String challenge(final String from, final String to) {
 		try {
@@ -228,55 +235,48 @@ public class API {
 		}
 		return null;
 	}
-	public static void unlockAchievement(String achievementId) {
+	public static boolean update(final String password, final String email, final String location,
+		final String avatar, final String newPassword) {
 		try {
-			String playerId = SettingsManager.playerId;
-			if (playerId == null)
-				return;
-			ObjectNode jsonNode = MAPPER.createObjectNode();
-			jsonNode.put("playerId", playerId);
+			final ObjectNode jsonNode = MAPPER.createObjectNode();
+			jsonNode.put("password", password);
+			jsonNode.put("email", email);
+			jsonNode.put("location", location);
+			jsonNode.put("avatar", avatar);
+			if (newPassword != null && !newPassword.isEmpty()) {
+				jsonNode.put("newPassword", newPassword);
+			}
+			final String json = MAPPER.writeValueAsString(jsonNode);
+			final HttpRequest.Builder requestBuilder =
+				HttpRequest.newBuilder()
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(json))
+					.timeout(TIMEOUT_DURATION);
+			final HttpResponse<String> response = sendWithFallback(requestBuilder, "/update");
+			return response != null && response.statusCode() == 200;
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
+			exception.printStackTrace();
+		}
+		return false;
+	}
+	public static void unlock(final String achievementId) {
+		try {
+			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("achievementId", achievementId);
-			String json = MAPPER.writeValueAsString(jsonNode);
-			HttpRequest.Builder requestBuilder =
+			final String json = MAPPER.writeValueAsString(jsonNode);
+			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(json))
 					.timeout(TIMEOUT_DURATION);
 			sendWithFallback(requestBuilder, "/unlock");
-		} catch (Exception exception) {
+		} catch (final HttpTimeoutException ignored) {
+		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 	}
-	public static List<Player> getLeaderboard() {
-		try {
-			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/leaderboard");
-			if (response != null && response.statusCode() == 200) {
-				return List.of(MAPPER.readValue(response.body(), Player[].class));
-			}
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-		return Collections.emptyList();
-	}
-	public static List<Achievement> achievementsForPlayer(String playerId) {
-		if (playerId == null)
-			return Collections.emptyList();
-		try {
-			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder().GET().timeout(TIMEOUT_DURATION);
-			HttpResponse<String> response =
-				sendWithFallback(requestBuilder, "/achievements?playerId=" + playerId);
-			if (response != null && response.statusCode() == 200) {
-				return List.of(MAPPER.readValue(response.body(), Achievement[].class));
-			}
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-		return Collections.emptyList();
-	}
-	public static boolean joinTournament(final String tournamentId) {
+	public static boolean join(final String tournamentId) {
 		try {
 			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("tournamentId", tournamentId);
@@ -295,28 +295,6 @@ public class API {
 		return false;
 	}
 	public static List<Player> participants(final String tournamentId) {
-		return fetch("/participants?id=" + tournamentId, Player[].class);
-	}
-	public static boolean updateProfile(
-		String currentPassword, String email, String location, String avatar, String newPassword) {
-		try {
-			ObjectNode json = MAPPER.createObjectNode();
-			json.put("currentPassword", currentPassword);
-			json.put("email", email);
-			json.put("location", location);
-			json.put("avatar", avatar);
-			if (newPassword != null && !newPassword.isEmpty()) {
-				json.put("newPassword", newPassword);
-			}
-			HttpRequest.Builder requestBuilder =
-				HttpRequest.newBuilder()
-					.POST(HttpRequest.BodyPublishers.ofString(json.toString()))
-					.header("Content-Type", "application/json");
-			HttpResponse<String> response = sendWithFallback(requestBuilder, "/profile/update");
-			return response.statusCode() == 200;
-		} catch (Exception exception) {
-			exception.printStackTrace();
-			return false;
-		}
+		return fetch("/participants?tournamentId=" + tournamentId, Player[].class);
 	}
 }
