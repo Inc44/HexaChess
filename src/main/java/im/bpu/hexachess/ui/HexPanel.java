@@ -70,13 +70,13 @@ public class HexPanel {
 	private void drawBoard(final GraphicsContext gc, final double cx, final double cy) {
 		AxialCoordinate kingInCheck = null;
 		try {
-			final AxialCoordinate whiteKing = state.board.findKing(true);
-			if (whiteKing != null && state.board.isSquareAttacked(whiteKing, false)) {
+			final AxialCoordinate whiteKing = state.board.findKingPos(true);
+			if (whiteKing != null && state.board.isInDanger(whiteKing, false)) {
 				kingInCheck = whiteKing;
 			}
 			if (kingInCheck == null) {
-				final AxialCoordinate blackKing = state.board.findKing(false);
-				if (blackKing != null && state.board.isSquareAttacked(blackKing, true)) {
+				final AxialCoordinate blackKing = state.board.findKingPos(false);
+				if (blackKing != null && state.board.isInDanger(blackKing, true)) {
 					kingInCheck = blackKing;
 				}
 			}
@@ -232,7 +232,7 @@ public class HexPanel {
 		final List<Move> rawMoves = state.board.getMoves(coord, piece);
 		highlighted.clear();
 		for (final Move move : rawMoves) {
-			if (!state.board.wouldResultInCheck(move)) {
+			if (!state.board.isMoveIntoCheck(move, state.board.isWhiteTurn)) {
 				highlighted.add(move.to);
 			}
 		}

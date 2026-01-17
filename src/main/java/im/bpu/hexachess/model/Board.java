@@ -3,6 +3,7 @@ package im.bpu.hexachess.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Map;
 import java.util.Objects;
 
@@ -151,23 +152,20 @@ public class Board {
 		}
 	}
 	// 1. Find the king position
-	public AxialCoordinate findKing(final boolean isWhite) {
-		for (final AxialCoordinate c : pieces.keySet()) {
-			final Piece piece = pieces.get(c);
-			if (piece.isWhite == isWhite && piece.type == PieceType.KING) {
-				return c;
+	public AxialCoordinate findKingPos(final boolean isWhite) {
+		for (Entry<AxialCoordinate, Piece> entry : pieces.entrySet()) {
+			if (entry.getValue().isWhite == isWhite && entry.getValue().type == PieceType.KING) {
+				return entry.getKey();
 			}
 		}
 		return null;
 	}
-	// 2. Is the square attacked by opponent pieces?
-	public boolean isSquareAttacked(final AxialCoordinate target, final boolean byWhite) {
-		for (final AxialCoordinate c : pieces.keySet()) {
-			final Piece piece = pieces.get(c);
-			if (piece.isWhite == byWhite) {
-				final List<Move> moves = getMoves(c, piece);
-				for (final Move move : moves) {
-					if (move.to.equals(target)) {
+	// 2. Is it in danger from opponent pieces?
+	public boolean isInDanger(final AxialCoordinate coord, final boolean isWhite) {
+		for (Entry<AxialCoordinate, Piece> entry : pieces.entrySet()) {
+			if (entry.getValue().isWhite == isWhite) {
+				for (Move move : getMoves(entry.getKey(), entry.getValue())) {
+					if (move.to.equals(coord)) {
 						return true;
 					}
 				}
@@ -175,39 +173,21 @@ public class Board {
 		}
 		return false;
 	}
-	public boolean wouldResultInCheck(final Move move) {
-		final Board tempBoard = new Board(this);
-		tempBoard.movePiece(move.from, move.to);
-		final boolean amIWhite = pieces.get(move.from).isWhite;
-		final AxialCoordinate myKingPos = tempBoard.findKing(amIWhite);
-		return tempBoard.isSquareAttacked(myKingPos, !amIWhite);
+	public boolean isMoveIntoCheck(final Move move, final boolean isWhite) {
+		final Board clone = new Board(this);
+		clone.movePiece(move.from, move.to);
+		return clone.isInCheck(isWhite);
 	}
-	public boolean isInCheck(boolean isWhite) {
-		AxialCoordinate kingPos = null;
-		for (Map.Entry<AxialCoordinate, Piece> entry : pieces.entrySet()) {
-			if (entry.getValue().type == PieceType.KING && entry.getValue().isWhite == isWhite) {
-				kingPos = entry.getKey();
-				break;
-			}
-		}
+	public boolean isInCheck(final boolean isWhite) {
+		final AxialCoordinate kingPos = findKingPos(isWhite);
 		if (kingPos == null)
 			return false;
-		for (Map.Entry<AxialCoordinate, Piece> entry : pieces.entrySet()) {
-			if (entry.getValue().isWhite != isWhite) {
-				for (Move move : getMoves(entry.getKey(), entry.getValue())) {
-					if (move.to.equals(kingPos))
-						return true;
-				}
-			}
-		}
-		return false;
+		return isInDanger(kingPos, !isWhite);
 	}
 	public boolean hasLegalMoves(final boolean isWhite) {
 		final List<Move> moves = listMoves(isWhite);
 		for (final Move move : moves) {
-			final Board clone = new Board(this);
-			clone.movePiece(move.from, move.to);
-			if (!clone.isInCheck(isWhite))
+			if (!isMoveIntoCheck(move, isWhite))
 				return true;
 		}
 		return false;

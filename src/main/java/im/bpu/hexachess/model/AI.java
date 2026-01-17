@@ -27,7 +27,7 @@ public class AI {
 		final List<Move> moves = new ArrayList<>();
 		for (final Move move : rawMoves) {
 			// If the move does not cause self-destruction, keep it for calculation
-			if (!board.wouldResultInCheck(move))
+			if (!board.isMoveIntoCheck(move, maximizingPlayer))
 				moves.add(move);
 		}
 		// final List<Move> moves = board.listMoves(!maximizingPlayer);
@@ -56,7 +56,7 @@ public class AI {
 		final List<Move> moves = new ArrayList<>();
 		for (final Move move : rawMoves) {
 			// This is where we prevent the AI from committing suicide or ignoring check
-			if (!board.wouldResultInCheck(move))
+			if (!board.isMoveIntoCheck(move, false))
 				moves.add(move);
 		}
 		// final List<Move> moves = board.listMoves(false);

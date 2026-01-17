@@ -226,8 +226,8 @@ public class Test {
 			board.pieces.put(rookPos, new Piece(PieceType.ROOK, false));
 			// Vérifier que le système détecte l'échec si on bouge
 			final Move illegalMove = new Move(kingPos, new AxialCoordinate(0, 1));
-			// wouldResultInCheck renvoie true si le coup met le roi en danger
-			assert board.wouldResultInCheck(illegalMove)
+			// isMoveIntoCheck renvoie true si le coup met le roi en danger
+			assert board.isMoveIntoCheck(illegalMove, true)
 				: "Move exposing King to check should be detected as dangerous";
 			pass("Illegal move detection (Check)");
 		} catch (final AssertionError | Exception exception) {
