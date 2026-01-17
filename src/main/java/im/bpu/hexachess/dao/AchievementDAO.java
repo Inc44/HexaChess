@@ -18,7 +18,7 @@ public class AchievementDAO extends DAO<Achievement> {
 	private static final String READ_ALL = "SELECT * FROM achievements";
 	private static final String READ_ALL_FOR_PLAYER =
 		"SELECT a.achievement_id, a.name, a.description, CASE WHEN pa.player_id IS NOT NULL THEN "
-		+ "TRUE ELSE FALSE END AS unlocked FROM achievements a LEFT JOIN player_achievements pa ON "
+		+ "TRUE ELSE FALSE END AS unlocked FROM achievements a LEFT JOIN unlocks pa ON "
 		+ "a.achievement_id = pa.achievement_id AND pa.player_id = ? ORDER BY a.name ";
 	@Override
 	public Achievement create(final Achievement achievement) {
@@ -85,8 +85,7 @@ public class AchievementDAO extends DAO<Achievement> {
 		return achievements;
 	}
 	public void unlock(final String playerId, final String achievementId) {
-		final String sql =
-			"INSERT IGNORE INTO player_achievements (player_id, achievement_id) VALUES (?, ?)";
+		final String sql = "INSERT IGNORE INTO unlocks (player_id, achievement_id) VALUES (?, ?)";
 		try (final PreparedStatement pstmt = connect.prepareStatement(sql)) {
 			pstmt.setString(1, playerId);
 			pstmt.setString(2, achievementId);
