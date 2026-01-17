@@ -9,20 +9,20 @@
 	<padding>
 		<Insets top="30" right="30" bottom="30" left="30" />
 	</padding>
-	<Label text="Edit Profile" styleClass="h2" />
+	<Label text="%profile.edit.title" styleClass="h2" />
 	<VBox spacing="10" maxWidth="400" alignment="center">
-		<Label text="Email Address" />
+		<Label text="%profile.edit.email" />
 		<TextField fx:id="emailField" />
-		<Label text="Location / Country Code (ex: fr, us, jp)" />
+		<Label text="%profile.edit.location" />
 		<TextField fx:id="locationField" />
-		<Label text="Avatar URL (Image Link)" />
+		<Label text="%profile.edit.avatar" />
 		<TextField fx:id="avatarField" promptText="https://example.com/image.png" />
-		<Label text="New Password (Leave empty to keep)" />
+		<Label text="%profile.edit.newpassword" />
 		<PasswordField fx:id="newPasswordField" />
-		<Label text="Current Password (Required to save)" style="-fx-font-weight: bold;" />
+		<Label text="%profile.edit.password" style="-fx-font-weight: bold;" />
 		<PasswordField fx:id="currentPasswordField" />
 	</VBox>
 	<Label fx:id="statusLabel" managed="false" visible="false" styleClass="text-danger" />
-	<Button text="Save Changes" onAction="#handleSave" styleClass="success-button" prefWidth="200" prefHeight="40" />
-	<Button fx:id="backButton" text="Cancel" onAction="#handleCancel" prefWidth="200" />
+	<Button text="%profile.edit.save" onAction="#handleSave" styleClass="success-button" prefWidth="200" prefHeight="40" />
+	<Button fx:id="backButton" text="%profile.edit.cancel" onAction="#handleCancel" prefWidth="200" />
 </VBox>

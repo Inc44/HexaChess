@@ -3,6 +3,7 @@ package im.bpu.hexachess;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.network.API;
 
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,9 +45,10 @@ public class EditProfileWindow {
 	}
 	@FXML
 	private void handleSave() {
+		final ResourceBundle bundle = Main.getBundle();
 		final String currentPass = currentPasswordField.getText();
 		if (currentPass == null || currentPass.isEmpty()) {
-			statusLabel.setText("Current password is required!");
+			statusLabel.setText(bundle.getString("profile.edit.status.required"));
 			statusLabel.setStyle("-fx-text-fill: red;");
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
@@ -57,12 +59,12 @@ public class EditProfileWindow {
 				locationField.getText(), avatarField.getText(), newPasswordField.getText());
 			Platform.runLater(() -> {
 				if (success) {
-					statusLabel.setText("Profile updated successfully!");
+					statusLabel.setText(bundle.getString("profile.edit.status.success"));
 					statusLabel.setStyle("-fx-text-fill: green;");
 					currentPasswordField.clear();
 					newPasswordField.clear();
 				} else {
-					statusLabel.setText("Update failed (Wrong password?)");
+					statusLabel.setText(bundle.getString("profile.edit.status.failed"));
 					statusLabel.setStyle("-fx-text-fill: red;");
 				}
 				statusLabel.setManaged(true);

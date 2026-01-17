@@ -4,6 +4,7 @@ import im.bpu.hexachess.model.AI;
 import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -27,22 +28,24 @@ public class HelpWindow {
 	private Move bestMove;
 	@FXML
 	private void initialize() {
+		final ResourceBundle bundle = Main.getBundle();
 		// Disable the button if not in the game
 		if (State.getState().board == null) {
 			showBestMoveButton.setDisable(true);
-			bestMoveLabel.setText("Start a game to see the best move");
+			bestMoveLabel.setText(bundle.getString("help.game.title"));
 		}
 	}
 	@FXML
 	private void showBestMove() {
+		final ResourceBundle bundle = Main.getBundle();
 		showBestMoveButton.setDisable(true);
-		bestMoveLabel.setText("Calculating best move...");
+		bestMoveLabel.setText(bundle.getString("help.calculating"));
 		Thread.ofVirtual().start(() -> {
 			final State state = State.getState();
 			final Board board = state.board;
 			if (board == null) {
 				Platform.runLater(() -> {
-					bestMoveLabel.setText("No active game");
+					bestMoveLabel.setText(bundle.getString("help.game.empty"));
 					showBestMoveButton.setDisable(false);
 				});
 				return;
@@ -52,11 +55,11 @@ public class HelpWindow {
 			bestMove = ai.getBestMove(board, progress -> {});
 			Platform.runLater(() -> {
 				if (bestMove != null) {
-					bestMoveLabel.setText("Best move: " + bestMove.from.q + "," + bestMove.from.r
-						+ " -> " + bestMove.to.q + "," + bestMove.to.r);
+					bestMoveLabel.setText(bundle.getString("help.title") + ": " + bestMove.from.q
+						+ "," + bestMove.from.r + " -> " + bestMove.to.q + "," + bestMove.to.r);
 					drawBestMove();
 				} else {
-					bestMoveLabel.setText("No moves available");
+					bestMoveLabel.setText(bundle.getString("help.empty"));
 				}
 				showBestMoveButton.setDisable(false);
 			});
@@ -65,13 +68,14 @@ public class HelpWindow {
 	private void drawBestMove() {
 		if (bestMove == null || moveCanvas == null)
 			return;
+		final ResourceBundle bundle = Main.getBundle();
 		final GraphicsContext gc = moveCanvas.getGraphicsContext2D();
 		final double cx = moveCanvas.getWidth() / 2;
 		final double cy = moveCanvas.getHeight() / 2;
 		// Clear canvas
 		gc.clearRect(0, 0, moveCanvas.getWidth(), moveCanvas.getHeight());
 		// Draw "from" hex
-		drawHex(gc, cx - 60, cy, HEX_SIZE, Color.LIGHTGREEN, "FROM");
+		drawHex(gc, cx - 60, cy, HEX_SIZE, Color.LIGHTGREEN, bundle.getString("help.from"));
 		// Draw arrow
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(2);
@@ -79,7 +83,7 @@ public class HelpWindow {
 		gc.strokeLine(cx + 20, cy - 5, cx + 30, cy);
 		gc.strokeLine(cx + 20, cy + 5, cx + 30, cy);
 		// Draw "to" hex
-		drawHex(gc, cx + 60, cy, HEX_SIZE, Color.LIGHTBLUE, "TO");
+		drawHex(gc, cx + 60, cy, HEX_SIZE, Color.LIGHTBLUE, bundle.getString("help.to"));
 	}
 	private void drawHex(final GraphicsContext gc, final double x, final double y,
 		final double size, final Color color, final String label) {
