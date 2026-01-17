@@ -219,7 +219,10 @@ public class Server {
 				final String handle = getParameter(query, "handle");
 				final PlayerDAO playerDAO = new PlayerDAO();
 				final List<Player> players = playerDAO.searchPlayers(handle);
-				for (final Player player : players) player.setPasswordHash(null);
+				for (final Player player : players) {
+					player.setEmail(null);
+					player.setPasswordHash(null);
+				}
 				final String response = MAPPER.writeValueAsString(players);
 				sendResponse(exchange, 200, response);
 			} catch (final Exception exception) {
@@ -245,6 +248,7 @@ public class Server {
 				final PlayerDAO playerDAO = new PlayerDAO();
 				final Player player = playerDAO.getPlayerByHandle(handle);
 				if (player != null) {
+					player.setEmail(null);
 					player.setPasswordHash(null);
 					final String response = MAPPER.writeValueAsString(player);
 					sendResponse(exchange, 200, response);
@@ -329,6 +333,7 @@ public class Server {
 				final PlayerDAO playerDAO = new PlayerDAO();
 				final List<Player> players = playerDAO.getLeaderboard();
 				for (final Player player : players) {
+					player.setEmail(null);
 					player.setPasswordHash(null);
 				}
 				final String response = MAPPER.writeValueAsString(players);
@@ -488,53 +493,57 @@ public class Server {
 				return;
 			}
 			try {
-				final ObjectNode json =
+				final ObjectNode jsonNode =
 					MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
 				final PlayerDAO playerDAO = new PlayerDAO();
 				final Player player = playerDAO.getPlayerByHandle(handle);
 				if (player == null) {
-					sendResponse(exchange, 404, "Player not found");
+					sendResponse(exchange, 404, "Player Not Found");
 					return;
 				}
-				final String currentPassword =
-					json.has("currentPassword") ? json.get("currentPassword").asText() : "";
-				if (!BCrypt.checkpw(currentPassword, player.getPasswordHash())) {
-					sendResponse(exchange, 403, "Invalid current password");
+				final String password =
+					jsonNode.has("password") ? jsonNode.get("password").asText() : "";
+				if (!BCrypt.checkpw(password, player.getPasswordHash())) {
+					sendResponse(exchange, 403, "Forbidden");
 					return;
 				}
-				if (json.has("email") && !json.get("email").asText().trim().isEmpty()) {
-					player.setEmail(json.get("email").asText().trim());
+				final String email = jsonNode.has("email") ? jsonNode.get("email").asText() : "";
+				if (email != null && !email.isEmpty()) {
+					player.setEmail(email);
 				}
-				if (json.has("location") && !json.get("location").asText().trim().isEmpty()) {
-					player.setLocation(json.get("location").asText().trim());
+				final String location =
+					jsonNode.has("location") ? jsonNode.get("location").asText() : "";
+				if (location != null && !location.isEmpty()) {
+					player.setLocation(location);
 				}
-				if (json.has("avatar") && !json.get("avatar").asText().trim().isEmpty()) {
-					player.setAvatar(json.get("avatar").asText().trim());
+				final String avatar = jsonNode.has("avatar") ? jsonNode.get("avatar").asText() : "";
+				if (avatar != null && !avatar.isEmpty()) {
+					player.setAvatar(avatar);
 				}
-				if (json.has("newPassword") && !json.get("newPassword").asText().isEmpty()) {
-					final String newPass = json.get("newPassword").asText();
-					if (newPass.length() >= 8) {
-						player.setPasswordHash(BCrypt.hashpw(newPass, BCrypt.gensalt()));
-					}
+				final String newPassword =
+					jsonNode.has("newPassword") ? jsonNode.get("newPassword").asText() : "";
+				if (newPassword != null && !newPassword.isEmpty() && !isWeakPassword(newPassword)) {
+					final String passwordHash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+					player.setPasswordHash(passwordHash);
 				}
 				playerDAO.update(player);
-				sendResponse(exchange, 200, "Profile updated");
+				sendResponse(exchange, 200, "OK");
 			} catch (final Exception exception) {
 				exception.printStackTrace();
-				sendResponse(exchange, 500, "Internal Error");
+				sendResponse(exchange, 500, "Internal Server Error");
 			}
 		}
 	}
 	static class UnlockHandler implements HttpHandler {
 		@Override
 		public void handle(final HttpExchange exchange) throws IOException {
-			if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-				sendResponse(exchange, 405, "Method Not Allowed");
-				return;
-			}
 			final String handle = auth(exchange);
 			if (handle == null) {
 				sendResponse(exchange, 401, "Unauthorized");
+				return;
+			}
+			if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+				sendResponse(exchange, 405, "Method Not Allowed");
 				return;
 			}
 			try {
@@ -542,7 +551,7 @@ public class Server {
 					MAPPER.readValue(exchange.getRequestBody(), ObjectNode.class);
 				if (jsonNode == null || !jsonNode.has("playerId")
 					|| !jsonNode.has("achievementId")) {
-					sendResponse(exchange, 400, "Bad Request: Missing IDs");
+					sendResponse(exchange, 400, "Bad Request");
 					return;
 				}
 				final String playerId = jsonNode.get("playerId").asText();
@@ -602,7 +611,7 @@ public class Server {
 			try {
 				final String query = exchange.getRequestURI().getQuery();
 				if (getParameter(query, "tournamentId") == null) {
-					sendResponse(exchange, 400, "Missing tournament ID");
+					sendResponse(exchange, 400, "Bad Request");
 					return;
 				}
 				final String tournamentId = getParameter(query, "tournamentId");
