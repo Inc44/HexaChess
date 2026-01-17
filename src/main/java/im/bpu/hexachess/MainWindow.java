@@ -3,7 +3,6 @@ package im.bpu.hexachess;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.network.API;
 import im.bpu.hexachess.ui.HexPanel;
-import im.bpu.hexachess.ui.LeaderboardMenu;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -318,7 +317,7 @@ public class MainWindow {
 	}
 	@FXML
 	private void openLeaderboard() {
-		loadWindow("ui/leaderboardMenu.fxml", new LeaderboardMenu(), settingsHelpButton);
+		loadWindow("ui/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
 	}
 	private void setupTimers() {
 		updateTimerLabels(playerTimerLabel, playerTimeSeconds);

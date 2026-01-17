@@ -314,7 +314,7 @@ public class API {
 					.header("Content-Type", "application/json");
 			final HttpResponse<String> response =
 				sendWithFallback(requestBuilder, "/profile/update");
-			return response.statusCode() == 200;
+			return response != null && response.statusCode() == 200;
 		} catch (final Exception exception) {
 			exception.printStackTrace();
 			return false;

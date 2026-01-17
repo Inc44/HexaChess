@@ -13,11 +13,11 @@ public class AchievementItemController {
 		nameLabel.setText(achievement.getName());
 		descriptionLabel.setText(achievement.getDescription());
 		if (achievement.isUnlocked()) {
-			statusLabel.setText("Déverrouillé ✅");
+			statusLabel.setText("Unlocked ✅");
 			statusLabel.getStyleClass().remove("text-danger");
 			statusLabel.getStyleClass().add("text-success");
 		} else {
-			statusLabel.setText("Verrouillé 🔒");
+			statusLabel.setText("Locked 🔒");
 		}
 	}
 }

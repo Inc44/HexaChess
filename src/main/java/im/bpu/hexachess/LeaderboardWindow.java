@@ -1,7 +1,5 @@
-package im.bpu.hexachess.ui;
+package im.bpu.hexachess;
 
-import im.bpu.hexachess.Main;
-import im.bpu.hexachess.MainWindow;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.network.API;
 
@@ -12,7 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class LeaderboardMenu {
+import static im.bpu.hexachess.Main.loadWindow;
+
+public class LeaderboardWindow {
 	@FXML private VBox listContainer;
 	@FXML
 	public void initialize() {
@@ -35,6 +35,6 @@ public class LeaderboardMenu {
 	}
 	@FXML
 	private void goBack() {
-		Main.loadWindow("ui/mainWindow.fxml", new MainWindow(), listContainer);
+		loadWindow("ui/mainWindow.fxml", new MainWindow(), listContainer);
 	}
 }

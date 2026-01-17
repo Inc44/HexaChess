@@ -622,7 +622,7 @@ public class Server {
 				final String achievementId = jsonNode.get("achievementId").asText();
 				final AchievementDAO achievementDAO = new AchievementDAO();
 				achievementDAO.unlock(playerId, achievementId);
-				System.out.println("Succès débloqué pour " + handle + " : " + achievementId);
+				System.out.println("Achievement " + achievementId + " unlocked for " + handle);
 				sendResponse(exchange, 200, "OK");
 			} catch (final Exception exception) {
 				exception.printStackTrace();

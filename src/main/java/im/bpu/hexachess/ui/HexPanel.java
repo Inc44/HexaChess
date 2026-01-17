@@ -224,12 +224,11 @@ public class HexPanel {
 		if (state.isMultiplayer && piece.isWhite != state.isWhitePlayer)
 			return;
 		selected = coord;
-		final ArrayList<AxialCoordinate> rawMoves = piece.getPossibleMoves(state.board, coord);
+		final List<Move> rawMoves = state.board.getMoves(coord, piece);
 		highlighted.clear();
-		for (final AxialCoordinate target : rawMoves) {
-			final Move moveToCheck = new Move(selected, target);
-			if (!state.board.wouldResultInCheck(moveToCheck)) {
-				highlighted.add(target);
+		for (final Move move : rawMoves) {
+			if (!state.board.wouldResultInCheck(move)) {
+				highlighted.add(move.to);
 			}
 		}
 		repaint();

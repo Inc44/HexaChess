@@ -1,7 +1,5 @@
 package im.bpu.hexachess.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Piece {
@@ -10,15 +8,6 @@ public class Piece {
 	public Piece(PieceType type, boolean isWhite) {
 		this.type = type;
 		this.isWhite = isWhite;
-	}
-	public ArrayList<AxialCoordinate> getPossibleMoves(
-		final Board board, final AxialCoordinate position) {
-		final List<Move> legalMoves = board.getMoves(position, this);
-		final ArrayList<AxialCoordinate> destinations = new ArrayList<>();
-		for (final Move move : legalMoves) {
-			destinations.add(move.to);
-		}
-		return destinations;
 	}
 	@Override
 	public boolean equals(final Object obj) {
