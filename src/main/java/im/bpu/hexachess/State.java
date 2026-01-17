@@ -11,6 +11,7 @@ public class State {
 	public boolean isWhitePlayer = true;
 	public boolean isMultiplayer = false;
 	public boolean isDeveloperMode = false;
+	public boolean isPuzzleMode = false;
 	public String gameId = null;
 	public String opponentHandle = null;
 	private State() {
@@ -27,6 +28,7 @@ public class State {
 		history = new Stack<>();
 		isWhitePlayer = true;
 		isMultiplayer = false;
+		isPuzzleMode = false;
 		gameId = null;
 		opponentHandle = null;
 	}

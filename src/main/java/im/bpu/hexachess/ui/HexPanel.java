@@ -30,6 +30,7 @@ public class HexPanel {
 	private static final long DT = 500;
 	private static final long MAX_DT = 6000;
 	private static final int BACKOFF_FACTOR = 2;
+	public Consumer<Move> onPuzzleMove;
 	private final State state;
 	private final AI ai = new AI();
 	private final HexGeometry geometry;
@@ -145,6 +146,7 @@ public class HexPanel {
 		}
 		Piece pieceBeforeMove = state.board.getPiece(selected);
 		boolean wasPawn = (pieceBeforeMove != null && pieceBeforeMove.type == PieceType.PAWN);
+		final Move playedMove = new Move(selected, target);
 		final String moveString = selected.q + "," + selected.r + "->" + target.q + "," + target.r;
 		state.history.push(new Board(state.board));
 		state.board.movePiece(selected, target);
@@ -155,6 +157,13 @@ public class HexPanel {
 		}
 		deselect();
 		checkGameOver();
+		if(state.isPuzzleMode){
+			if(onPuzzleMove!=null){
+				onPuzzleMove.accept(playedMove);
+			}
+			repaint();
+			return;
+		}
 		if (isGameOver)
 			return;
 		isLockedIn = true;
