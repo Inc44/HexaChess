@@ -6,9 +6,7 @@ import im.bpu.hexachess.ui.HexPanel;
 
 import java.io.File;
 import java.util.ResourceBundle;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -46,7 +44,8 @@ public class MainWindow {
 	private long startRestartClickTime = 0;
 	private int playerTimeSeconds = DEFAULT_TIMER_SECONDS;
 	private int opponentTimeSeconds = DEFAULT_TIMER_SECONDS;
-	private Timeline clockTimeline;
+	private AnimationTimer timer;
+	private long lastTimerUpdate = 0;
 	@FXML private Button settingsHelpButton;
 	@FXML private VBox sidebar;
 	@FXML private Canvas canvas;
@@ -243,8 +242,10 @@ public class MainWindow {
 		opponentTimeSeconds = DEFAULT_TIMER_SECONDS;
 		updateTimerLabels(playerTimerLabel, playerTimeSeconds);
 		updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
-		if (clockTimeline != null)
-			clockTimeline.play();
+		if (timer != null) {
+			lastTimerUpdate = 0;
+			timer.start();
+		}
 		if (!State.getState().isMultiplayer) {
 			gameOverContainer.setManaged(false);
 			gameOverContainer.setVisible(false);
@@ -336,33 +337,45 @@ public class MainWindow {
 	private void setupTimers() {
 		updateTimerLabels(playerTimerLabel, playerTimeSeconds);
 		updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
-		clockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-			final ResourceBundle bundle = Main.getBundle();
-			final State state = State.getState();
-			final boolean isWhiteTurn = state.board.isWhiteTurn;
-			final boolean isPlayerWhite = state.isWhitePlayer;
-			if (isWhiteTurn == isPlayerWhite) {
-				if (playerTimeSeconds > 0) {
-					playerTimeSeconds--;
-					updateTimerLabels(playerTimerLabel, playerTimeSeconds);
+		timer = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				if (lastTimerUpdate == 0) {
+					lastTimerUpdate = now;
+					return;
 				}
-			} else {
-				if (opponentTimeSeconds > 0) {
-					opponentTimeSeconds--;
-					updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
+				if (now - lastTimerUpdate >= 1_000_000_000L) {
+					lastTimerUpdate = now;
+					tick();
 				}
 			}
-			if (playerTimeSeconds == 0 || opponentTimeSeconds == 0) {
-				stopTimer();
-				System.out.println(bundle.getString("main.timer"));
+		};
+		timer.start();
+	}
+	private void tick() {
+		final ResourceBundle bundle = Main.getBundle();
+		final State state = State.getState();
+		final boolean isWhiteTurn = state.board.isWhiteTurn;
+		final boolean isPlayerWhite = state.isWhitePlayer;
+		if (isWhiteTurn == isPlayerWhite) {
+			if (playerTimeSeconds > 0) {
+				playerTimeSeconds--;
+				updateTimerLabels(playerTimerLabel, playerTimeSeconds);
 			}
-		}));
-		clockTimeline.setCycleCount(Animation.INDEFINITE);
-		clockTimeline.play();
+		} else {
+			if (opponentTimeSeconds > 0) {
+				opponentTimeSeconds--;
+				updateTimerLabels(opponentTimerLabel, opponentTimeSeconds);
+			}
+		}
+		if (playerTimeSeconds == 0 || opponentTimeSeconds == 0) {
+			stopTimer();
+			System.out.println(bundle.getString("main.timer"));
+		}
 	}
 	private void stopTimer() {
-		if (clockTimeline != null)
-			clockTimeline.stop();
+		if (timer != null)
+			timer.stop();
 	}
 	private void updateTimerLabels(final Label label, final int totalSeconds) {
 		if (label == null)
