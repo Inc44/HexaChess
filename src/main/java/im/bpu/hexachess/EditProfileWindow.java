@@ -14,9 +14,9 @@ import javafx.scene.control.TextField;
 import static im.bpu.hexachess.Main.loadWindow;
 
 public class EditProfileWindow {
-	@FXML private TextField emailField;
-	@FXML private TextField locationField;
 	@FXML private TextField avatarField;
+	@FXML private TextField locationField;
+	@FXML private TextField emailField;
 	@FXML private PasswordField newPasswordField;
 	@FXML private PasswordField passwordField;
 	@FXML private Label statusLabel;
@@ -26,28 +26,31 @@ public class EditProfileWindow {
 	private void initialize() {
 		handle = SettingsManager.userHandle;
 		if (handle != null) {
-			loadCurrentData();
+			loadProfile();
 		}
 	}
-	private void loadCurrentData() {
+	private void loadProfile() {
 		Thread.ofVirtual().start(() -> {
 			final Player player = API.profile(handle);
 			if (player != null) {
+				final String avatarUrl = player.getAvatar();
+				final String location = player.getLocation();
+				final String email = player.getEmail();
 				Platform.runLater(() -> {
-					emailField.setText(player.getEmail());
-					locationField.setText(player.getLocation());
-					avatarField.setText(player.getAvatar());
-					passwordField.clear();
+					avatarField.setText(avatarUrl);
+					locationField.setText(location);
+					emailField.setText(email);
 					newPasswordField.clear();
+					passwordField.clear();
 				});
 			}
 		});
 	}
 	@FXML
-	private void handleSave() {
+	private void save() {
 		final ResourceBundle bundle = Main.getBundle();
-		final String currentPass = passwordField.getText();
-		if (currentPass == null || currentPass.isEmpty()) {
+		final String password = passwordField.getText();
+		if (password == null || password.isEmpty()) {
 			statusLabel.setText(bundle.getString("profile.edit.required"));
 			statusLabel.getStyleClass().setAll("text-danger");
 			statusLabel.setManaged(true);
@@ -55,10 +58,14 @@ public class EditProfileWindow {
 			return;
 		}
 		Thread.ofVirtual().start(() -> {
-			final boolean success = API.update(currentPass, emailField.getText(),
-				locationField.getText(), avatarField.getText(), newPasswordField.getText());
+			final String avatarUrl = avatarField.getText();
+			final String location = locationField.getText();
+			final String email = emailField.getText();
+			final String newPassword = newPasswordField.getText();
+			final boolean updateSuccess =
+				API.update(password, email, avatarUrl, location, newPassword);
 			Platform.runLater(() -> {
-				if (success) {
+				if (updateSuccess) {
 					statusLabel.setText(bundle.getString("profile.edit.success"));
 					statusLabel.getStyleClass().setAll("text-success");
 					passwordField.clear();
@@ -73,7 +80,7 @@ public class EditProfileWindow {
 		});
 	}
 	@FXML
-	private void handleCancel() {
+	private void openProfile() {
 		ProfileWindow.targetHandle = SettingsManager.userHandle;
 		loadWindow("ui/profileWindow.fxml", new ProfileWindow(), backButton);
 	}

@@ -19,6 +19,6 @@
 		<PasswordField fx:id="passwordField" />
 	</VBox>
 	<Label fx:id="statusLabel" managed="false" visible="false" styleClass="text-danger" />
-	<Button text="%profile.edit.save" onAction="#handleSave" styleClass="success-button" />
-	<Button fx:id="backButton" text="%profile.edit.cancel" onAction="#handleCancel" />
+	<Button text="%profile.edit.save" onAction="#save" styleClass="success-button" />
+	<Button fx:id="backButton" text="%profile.edit.cancel" onAction="#openProfile" />
 </VBox>

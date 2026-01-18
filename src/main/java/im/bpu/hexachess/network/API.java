@@ -235,14 +235,14 @@ public class API {
 		}
 		return null;
 	}
-	public static boolean update(final String password, final String email, final String location,
-		final String avatar, final String newPassword) {
+	public static boolean update(final String password, final String email, final String avatarUrl,
+		final String location, final String newPassword) {
 		try {
 			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("password", password);
 			jsonNode.put("email", email);
+			jsonNode.put("avatar", avatarUrl);
 			jsonNode.put("location", location);
-			jsonNode.put("avatar", avatar);
 			if (newPassword != null && !newPassword.isEmpty()) {
 				jsonNode.put("newPassword", newPassword);
 			}
