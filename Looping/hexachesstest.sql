@@ -90,42 +90,42 @@ INSERT INTO
 VALUES
 	(
 		'ACH_0000001',
-		'♟️ Premier pas',
+		'♟ Premier pas',
 		'Jouer sa première partie'
 	),
 	(
 		'ACH_0000002',
-		'♟️ Échec et mat',
+		'♟ Échec et mat',
 		'Gagner une partie'
 	),
 	(
 		'ACH_0000003',
-		'♟️ Mat du berger',
+		'♟ Mat du berger',
 		'Gagner par le mat du berger'
 	),
 	(
 		'ACH_0000004',
-		'♟️ Roque parfait',
+		'♟ Roque parfait',
 		'Effectuer un roque'
 	),
 	(
 		'ACH_0000005',
-		'♟️ En passant',
+		'♟ En passant',
 		'Capturer un pion en passant'
 	),
 	(
 		'ACH_0000006',
-		'♟️ Promotion royale',
+		'♟ Promotion royale',
 		'Promouvoir un pion en dame'
 	),
 	(
 		'ACH_0000007',
-		'♟️ Sous-promotion',
+		'♟ Sous-promotion',
 		'Promouvoir un pion en cavalier, fou ou tour'
 	),
 	(
 		'ACH_0000008',
-		'♟️ Pat',
+		'♟ Pat',
 		'Faire nulle par pat'
 	),
 	(
