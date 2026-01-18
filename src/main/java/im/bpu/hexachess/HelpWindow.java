@@ -11,7 +11,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -19,7 +18,6 @@ import static im.bpu.hexachess.Main.loadWindow;
 
 public class HelpWindow {
 	private static final double HEX_SIZE = 30;
-	@FXML private ScrollPane scrollPane;
 	@FXML private VBox contentBox;
 	@FXML private Button backButton;
 	@FXML private Button showBestMoveButton;
@@ -32,6 +30,8 @@ public class HelpWindow {
 		// Disable the button if not in the game
 		if (State.getState().board == null) {
 			showBestMoveButton.setDisable(true);
+			bestMoveLabel.setText(bundle.getString("help.game.empty"));
+		} else {
 			bestMoveLabel.setText(bundle.getString("help.game.title"));
 		}
 	}

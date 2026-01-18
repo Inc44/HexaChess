@@ -10,6 +10,7 @@ import im.bpu.hexachess.ui.HexPanel;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -34,6 +35,7 @@ public class PuzzleWindow {
 	private final Queue<PuzzleStep> solution = new LinkedList<>();
 	@FXML
 	private void initialize() {
+		final ResourceBundle bundle = Main.getBundle();
 		// On réinitialise l'état de victoire pour ce niveau
 		isLevelFinished = false;
 		// 1. On prépare le scénario selon le niveau
@@ -51,7 +53,7 @@ public class PuzzleWindow {
 		// Mise à jour de l'interface
 		updateStatusText();
 		statusLabel.setStyle("-fx-text-fill: white;");
-		resetButton.setText("Reset");
+		resetButton.setText(bundle.getString("puzzles.reset"));
 	}
 	private void updateStatusText() {
 		if (currentLevel == 4) {
@@ -133,17 +135,18 @@ public class PuzzleWindow {
 		}
 	}
 	private void processSuccessMove(PuzzleStep step) {
+		final ResourceBundle bundle = Main.getBundle();
 		solution.poll();
 		if (solution.isEmpty()) {
 			isLevelFinished = true;
-			statusLabel.setText("BRAVO ! Niveau " + currentLevel + " terminé !");
+			statusLabel.setText(bundle.getString("puzzles.solved"));
 			statusLabel.setStyle("-fx-text-fill: #2eda8e;"); // Vert
 			successContainer.setVisible(true);
 			successContainer.setManaged(true);
 			if (currentLevel < 4) {
-				resetButton.setText("Niveau Suivant ->");
+				resetButton.setText(bundle.getString("puzzles.next"));
 			} else {
-				resetButton.setText("Terminer (Menu)");
+				resetButton.setText(bundle.getString("puzzles.finish"));
 			}
 			return;
 		}
@@ -153,14 +156,15 @@ public class PuzzleWindow {
 				try {
 					Thread.sleep(600);
 					Platform.runLater(() -> playBlackMove(step.blackResponseStr()));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (InterruptedException exception) {
+					exception.printStackTrace();
 				}
 			});
 		}
 	}
 	private void processWrongMove() {
-		statusLabel.setText("Mauvais coup !");
+		final ResourceBundle bundle = Main.getBundle();
+		statusLabel.setText(bundle.getString("puzzles.wrong"));
 		statusLabel.setStyle("-fx-text-fill: #f05142;");
 		Thread.ofVirtual().start(() -> {
 			try {
@@ -168,9 +172,9 @@ public class PuzzleWindow {
 				Platform.runLater(() -> {
 					hexPanel.rewind();
 					statusLabel.setStyle("-fx-text-fill: white;");
-					statusLabel.setText("Essaie encore...");
+					statusLabel.setText(bundle.getString("puzzles.retry"));
 				});
-			} catch (InterruptedException e) {
+			} catch (InterruptedException exception) {
 			}
 		});
 	}

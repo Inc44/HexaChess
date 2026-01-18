@@ -447,3 +447,30 @@
 	background-color: rgba(0, 0, 0, 0.1);
 	padding: 2 6;
 }
+
+.help-box
+{
+	-fx-background-color: rgba(0, 0, 0, 0.2);
+	-fx-background-radius: 15;
+	-fx-padding: 20;
+	background-color: rgba(0, 0, 0, 0.2);
+	padding: 20;
+}
+
+.puzzle-success-box
+{
+	-fx-background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.visualization-box
+{
+	-fx-border-color: #666;
+	-fx-border-width: 2;
+	-fx-border-radius: 5;
+	-fx-border-style: dashed;
+	border-color: #666;
+	border-width: 2;
+	border-radius: 5;
+	border-style: dashed;
+}
