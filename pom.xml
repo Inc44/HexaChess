@@ -89,16 +89,11 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/java</directory>
+				<directory>src/main/resources</directory>
 				<includes>
 					<include>**/*.css</include>
 					<include>**/*.fxml</include>
 					<include>**/*.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
 					<include>**/*.wav</include>
 				</includes>
 			</resource>

@@ -1,6 +1,10 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
+import im.bpu.hexachess.State;
 import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.manager.CacheManager;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.network.API;
 
 import java.io.File;
@@ -63,7 +67,7 @@ public class SearchWindow {
 					for (final Player player : players) {
 						try {
 							final FXMLLoader playerItemLoader = new FXMLLoader(
-								getClass().getResource("ui/playerItem.fxml"), bundle);
+								getClass().getResource("/fxml/playerItem.fxml"), bundle);
 							final HBox playerItem = playerItemLoader.load();
 							final String handle = player.getHandle();
 							final int rating = player.getRating();
@@ -135,10 +139,10 @@ public class SearchWindow {
 	}
 	private void openProfile(final String handle) {
 		ProfileWindow.targetHandle = handle;
-		loadWindow("ui/profileWindow.fxml", new ProfileWindow(), backButton);
+		loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

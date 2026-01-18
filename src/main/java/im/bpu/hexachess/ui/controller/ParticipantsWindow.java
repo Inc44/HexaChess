@@ -1,7 +1,9 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.entity.Tournament;
+import im.bpu.hexachess.manager.CacheManager;
 import im.bpu.hexachess.network.API;
 
 import java.io.File;
@@ -54,7 +56,7 @@ public class ParticipantsWindow {
 					for (final Player player : players) {
 						try {
 							final FXMLLoader playerItemLoader = new FXMLLoader(
-								getClass().getResource("ui/playerItem.fxml"), bundle);
+								getClass().getResource("/fxml/playerItem.fxml"), bundle);
 							final HBox playerItem = playerItemLoader.load();
 							final String handle = player.getHandle();
 							final int rating = player.getRating();
@@ -91,7 +93,7 @@ public class ParticipantsWindow {
 							}
 							playerItem.setOnMouseClicked(event -> {
 								ProfileWindow.targetHandle = handle;
-								loadWindow("ui/profileWindow.fxml", new ProfileWindow(),
+								loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(),
 									participantsContainer);
 							});
 							participantsContainer.getChildren().add(playerItem);
@@ -106,6 +108,6 @@ public class ParticipantsWindow {
 	@FXML
 	private void openTournament() {
 		TournamentWindow.targetTournament = targetTournament;
-		loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
+		loadWindow("/fxml/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}
 }

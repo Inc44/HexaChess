@@ -1,4 +1,4 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.manager;
 
 import java.net.URL;
 import javafx.scene.media.AudioClip;

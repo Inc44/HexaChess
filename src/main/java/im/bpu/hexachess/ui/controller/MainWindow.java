@@ -1,6 +1,11 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.GameTimer;
+import im.bpu.hexachess.Main;
+import im.bpu.hexachess.State;
 import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.manager.CacheManager;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.network.API;
 import im.bpu.hexachess.ui.HexPanel;
 
@@ -276,7 +281,7 @@ public class MainWindow {
 	@FXML
 	private void openSettings() {
 		gameTimer.stop();
-		loadWindow("ui/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
+		loadWindow("/fxml/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openHelpSettings() {
@@ -292,36 +297,36 @@ public class MainWindow {
 	@FXML
 	private void openHelp() {
 		gameTimer.stop();
-		loadWindow("ui/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
+		loadWindow("/fxml/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openSearch() {
 		gameTimer.stop();
-		loadWindow("ui/searchWindow.fxml", new SearchWindow(), settingsHelpButton);
+		loadWindow("/fxml/searchWindow.fxml", new SearchWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openProfile() {
 		gameTimer.stop();
 		ProfileWindow.targetHandle = SettingsManager.userHandle;
-		loadWindow("ui/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
+		loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openPuzzles() {
-		loadWindow("ui/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
+		loadWindow("/fxml/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openTournaments() {
 		gameTimer.stop();
-		loadWindow("ui/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
+		loadWindow("/fxml/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openAchievements() {
 		gameTimer.stop();
-		loadWindow("ui/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
+		loadWindow("/fxml/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openLeaderboard() {
 		gameTimer.stop();
-		loadWindow("ui/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
+		loadWindow("/fxml/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
 	}
 }

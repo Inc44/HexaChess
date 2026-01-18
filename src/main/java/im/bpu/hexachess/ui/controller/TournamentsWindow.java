@@ -1,5 +1,6 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Tournament;
 import im.bpu.hexachess.network.API;
 
@@ -47,7 +48,7 @@ public class TournamentsWindow {
 					for (final Tournament tournament : tournaments) {
 						try {
 							final FXMLLoader tournamentItemLoader = new FXMLLoader(
-								getClass().getResource("ui/tournamentItem.fxml"), bundle);
+								getClass().getResource("/fxml/tournamentItem.fxml"), bundle);
 							final VBox tournamentItem = tournamentItemLoader.load();
 							final String name = tournament.getName();
 							final String description = tournament.getDescription();
@@ -87,10 +88,10 @@ public class TournamentsWindow {
 	}
 	private void openTournament(final Tournament tournament) {
 		TournamentWindow.targetTournament = tournament;
-		loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
+		loadWindow("/fxml/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

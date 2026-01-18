@@ -1,5 +1,10 @@
 package im.bpu.hexachess;
 
+import im.bpu.hexachess.manager.CacheManager;
+import im.bpu.hexachess.manager.SettingsManager;
+import im.bpu.hexachess.ui.controller.MainWindow;
+import im.bpu.hexachess.ui.controller.StartWindow;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Locale;
@@ -23,7 +28,7 @@ public class Main extends Application {
 	private static final double MOBILE_WIDTH = 540;
 	private static final double MOBILE_HEIGHT = 1200;
 	private static final String WINDOW_TITLE = "HexaChess";
-	private static final String LANGUAGE_PACKAGE = "im.bpu.hexachess.ui.lang";
+	private static final String LANGUAGE_PACKAGE = "lang.lang";
 	@Override
 	public void start(final Stage stage) throws Exception {
 		try {
@@ -41,12 +46,12 @@ public class Main extends Application {
 		final Parent root;
 		if (SettingsManager.userHandle != null) {
 			final FXMLLoader mainWindowLoader =
-				new FXMLLoader(getClass().getResource("ui/mainWindow.fxml"), bundle);
+				new FXMLLoader(getClass().getResource("/fxml/mainWindow.fxml"), bundle);
 			mainWindowLoader.setController(new MainWindow());
 			root = mainWindowLoader.load();
 		} else {
 			final FXMLLoader startWindowLoader =
-				new FXMLLoader(getClass().getResource("ui/startWindow.fxml"), bundle);
+				new FXMLLoader(getClass().getResource("/fxml/startWindow.fxml"), bundle);
 			startWindowLoader.setController(new StartWindow());
 			root = startWindowLoader.load();
 		}
@@ -86,8 +91,8 @@ public class Main extends Application {
 	}
 	public static void applyTheme(Scene scene) {
 		scene.getStylesheets().clear();
-		scene.getStylesheets().add(Main.class.getResource("ui/style.css").toExternalForm());
-		String themeFileName = "ui/" + SettingsManager.theme.toLowerCase() + ".css";
+		scene.getStylesheets().add(Main.class.getResource("/css/style.css").toExternalForm());
+		String themeFileName = "/css/" + SettingsManager.theme.toLowerCase() + ".css";
 		scene.getStylesheets().add(Main.class.getResource(themeFileName).toExternalForm());
 	}
 	public static void loadWindow(final String path, final Object controller, final Node node) {

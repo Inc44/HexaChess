@@ -1,7 +1,5 @@
 package im.bpu.hexachess.test;
 
-import im.bpu.hexachess.HelpWindow;
-import im.bpu.hexachess.SoundManager;
 import im.bpu.hexachess.State;
 import im.bpu.hexachess.dao.AchievementDAO;
 import im.bpu.hexachess.dao.GameDAO;
@@ -14,12 +12,14 @@ import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.entity.Puzzle;
 import im.bpu.hexachess.entity.Settings;
 import im.bpu.hexachess.entity.Tournament;
+import im.bpu.hexachess.manager.SoundManager;
 import im.bpu.hexachess.model.AI;
 import im.bpu.hexachess.model.AxialCoordinate;
 import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
 import im.bpu.hexachess.model.Piece;
 import im.bpu.hexachess.model.PieceType;
+import im.bpu.hexachess.ui.controller.HelpWindow;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -1,7 +1,7 @@
 package im.bpu.hexachess.ui;
 
-import im.bpu.hexachess.SettingsManager;
 import im.bpu.hexachess.State;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.model.AxialCoordinate;
 import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Piece;

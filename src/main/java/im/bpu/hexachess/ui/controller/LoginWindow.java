@@ -1,7 +1,9 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.entity.Settings;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.network.API;
 
 import java.util.ResourceBundle;
@@ -65,10 +67,10 @@ public class LoginWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), handleField);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), handleField);
 	}
 	@FXML
 	private void openStart() {
-		loadWindow("ui/startWindow.fxml", new StartWindow(), handleField);
+		loadWindow("/fxml/startWindow.fxml", new StartWindow(), handleField);
 	}
 }

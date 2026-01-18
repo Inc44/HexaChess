@@ -1,5 +1,8 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
+import im.bpu.hexachess.State;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.model.AI;
 import im.bpu.hexachess.model.Board;
 import im.bpu.hexachess.model.Move;
@@ -104,6 +107,6 @@ public class HelpWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

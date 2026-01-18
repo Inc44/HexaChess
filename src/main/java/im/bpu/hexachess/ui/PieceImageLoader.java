@@ -1,6 +1,6 @@
 package im.bpu.hexachess.ui;
 
-import im.bpu.hexachess.CacheManager;
+import im.bpu.hexachess.manager.CacheManager;
 
 import java.io.File;
 import java.util.HashMap;

@@ -1,12 +1,12 @@
 package im.bpu.hexachess.network;
 
 import im.bpu.hexachess.Config;
-import im.bpu.hexachess.SettingsManager;
 import im.bpu.hexachess.entity.Achievement;
 import im.bpu.hexachess.entity.Player;
 import im.bpu.hexachess.entity.Puzzle;
 import im.bpu.hexachess.entity.Settings;
 import im.bpu.hexachess.entity.Tournament;
+import im.bpu.hexachess.manager.SettingsManager;
 
 import java.net.URI;
 import java.net.http.HttpClient;

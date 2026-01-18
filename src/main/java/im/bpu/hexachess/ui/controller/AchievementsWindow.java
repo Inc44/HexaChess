@@ -1,6 +1,8 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Achievement;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.network.API;
 
 import java.util.List;
@@ -45,7 +47,7 @@ public class AchievementsWindow {
 					for (final Achievement achievement : achievements) {
 						try {
 							final FXMLLoader achievementItemLoader = new FXMLLoader(
-								getClass().getResource("ui/achievementItem.fxml"), bundle);
+								getClass().getResource("/fxml/achievementItem.fxml"), bundle);
 							final HBox achievementItem = achievementItemLoader.load();
 							final String name = achievement.getName();
 							final String description = achievement.getDescription();
@@ -75,6 +77,6 @@ public class AchievementsWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

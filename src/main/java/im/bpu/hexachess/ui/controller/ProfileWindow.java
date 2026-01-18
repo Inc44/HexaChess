@@ -1,6 +1,9 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.manager.CacheManager;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.network.API;
 
 import java.io.File;
@@ -98,10 +101,10 @@ public class ProfileWindow {
 	}
 	@FXML
 	private void openEditProfile() {
-		loadWindow("ui/editProfileWindow.fxml", new EditProfileWindow(), backButton);
+		loadWindow("/fxml/editProfileWindow.fxml", new EditProfileWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

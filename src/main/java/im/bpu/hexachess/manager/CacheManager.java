@@ -1,4 +1,4 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.manager;
 
 import java.io.File;
 import java.io.FileOutputStream;

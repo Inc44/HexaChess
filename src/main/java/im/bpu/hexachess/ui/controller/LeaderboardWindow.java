@@ -1,6 +1,8 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Player;
+import im.bpu.hexachess.manager.CacheManager;
 import im.bpu.hexachess.network.API;
 
 import java.io.File;
@@ -38,7 +40,7 @@ public class LeaderboardWindow {
 				for (final Player player : players) {
 					try {
 						final FXMLLoader playerItemLoader =
-							new FXMLLoader(getClass().getResource("ui/playerItem.fxml"), bundle);
+							new FXMLLoader(getClass().getResource("/fxml/playerItem.fxml"), bundle);
 						final HBox playerItem = playerItemLoader.load();
 						final String handle = player.getHandle();
 						final int rating = player.getRating();
@@ -77,8 +79,8 @@ public class LeaderboardWindow {
 						playerItem.getChildren().add(0, rankLabel);
 						playerItem.setOnMouseClicked(event -> {
 							ProfileWindow.targetHandle = handle;
-							loadWindow(
-								"ui/profileWindow.fxml", new ProfileWindow(), leaderboardContainer);
+							loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(),
+								leaderboardContainer);
 						});
 						leaderboardContainer.getChildren().add(playerItem);
 						rank++;
@@ -91,6 +93,6 @@ public class LeaderboardWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), leaderboardContainer);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), leaderboardContainer);
 	}
 }

@@ -1,5 +1,6 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Tournament;
 import im.bpu.hexachess.network.API;
 
@@ -76,10 +77,10 @@ public class TournamentWindow {
 	@FXML
 	private void openParticipants() {
 		ParticipantsWindow.targetTournament = targetTournament;
-		loadWindow("ui/participantsWindow.fxml", new ParticipantsWindow(), backButton);
+		loadWindow("/fxml/participantsWindow.fxml", new ParticipantsWindow(), backButton);
 	}
 	@FXML
 	private void openTournaments() {
-		loadWindow("ui/tournamentsWindow.fxml", new TournamentsWindow(), backButton);
+		loadWindow("/fxml/tournamentsWindow.fxml", new TournamentsWindow(), backButton);
 	}
 }

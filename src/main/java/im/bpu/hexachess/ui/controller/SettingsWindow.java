@@ -1,6 +1,8 @@
-package im.bpu.hexachess;
+package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.Main;
 import im.bpu.hexachess.entity.Settings;
+import im.bpu.hexachess.manager.SettingsManager;
 import im.bpu.hexachess.network.API;
 
 import java.util.ResourceBundle;
@@ -60,7 +62,7 @@ public class SettingsWindow {
 		languageComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
 				SettingsManager.setLanguage(newValue);
-				loadWindow("ui/settingsWindow.fxml", new SettingsWindow(), backButton);
+				loadWindow("/fxml/settingsWindow.fxml", new SettingsWindow(), backButton);
 			}
 		});
 	}
@@ -107,13 +109,13 @@ public class SettingsWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
 	}
 	@FXML
 	private void openStart() {
 		SettingsManager.setPlayerId(null);
 		SettingsManager.setUserHandle(null);
 		SettingsManager.setAuthToken(null);
-		loadWindow("ui/startWindow.fxml", new StartWindow(), backButton);
+		loadWindow("/fxml/startWindow.fxml", new StartWindow(), backButton);
 	}
 }
