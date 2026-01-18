@@ -8,7 +8,7 @@
 	<padding>
 		<Insets top="20" right="20" bottom="20" left="20" />
 	</padding>
-	<Label fx:id="titleLabel" text="%tournament.participants.title" styleClass="h2" />
+	<Label fx:id="tournamentLabel" text="%tournament.participants.title" styleClass="h2" />
 	<ScrollPane fitToWidth="true">
 		<content>
 			<VBox fx:id="participantsContainer" spacing="10" alignment="top_center" />

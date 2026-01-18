@@ -413,9 +413,9 @@
 {
 	/* orange */
 	-fx-text-fill: rgb(250, 157, 1);
-	-fx-min-width: 50px;
+	-fx-min-width: 32px;
 	-fx-font-size: 18px;
-	min-width: 50px;
+	min-width: 32px;
 	font-size: 18px;
 }
 
