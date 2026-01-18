@@ -48,8 +48,8 @@ public class EditProfileWindow {
 		final ResourceBundle bundle = Main.getBundle();
 		final String currentPass = currentPasswordField.getText();
 		if (currentPass == null || currentPass.isEmpty()) {
-			statusLabel.setText(bundle.getString("profile.edit.status.required"));
-			statusLabel.setStyle("-fx-text-fill: red;");
+			statusLabel.setText(bundle.getString("profile.edit.required"));
+			statusLabel.getStyleClass().setAll("text-danger");
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
@@ -59,13 +59,13 @@ public class EditProfileWindow {
 				locationField.getText(), avatarField.getText(), newPasswordField.getText());
 			Platform.runLater(() -> {
 				if (success) {
-					statusLabel.setText(bundle.getString("profile.edit.status.success"));
-					statusLabel.setStyle("-fx-text-fill: green;");
+					statusLabel.setText(bundle.getString("profile.edit.success"));
+					statusLabel.getStyleClass().setAll("text-success");
 					currentPasswordField.clear();
 					newPasswordField.clear();
 				} else {
-					statusLabel.setText(bundle.getString("profile.edit.status.failed"));
-					statusLabel.setStyle("-fx-text-fill: red;");
+					statusLabel.setText(bundle.getString("profile.edit.fail"));
+					statusLabel.getStyleClass().setAll("text-danger");
 				}
 				statusLabel.setManaged(true);
 				statusLabel.setVisible(true);

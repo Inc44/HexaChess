@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-// import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -56,7 +55,6 @@ public class TournamentWindow {
 			final boolean joinSuccess = API.join(tournamentId);
 			final ResourceBundle bundle = Main.getBundle();
 			Platform.runLater(() -> {
-				statusLabel.getStyleClass().clear();
 				if (joinSuccess) {
 					statusLabel.setText(bundle.getString("tournament.success"));
 					statusLabel.getStyleClass().add("text-success");

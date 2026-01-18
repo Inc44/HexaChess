@@ -17,10 +17,10 @@ public class AchievementItemController {
 		descriptionLabel.setText(achievement.getDescription());
 		if (achievement.getUnlocked()) {
 			statusLabel.setText(bundle.getString("achievements.unlocked"));
-			statusLabel.getStyleClass().remove("text-danger");
 			statusLabel.getStyleClass().add("text-success");
 		} else {
 			statusLabel.setText(bundle.getString("achievements.locked"));
+			statusLabel.getStyleClass().add("text-danger");
 		}
 	}
 }

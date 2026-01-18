@@ -9,7 +9,7 @@
 		<Insets top="20" right="20" bottom="20" left="20" />
 	</padding>
 	<Label fx:id="titleLabel" text="%tournament.participants.title" styleClass="h2" />
-	<ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+	<ScrollPane fitToWidth="true">
 		<content>
 			<VBox fx:id="listContainer" spacing="10" alignment="top_center" />
 		</content>

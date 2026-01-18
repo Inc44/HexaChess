@@ -19,7 +19,7 @@
 		<TextField fx:id="avatarField" promptText="https://example.com/image.png" />
 		<Label text="%profile.edit.newpassword" />
 		<PasswordField fx:id="newPasswordField" />
-		<Label text="%profile.edit.password" style="-fx-font-weight: bold;" />
+		<Label text="%profile.edit.password" />
 		<PasswordField fx:id="currentPasswordField" />
 	</VBox>
 	<Label fx:id="statusLabel" managed="false" visible="false" styleClass="text-danger" />

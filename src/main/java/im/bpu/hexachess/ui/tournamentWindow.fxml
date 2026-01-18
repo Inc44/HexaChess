@@ -10,11 +10,11 @@
 	</padding>
 	<VBox alignment="center" spacing="8" styleClass="profile-container" maxWidth="600">
 		<Label fx:id="nameLabel" styleClass="h2" wrapText="true" textAlignment="center" />
-		<Label fx:id="dateLabel" styleClass="profile-info" style="-fx-text-fill: gray;" />
+		<Label fx:id="dateLabel" styleClass="profile-info" />
 		<Label fx:id="statusLabel" />
 	</VBox>
 	<VBox alignment="top_left" spacing="16" maxWidth="600" styleClass="player-item">
-		<Label text="%tournament.description" style="-fx-font-weight: bold; -fx-underline: true;" />
+		<Label text="%tournament.description" />
 		<Label fx:id="descriptionLabel" wrapText="true" />
 	</VBox>
 	<HBox alignment="center" spacing="20">

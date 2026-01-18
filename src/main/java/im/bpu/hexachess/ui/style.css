@@ -383,10 +383,8 @@
 
 .participant-row
 {
-	-fx-background-color: white;
 	-fx-background-radius: 5;
 	-fx-padding: 10;
-	background-color: white;
 	padding: 10;
 }
 
@@ -421,14 +419,14 @@
 
 .leaderboard-name
 {
-	-fx-text-fill: white;
 	-fx-min-width: 200px;
 	min-width: 200px;
 }
 
 .leaderboard-elo
 {
-	-fx-text-fill: lightgreen;
+	/* green */
+	-fx-text-fill: rgb(46, 218, 119);
 }
 
 .tournament-button
