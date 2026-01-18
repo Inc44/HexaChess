@@ -12,7 +12,7 @@
 		<Button fx:id="searchButton" text="%search.icon" onAction="#handleSearch" styleClass="square-button" />
 	</HBox>
 	<ScrollPane fx:id="searchPane">
-		<VBox fx:id="playerContainer" alignment="center" spacing="16" />
+		<VBox fx:id="playerContainer" spacing="16" />
 	</ScrollPane>
 	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

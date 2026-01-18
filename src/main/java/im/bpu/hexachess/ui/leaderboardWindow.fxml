@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml" alignment="top_center" spacing="20">
-	<padding>
-		<Insets top="20" right="20" bottom="20" left="20" />
-	</padding>
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
 	<Label text="%main.leaderboard" styleClass="h2" />
-	<ScrollPane fitToWidth="true">
-		<VBox fx:id="leaderboardContainer" spacing="10">
-			<padding>
-				<Insets top="10" right="10" bottom="10" left="10" />
-			</padding>
-		</VBox>
+	<ScrollPane>
+		<VBox fx:id="leaderboardContainer" spacing="16" />
 	</ScrollPane>
-	<HBox alignment="center">
-		<Button text="%common.back" onAction="#handleBack" />
-	</HBox>
+	<Button text="%common.back" onAction="#handleBack" />
 </VBox>
