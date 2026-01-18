@@ -33,8 +33,8 @@ public class ProfileWindow {
 	@FXML private Label ratingLabel;
 	@FXML private Label locationLabel;
 	@FXML private Label joinedAtLabel;
-	@FXML private Button backButton;
 	@FXML private Button editButton;
+	@FXML private Button backButton;
 	@FXML
 	private void initialize() {
 		final String handle = targetHandle != null ? targetHandle : SettingsManager.userHandle;
@@ -56,10 +56,10 @@ public class ProfileWindow {
 			final String flagsFileName = FLAGS_URL.substring(FLAGS_URL.lastIndexOf('/') + 1);
 			final File flagsFile = CacheManager.save("images", flagsFileName, FLAGS_URL);
 			Platform.runLater(() -> {
-				if (handle != null && handle.equals(SettingsManager.userHandle))
+				if (handle.equals(SettingsManager.userHandle)) {
+					editButton.setManaged(true);
 					editButton.setVisible(true);
-				else
-					editButton.setVisible(false);
+				}
 				if (player == null) {
 					avatarIcon.setImage(avatarImage);
 					handleLabel.setText(handle);
