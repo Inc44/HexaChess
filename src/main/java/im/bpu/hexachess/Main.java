@@ -92,7 +92,7 @@ public class Main extends Application {
 	public static void applyTheme(Scene scene) {
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add(Main.class.getResource("/css/style.css").toExternalForm());
-		String themeFileName = "/css/" + SettingsManager.theme.toLowerCase() + ".css";
+		String themeFileName = "/css/theme/" + SettingsManager.theme.toLowerCase() + ".css";
 		scene.getStylesheets().add(Main.class.getResource(themeFileName).toExternalForm());
 	}
 	public static void loadWindow(final String path, final Object controller, final Node node) {
