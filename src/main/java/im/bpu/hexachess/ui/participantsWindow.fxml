@@ -11,7 +11,7 @@
 	<Label fx:id="titleLabel" text="%tournament.participants.title" styleClass="h2" />
 	<ScrollPane fitToWidth="true">
 		<content>
-			<VBox fx:id="listContainer" spacing="10" alignment="top_center" />
+			<VBox fx:id="participantsContainer" spacing="10" alignment="top_center" />
 		</content>
 	</ScrollPane>
 	<Button fx:id="backButton" text="%common.back" onAction="#handleBack" prefWidth="100" />

@@ -19,7 +19,7 @@ import static im.bpu.hexachess.Main.loadWindow;
 public class ParticipantsWindow {
 	public static Tournament targetTournament;
 	@FXML private Label titleLabel;
-	@FXML private VBox listContainer;
+	@FXML private VBox participantsContainer;
 	@FXML private Button backButton;
 	@FXML
 	private void initialize() {
@@ -33,9 +33,9 @@ public class ParticipantsWindow {
 		Thread.ofVirtual().start(() -> {
 			final List<Player> players = API.participants(targetTournament.getTournamentId());
 			Platform.runLater(() -> {
-				listContainer.getChildren().clear();
+				participantsContainer.getChildren().clear();
 				if (players.isEmpty()) {
-					listContainer.getChildren().add(
+					participantsContainer.getChildren().add(
 						new Label(bundle.getString("tournament.participants.empty")));
 				} else {
 					for (final Player player : players) {
@@ -46,7 +46,7 @@ public class ParticipantsWindow {
 						name.getStyleClass().add("participant-name");
 						final Label rating = new Label(player.getRating() + " ELO");
 						row.getChildren().addAll(name, rating);
-						listContainer.getChildren().add(row);
+						participantsContainer.getChildren().add(row);
 					}
 				}
 			});

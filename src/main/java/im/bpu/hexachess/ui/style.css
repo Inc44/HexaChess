@@ -23,6 +23,16 @@
 	border-width: 3px;
 }
 
+#leaderboardContainer,
+#participantsContainer,
+#playerContainer,
+#tournamentContainer,
+.player-item
+{
+	-fx-padding: 16;
+	padding: 16;
+}
+
 #loginButton,
 #signOutButton,
 #signUpButton
@@ -257,14 +267,6 @@
 .player-info-box-right
 {
 	-fx-translate-x: -16px;
-}
-
-.player-item,
-#playerContainer,
-#tournamentContainer
-{
-	-fx-padding: 16;
-	padding: 16;
 }
 
 .profile-container

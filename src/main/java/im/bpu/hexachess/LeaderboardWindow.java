@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import static im.bpu.hexachess.Main.loadWindow;
 
 public class LeaderboardWindow {
-	@FXML private VBox listContainer;
+	@FXML private VBox leaderboardContainer;
 	@FXML
 	public void initialize() {
 		Thread.ofVirtual().start(() -> {
@@ -32,7 +32,7 @@ public class LeaderboardWindow {
 					final Label eloLabel = new Label(player.getRating() + " pts");
 					eloLabel.getStyleClass().add("leaderboard-elo");
 					row.getChildren().addAll(rankLabel, nameLabel, eloLabel);
-					listContainer.getChildren().add(row);
+					leaderboardContainer.getChildren().add(row);
 					rank++;
 				}
 			});
@@ -40,6 +40,6 @@ public class LeaderboardWindow {
 	}
 	@FXML
 	private void goBack() {
-		loadWindow("ui/mainWindow.fxml", new MainWindow(), listContainer);
+		loadWindow("ui/mainWindow.fxml", new MainWindow(), leaderboardContainer);
 	}
 }

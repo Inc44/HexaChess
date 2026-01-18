@@ -3,15 +3,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="top_center" spacing="20">
 	<padding>
 		<Insets top="20" right="20" bottom="20" left="20" />
 	</padding>
 	<Label text="%main.leaderboard" styleClass="h2" />
 	<ScrollPane fitToWidth="true">
-		<VBox fx:id="listContainer" spacing="10">
+		<VBox fx:id="leaderboardContainer" spacing="10">
 			<padding>
 				<Insets top="10" right="10" bottom="10" left="10" />
 			</padding>
