@@ -90,7 +90,7 @@ public class LeaderboardWindow {
 		});
 	}
 	@FXML
-	private void handleBack() {
+	private void openMain() {
 		loadWindow("ui/mainWindow.fxml", new MainWindow(), leaderboardContainer);
 	}
 }

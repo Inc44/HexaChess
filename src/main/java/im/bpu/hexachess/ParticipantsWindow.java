@@ -32,7 +32,7 @@ public class ParticipantsWindow {
 	@FXML
 	private void initialize() {
 		if (targetTournament == null) {
-			handleBack();
+			openTournament();
 			return;
 		}
 		final ResourceBundle bundle = Main.getBundle();
@@ -104,7 +104,7 @@ public class ParticipantsWindow {
 		});
 	}
 	@FXML
-	private void handleBack() {
+	private void openTournament() {
 		TournamentWindow.targetTournament = targetTournament;
 		loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}

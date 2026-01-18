@@ -14,8 +14,8 @@
 		<Label fx:id="descriptionLabel" wrapText="true" />
 	</VBox>
 	<HBox alignment="center" spacing="20">
-		<Button fx:id="joinButton" onAction="#handleParticipate" styleClass="success-button" prefWidth="200" prefHeight="50" />
-		<Button fx:id="participantsButton" onAction="#handleViewParticipants" styleClass="tournament-button" prefWidth="200" prefHeight="50" />
+		<Button fx:id="joinButton" onAction="#participate" styleClass="success-button" prefWidth="200" prefHeight="50" />
+		<Button fx:id="participantsButton" onAction="#openParticipants" styleClass="tournament-button" prefWidth="200" prefHeight="50" />
 	</HBox>
 	<Button fx:id="backButton" text="%common.back" onAction="#openTournaments" />
 </VBox>

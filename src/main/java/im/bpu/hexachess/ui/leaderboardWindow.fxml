@@ -8,5 +8,5 @@
 	<ScrollPane>
 		<VBox fx:id="leaderboardContainer" spacing="16" />
 	</ScrollPane>
-	<Button text="%common.back" onAction="#handleBack" />
+	<Button text="%common.back" onAction="#openMain" />
 </VBox>

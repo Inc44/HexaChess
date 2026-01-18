@@ -8,5 +8,5 @@
 	<ScrollPane>
 		<VBox fx:id="participantsContainer" spacing="16" />
 	</ScrollPane>
-	<Button fx:id="backButton" text="%common.back" onAction="#handleBack" />
+	<Button fx:id="backButton" text="%common.back" onAction="#openTournament" />
 </VBox>

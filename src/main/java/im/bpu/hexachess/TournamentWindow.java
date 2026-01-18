@@ -3,6 +3,7 @@ package im.bpu.hexachess;
 import im.bpu.hexachess.entity.Tournament;
 import im.bpu.hexachess.network.API;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -17,9 +18,9 @@ public class TournamentWindow {
 	private static final DateTimeFormatter DATE_TIME_FORMATTER =
 		DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
 	@FXML private Label nameLabel;
+	@FXML private Label descriptionLabel;
 	@FXML private Label startTimeLabel;
 	@FXML private Label statusLabel;
-	@FXML private Label descriptionLabel;
 	@FXML private Button joinButton;
 	@FXML private Button participantsButton;
 	@FXML private Button backButton;
@@ -29,27 +30,34 @@ public class TournamentWindow {
 			openTournaments();
 			return;
 		}
-		final ResourceBundle bundle = Main.getBundle();
-		nameLabel.setText(targetTournament.getName());
-		descriptionLabel.setText(targetTournament.getDescription());
-		if (targetTournament.getStartTime() != null) {
-			startTimeLabel.setText(targetTournament.getStartTime().format(DATE_TIME_FORMATTER));
-		} else {
-			startTimeLabel.setText(bundle.getString("tournaments.tbd"));
-		}
-		if (targetTournament.getWinnerId() != null) {
-			statusLabel.setText(
-				bundle.getString("tournaments.winner") + ": " + targetTournament.getWinnerId());
-			statusLabel.getStyleClass().add("text-success");
-		} else {
-			statusLabel.setText(bundle.getString("tournaments.status.openforregistration"));
-			statusLabel.getStyleClass().add("text-danger");
-		}
-		joinButton.setText(bundle.getString("tournament.join"));
-		participantsButton.setText(bundle.getString("tournament.participants"));
+		Thread.ofVirtual().start(() -> {
+			final ResourceBundle bundle = Main.getBundle();
+			final String name = targetTournament.getName();
+			final String description = targetTournament.getDescription();
+			final LocalDateTime startTime = targetTournament.getStartTime();
+			final String winnerId = targetTournament.getWinnerId();
+			Platform.runLater(() -> {
+				nameLabel.setText(name);
+				descriptionLabel.setText(description);
+				if (startTime != null) {
+					startTimeLabel.setText(startTime.format(DATE_TIME_FORMATTER));
+				} else {
+					startTimeLabel.setText(bundle.getString("tournaments.tbd"));
+				}
+				if (winnerId != null) {
+					statusLabel.setText(bundle.getString("tournaments.winner") + ": " + winnerId);
+					statusLabel.getStyleClass().add("text-success");
+				} else {
+					statusLabel.setText(bundle.getString("tournaments.status.openforregistration"));
+					statusLabel.getStyleClass().add("text-danger");
+				}
+				joinButton.setText(bundle.getString("tournament.join"));
+				participantsButton.setText(bundle.getString("tournament.participants"));
+			});
+		});
 	}
 	@FXML
-	private void handleParticipate() {
+	private void participate() {
 		Thread.ofVirtual().start(() -> {
 			final String tournamentId = targetTournament.getTournamentId();
 			final boolean joinSuccess = API.join(tournamentId);
@@ -66,7 +74,7 @@ public class TournamentWindow {
 		});
 	}
 	@FXML
-	private void handleViewParticipants() {
+	private void openParticipants() {
 		ParticipantsWindow.targetTournament = targetTournament;
 		loadWindow("ui/participantsWindow.fxml", new ParticipantsWindow(), backButton);
 	}
