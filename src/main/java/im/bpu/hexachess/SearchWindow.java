@@ -62,8 +62,8 @@ public class SearchWindow {
 				} else {
 					for (final Player player : players) {
 						try {
-							final FXMLLoader playerItemLoader =
-								new FXMLLoader(getClass().getResource("ui/playerItem.fxml"));
+							final FXMLLoader playerItemLoader = new FXMLLoader(
+								getClass().getResource("ui/playerItem.fxml"), bundle);
 							final HBox playerItem = playerItemLoader.load();
 							final String handle = player.getHandle();
 							final int rating = player.getRating();

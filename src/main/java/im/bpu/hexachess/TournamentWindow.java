@@ -17,7 +17,7 @@ public class TournamentWindow {
 	private static final DateTimeFormatter DATE_TIME_FORMATTER =
 		DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
 	@FXML private Label nameLabel;
-	@FXML private Label dateLabel;
+	@FXML private Label startTimeLabel;
 	@FXML private Label statusLabel;
 	@FXML private Label descriptionLabel;
 	@FXML private Button joinButton;
@@ -33,9 +33,9 @@ public class TournamentWindow {
 		nameLabel.setText(targetTournament.getName());
 		descriptionLabel.setText(targetTournament.getDescription());
 		if (targetTournament.getStartTime() != null) {
-			dateLabel.setText(targetTournament.getStartTime().format(DATE_TIME_FORMATTER));
+			startTimeLabel.setText(targetTournament.getStartTime().format(DATE_TIME_FORMATTER));
 		} else {
-			dateLabel.setText(bundle.getString("tournaments.tbd"));
+			startTimeLabel.setText(bundle.getString("tournaments.tbd"));
 		}
 		if (targetTournament.getWinnerId() != null) {
 			statusLabel.setText(

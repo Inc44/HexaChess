@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
 	<Label text="%achievements.title" styleClass="h2" />
-	<ScrollPane fx:id="scrollPane">
-		<VBox fx:id="achievementsContainer" alignment="center" spacing="12" />
+	<ScrollPane fx:id="achievementsPane">
+		<VBox fx:id="achievementsContainer" alignment="center" spacing="16" />
 	</ScrollPane>
 	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

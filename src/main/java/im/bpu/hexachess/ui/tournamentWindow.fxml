@@ -10,7 +10,7 @@
 	</padding>
 	<VBox alignment="center" spacing="8" styleClass="profile-container" maxWidth="600">
 		<Label fx:id="nameLabel" styleClass="h2" wrapText="true" textAlignment="center" />
-		<Label fx:id="dateLabel" styleClass="profile-info" />
+		<Label fx:id="startTimeLabel" styleClass="profile-info" />
 		<Label fx:id="statusLabel" />
 	</VBox>
 	<VBox alignment="top_left" spacing="16" maxWidth="600" styleClass="player-item">

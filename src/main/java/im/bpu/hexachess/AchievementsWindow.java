@@ -2,7 +2,6 @@ package im.bpu.hexachess;
 
 import im.bpu.hexachess.entity.Achievement;
 import im.bpu.hexachess.network.API;
-import im.bpu.hexachess.ui.AchievementItemController;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,35 +19,55 @@ import static im.bpu.hexachess.Main.loadWindow;
 
 public class AchievementsWindow {
 	private static final double ASPECT_RATIO_THRESHOLD = 1.5;
-	@FXML private ScrollPane scrollPane;
+	@FXML private ScrollPane achievementsPane;
 	@FXML private VBox achievementsContainer;
 	@FXML private Button backButton;
 	@FXML
 	private void initialize() {
 		if (getAspectRatio() < ASPECT_RATIO_THRESHOLD) {
-			scrollPane.setStyle("-fx-pref-width: 400px; -fx-max-width: 400px;");
+			achievementsPane.setStyle(
+				"-fx-pref-width: 400px; -fx-max-width: 400px;"); // CSS instead of JavaFX's
+																 // setPrefWidth/setMaxWidth due to
+																 // parsing precedence
 		}
+		loadAchievements();
+	}
+	private void loadAchievements() {
 		Thread.ofVirtual().start(() -> {
 			final ResourceBundle bundle = Main.getBundle();
 			final String playerId = SettingsManager.playerId;
 			final List<Achievement> achievements = API.achievements(playerId);
 			Platform.runLater(() -> {
-				achievementsContainer.getChildren().clear();
-				if (achievements == null || achievements.isEmpty()) {
-					achievementsContainer.getChildren().add(
-						new Label(bundle.getString("achievements.empty")));
-					return;
-				}
-				for (final Achievement achievement : achievements) {
-					try {
-						final FXMLLoader loader = new FXMLLoader(
-							getClass().getResource("ui/achievementItem.fxml"), bundle);
-						final HBox item = loader.load();
-						final AchievementItemController controller = loader.getController();
-						controller.setAchievement(achievement);
-						achievementsContainer.getChildren().add(item);
-					} catch (final Exception exception) {
-						exception.printStackTrace();
+				if (achievements.isEmpty()) {
+					final Label emptyLabel = new Label(bundle.getString("achievements.empty"));
+					achievementsContainer.getChildren().add(emptyLabel);
+				} else {
+					for (final Achievement achievement : achievements) {
+						try {
+							final FXMLLoader achievementItemLoader = new FXMLLoader(
+								getClass().getResource("ui/achievementItem.fxml"), bundle);
+							final HBox achievementItem = achievementItemLoader.load();
+							final String name = achievement.getName();
+							final String description = achievement.getDescription();
+							final boolean unlocked = achievement.getUnlocked();
+							final Label nameLabel = (Label) achievementItem.lookup("#nameLabel");
+							final Label descriptionLabel =
+								(Label) achievementItem.lookup("#descriptionLabel");
+							final Label statusLabel =
+								(Label) achievementItem.lookup("#statusLabel");
+							nameLabel.setText(name);
+							descriptionLabel.setText(description);
+							if (unlocked) {
+								statusLabel.setText(bundle.getString("achievements.unlocked"));
+								statusLabel.getStyleClass().add("text-success");
+							} else {
+								statusLabel.setText(bundle.getString("achievements.locked"));
+								statusLabel.getStyleClass().add("text-danger");
+							}
+							achievementsContainer.getChildren().add(achievementItem);
+						} catch (final Exception exception) {
+							exception.printStackTrace();
+						}
 					}
 				}
 			});

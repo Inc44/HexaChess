@@ -23,7 +23,7 @@ public class TournamentsWindow {
 	private static final DateTimeFormatter DATE_TIME_FORMATTER =
 		DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
 	@FXML private ScrollPane tournamentsPane;
-	@FXML private VBox tournamentContainer;
+	@FXML private VBox tournamentsContainer;
 	@FXML private Button backButton;
 	@FXML
 	private void initialize() {
@@ -33,33 +33,39 @@ public class TournamentsWindow {
 																 // setPrefWidth/setMaxWidth due to
 																 // parsing precedence
 		}
+		loadTournaments();
+	}
+	private void loadTournaments() {
 		Thread.ofVirtual().start(() -> {
 			final ResourceBundle bundle = Main.getBundle();
 			final List<Tournament> tournaments = API.tournaments();
 			Platform.runLater(() -> {
 				if (tournaments.isEmpty()) {
 					final Label emptyLabel = new Label(bundle.getString("tournaments.empty"));
-					tournamentContainer.getChildren().add(emptyLabel);
+					tournamentsContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Tournament tournament : tournaments) {
 						try {
-							final FXMLLoader tournamentItemLoader =
-								new FXMLLoader(getClass().getResource("ui/tournamentItem.fxml"));
+							final FXMLLoader tournamentItemLoader = new FXMLLoader(
+								getClass().getResource("ui/tournamentItem.fxml"), bundle);
 							final VBox tournamentItem = tournamentItemLoader.load();
+							final String name = tournament.getName();
+							final String description = tournament.getDescription();
 							final LocalDateTime startTime = tournament.getStartTime();
 							final String winnerId = tournament.getWinnerId();
 							final Label nameLabel = (Label) tournamentItem.lookup("#nameLabel");
-							final Label dateLabel = (Label) tournamentItem.lookup("#dateLabel");
 							final Label descriptionLabel =
 								(Label) tournamentItem.lookup("#descriptionLabel");
+							final Label startTimeLabel =
+								(Label) tournamentItem.lookup("#startTimeLabel");
 							final Label statusLabel = (Label) tournamentItem.lookup("#statusLabel");
-							nameLabel.setText(tournament.getName());
+							nameLabel.setText(name);
+							descriptionLabel.setText(description);
 							if (startTime != null) {
-								dateLabel.setText(startTime.format(DATE_TIME_FORMATTER));
+								startTimeLabel.setText(startTime.format(DATE_TIME_FORMATTER));
 							} else {
-								dateLabel.setText(bundle.getString("tournaments.tbd"));
+								startTimeLabel.setText(bundle.getString("tournaments.tbd"));
 							}
-							descriptionLabel.setText(tournament.getDescription());
 							if (winnerId != null) {
 								statusLabel.setText(
 									bundle.getString("tournaments.winner") + ": " + winnerId);
@@ -69,9 +75,8 @@ public class TournamentsWindow {
 									bundle.getString("tournaments.status.ongoingopen"));
 								statusLabel.getStyleClass().add("text-danger");
 							}
-							tournamentItem.setOnMouseClicked(
-								event -> openTournamentPage(tournament));
-							tournamentContainer.getChildren().add(tournamentItem);
+							tournamentItem.setOnMouseClicked(event -> openTournament(tournament));
+							tournamentsContainer.getChildren().add(tournamentItem);
 						} catch (final Exception exception) {
 							exception.printStackTrace();
 						}
@@ -80,7 +85,7 @@ public class TournamentsWindow {
 			});
 		});
 	}
-	private void openTournamentPage(final Tournament tournament) {
+	private void openTournament(final Tournament tournament) {
 		TournamentWindow.targetTournament = tournament;
 		loadWindow("ui/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}

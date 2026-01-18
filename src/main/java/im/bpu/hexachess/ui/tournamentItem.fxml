@@ -8,7 +8,7 @@
 	<HBox alignment="center_left" spacing="10">
 		<Label fx:id="nameLabel" styleClass="tournament-item-name" />
 		<Region HBox.hgrow="ALWAYS" />
-		<Label fx:id="dateLabel" styleClass="tournament-item-date" />
+		<Label fx:id="startTimeLabel" styleClass="tournament-item-date" />
 	</HBox>
 	<Label fx:id="descriptionLabel" wrapText="true" styleClass="tournament-item-description" />
 	<Label fx:id="statusLabel" />

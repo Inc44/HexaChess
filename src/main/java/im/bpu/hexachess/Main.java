@@ -93,10 +93,10 @@ public class Main extends Application {
 	public static void loadWindow(final String path, final Object controller, final Node node) {
 		try {
 			final ResourceBundle bundle = getBundle();
-			final FXMLLoader loader = new FXMLLoader(Main.class.getResource(path), bundle);
-			loader.setController(controller);
+			final FXMLLoader windowLoader = new FXMLLoader(Main.class.getResource(path), bundle);
+			windowLoader.setController(controller);
 			Scene scene = node.getScene();
-			scene.setRoot(loader.load());
+			scene.setRoot(windowLoader.load());
 			applyTheme(scene);
 		} catch (final Exception exception) {
 			exception.printStackTrace();
