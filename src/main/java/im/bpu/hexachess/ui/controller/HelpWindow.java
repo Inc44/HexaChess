@@ -107,6 +107,6 @@ public class HelpWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

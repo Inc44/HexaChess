@@ -62,7 +62,7 @@ public class SettingsWindow {
 		languageComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
 				SettingsManager.setLanguage(newValue);
-				loadWindow("/fxml/settingsWindow.fxml", new SettingsWindow(), backButton);
+				loadWindow("/fxml/window/settingsWindow.fxml", new SettingsWindow(), backButton);
 			}
 		});
 	}
@@ -109,13 +109,13 @@ public class SettingsWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
 	@FXML
 	private void openStart() {
 		SettingsManager.setPlayerId(null);
 		SettingsManager.setUserHandle(null);
 		SettingsManager.setAuthToken(null);
-		loadWindow("/fxml/startWindow.fxml", new StartWindow(), backButton);
+		loadWindow("/fxml/window/startWindow.fxml", new StartWindow(), backButton);
 	}
 }

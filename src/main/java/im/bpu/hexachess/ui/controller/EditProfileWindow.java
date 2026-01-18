@@ -84,6 +84,6 @@ public class EditProfileWindow {
 	@FXML
 	private void openProfile() {
 		ProfileWindow.targetHandle = SettingsManager.userHandle;
-		loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(), backButton);
+		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), backButton);
 	}
 }

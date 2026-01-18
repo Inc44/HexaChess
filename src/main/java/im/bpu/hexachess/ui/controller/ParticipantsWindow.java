@@ -93,7 +93,7 @@ public class ParticipantsWindow {
 							}
 							playerItem.setOnMouseClicked(event -> {
 								ProfileWindow.targetHandle = handle;
-								loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(),
+								loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(),
 									participantsContainer);
 							});
 							participantsContainer.getChildren().add(playerItem);
@@ -108,6 +108,6 @@ public class ParticipantsWindow {
 	@FXML
 	private void openTournament() {
 		TournamentWindow.targetTournament = targetTournament;
-		loadWindow("/fxml/tournamentWindow.fxml", new TournamentWindow(), backButton);
+		loadWindow("/fxml/window/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}
 }

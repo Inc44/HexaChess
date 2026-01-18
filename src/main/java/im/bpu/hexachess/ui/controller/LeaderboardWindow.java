@@ -79,7 +79,7 @@ public class LeaderboardWindow {
 						playerItem.getChildren().add(0, rankLabel);
 						playerItem.setOnMouseClicked(event -> {
 							ProfileWindow.targetHandle = handle;
-							loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(),
+							loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(),
 								leaderboardContainer);
 						});
 						leaderboardContainer.getChildren().add(playerItem);
@@ -93,6 +93,6 @@ public class LeaderboardWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), leaderboardContainer);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), leaderboardContainer);
 	}
 }

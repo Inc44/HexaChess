@@ -216,6 +216,6 @@ public class PuzzleWindow {
 	@FXML
 	private void openMain() {
 		State.getState().isPuzzleMode = false;
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

@@ -85,10 +85,10 @@ public class RegisterWindow {
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), handleField);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), handleField);
 	}
 	@FXML
 	private void openStart() {
-		loadWindow("/fxml/startWindow.fxml", new StartWindow(), handleField);
+		loadWindow("/fxml/window/startWindow.fxml", new StartWindow(), handleField);
 	}
 }

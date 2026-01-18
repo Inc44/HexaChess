@@ -281,7 +281,7 @@ public class MainWindow {
 	@FXML
 	private void openSettings() {
 		gameTimer.stop();
-		loadWindow("/fxml/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
+		loadWindow("/fxml/window/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openHelpSettings() {
@@ -297,36 +297,39 @@ public class MainWindow {
 	@FXML
 	private void openHelp() {
 		gameTimer.stop();
-		loadWindow("/fxml/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
+		loadWindow("/fxml/window/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openSearch() {
 		gameTimer.stop();
-		loadWindow("/fxml/searchWindow.fxml", new SearchWindow(), settingsHelpButton);
+		loadWindow("/fxml/window/searchWindow.fxml", new SearchWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openProfile() {
 		gameTimer.stop();
 		ProfileWindow.targetHandle = SettingsManager.userHandle;
-		loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
+		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openPuzzles() {
-		loadWindow("/fxml/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
+		loadWindow("/fxml/window/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openTournaments() {
 		gameTimer.stop();
-		loadWindow("/fxml/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
+		loadWindow(
+			"/fxml/window/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openAchievements() {
 		gameTimer.stop();
-		loadWindow("/fxml/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
+		loadWindow(
+			"/fxml/window/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openLeaderboard() {
 		gameTimer.stop();
-		loadWindow("/fxml/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
+		loadWindow(
+			"/fxml/window/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
 	}
 }

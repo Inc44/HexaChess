@@ -139,10 +139,10 @@ public class SearchWindow {
 	}
 	private void openProfile(final String handle) {
 		ProfileWindow.targetHandle = handle;
-		loadWindow("/fxml/profileWindow.fxml", new ProfileWindow(), backButton);
+		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

@@ -101,10 +101,10 @@ public class ProfileWindow {
 	}
 	@FXML
 	private void openEditProfile() {
-		loadWindow("/fxml/editProfileWindow.fxml", new EditProfileWindow(), backButton);
+		loadWindow("/fxml/window/editProfileWindow.fxml", new EditProfileWindow(), backButton);
 	}
 	@FXML
 	private void openMain() {
-		loadWindow("/fxml/mainWindow.fxml", new MainWindow(), backButton);
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

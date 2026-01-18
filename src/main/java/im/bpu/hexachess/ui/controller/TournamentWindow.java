@@ -77,10 +77,10 @@ public class TournamentWindow {
 	@FXML
 	private void openParticipants() {
 		ParticipantsWindow.targetTournament = targetTournament;
-		loadWindow("/fxml/participantsWindow.fxml", new ParticipantsWindow(), backButton);
+		loadWindow("/fxml/window/participantsWindow.fxml", new ParticipantsWindow(), backButton);
 	}
 	@FXML
 	private void openTournaments() {
-		loadWindow("/fxml/tournamentsWindow.fxml", new TournamentsWindow(), backButton);
+		loadWindow("/fxml/window/tournamentsWindow.fxml", new TournamentsWindow(), backButton);
 	}
 }

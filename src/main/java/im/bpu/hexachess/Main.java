@@ -46,12 +46,12 @@ public class Main extends Application {
 		final Parent root;
 		if (SettingsManager.userHandle != null) {
 			final FXMLLoader mainWindowLoader =
-				new FXMLLoader(getClass().getResource("/fxml/mainWindow.fxml"), bundle);
+				new FXMLLoader(getClass().getResource("/fxml/window/mainWindow.fxml"), bundle);
 			mainWindowLoader.setController(new MainWindow());
 			root = mainWindowLoader.load();
 		} else {
 			final FXMLLoader startWindowLoader =
-				new FXMLLoader(getClass().getResource("/fxml/startWindow.fxml"), bundle);
+				new FXMLLoader(getClass().getResource("/fxml/window/startWindow.fxml"), bundle);
 			startWindowLoader.setController(new StartWindow());
 			root = startWindowLoader.load();
 		}
