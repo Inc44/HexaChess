@@ -18,7 +18,7 @@ public class EditProfileWindow {
 	@FXML private TextField locationField;
 	@FXML private TextField avatarField;
 	@FXML private PasswordField newPasswordField;
-	@FXML private PasswordField currentPasswordField;
+	@FXML private PasswordField passwordField;
 	@FXML private Label statusLabel;
 	@FXML private Button backButton;
 	private String handle;
@@ -37,7 +37,7 @@ public class EditProfileWindow {
 					emailField.setText(player.getEmail());
 					locationField.setText(player.getLocation());
 					avatarField.setText(player.getAvatar());
-					currentPasswordField.clear();
+					passwordField.clear();
 					newPasswordField.clear();
 				});
 			}
@@ -46,7 +46,7 @@ public class EditProfileWindow {
 	@FXML
 	private void handleSave() {
 		final ResourceBundle bundle = Main.getBundle();
-		final String currentPass = currentPasswordField.getText();
+		final String currentPass = passwordField.getText();
 		if (currentPass == null || currentPass.isEmpty()) {
 			statusLabel.setText(bundle.getString("profile.edit.required"));
 			statusLabel.getStyleClass().setAll("text-danger");
@@ -61,7 +61,7 @@ public class EditProfileWindow {
 				if (success) {
 					statusLabel.setText(bundle.getString("profile.edit.success"));
 					statusLabel.getStyleClass().setAll("text-success");
-					currentPasswordField.clear();
+					passwordField.clear();
 					newPasswordField.clear();
 				} else {
 					statusLabel.setText(bundle.getString("profile.edit.fail"));
