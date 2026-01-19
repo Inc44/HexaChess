@@ -114,8 +114,8 @@
 			\footnotesize \textit{Persistance}
 		};
 		\draw[flow, <->] (ui) -- (logic);
-		\draw[flow, ->] (logic.east) -- node[above, font=\tiny, align=center] {\textbf{HTTP POST}\\JSON (Jackson)} (server.west);
-		\draw[flow, <->, dashed] (logic.east) -- node[below, font=\tiny, align=center] {\textbf{Polling}\\(Sync Move)} (server.west);
+		\draw[flow, ->] ([yshift=4mm]logic.east) -- node[above=4pt, font=\tiny, align=center, rotate=35] {\textbf{HTTP POST}\\JSON (Jackson)} ([yshift=4mm]server.west);
+		\draw[flow, <->, dashed] ([yshift=-4mm]logic.east) -- node[below=4pt, font=\tiny, align=center, rotate=35] {\textbf{Polling}\\(Sync Move)} ([yshift=-4mm]server.west);
 		\draw[flow, <->] (server) -- node[above, font=\tiny] {JDBC / DAO} (db);
 	\end{tikzpicture}
 	}
