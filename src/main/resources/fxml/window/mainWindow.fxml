@@ -30,9 +30,9 @@
 	</VBox>
 	<Button fx:id="menuButton" StackPane.alignment="top_left" text="%window.main.menuButton" onAction="#toggleSidebar" styleClass="menu-button" />
 	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="%window.main.settingsHelpButton" onAction="#openHelpSettings" styleClass="settings-help-button" />
-	<VBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false"  onMouseClicked="#openProfile" styleClass="player-info-box, player-info-box-left">
+	<VBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-left">
 		<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
-		<HBox spacing="12">
+		<HBox spacing="12" onMouseClicked="#openProfile">
 			<VBox styleClass="avatar-container">
 				<ImageView fx:id="avatarIcon" fitHeight="50" fitWidth="50" preserveRatio="true" />
 			</VBox>
@@ -45,9 +45,9 @@
 			</VBox>
 		</HBox>
 	</VBox>
-	<VBox fx:id="opponentItem" StackPane.alignment="bottom_right" alignment="top_right" managed="false" spacing="12" visible="false" onMouseClicked="#openOpponentProfile" styleClass="player-info-box, player-info-box-right">
+	<VBox fx:id="opponentItem" StackPane.alignment="bottom_right" alignment="top_right" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-right">
 		<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
-		<HBox alignment="top_right" spacing="12">
+		<HBox alignment="top_right" spacing="12" onMouseClicked="#openOpponentProfile">
 			<VBox alignment="center_right" spacing="4">
 				<HBox alignment="center_right" spacing="8">
 					<Region fx:id="opponentCountryFlagIcon" managed="false" visible="false" styleClass="country-flags, country-flags-medium" />
