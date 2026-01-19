@@ -30,7 +30,7 @@
 	</VBox>
 	<Button fx:id="menuButton" StackPane.alignment="top_left" text="%window.main.menuButton" onAction="#toggleSidebar" styleClass="menu-button" />
 	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="%window.main.settingsHelpButton" onAction="#openHelpSettings" styleClass="settings-help-button" />
-	<VBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-left">
+	<VBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false"  onMouseClicked="#openProfile" styleClass="player-info-box, player-info-box-left">
 		<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
 		<HBox spacing="12">
 			<VBox styleClass="avatar-container">
@@ -45,7 +45,7 @@
 			</VBox>
 		</HBox>
 	</VBox>
-	<VBox fx:id="opponentItem" StackPane.alignment="bottom_right" alignment="top_right" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-right">
+	<VBox fx:id="opponentItem" StackPane.alignment="bottom_right" alignment="top_right" managed="false" spacing="12" visible="false" onMouseClicked="#openOpponentProfile" styleClass="player-info-box, player-info-box-right">
 		<Label fx:id="opponentTimerLabel" text="10:00" styleClass="timer-label" />
 		<HBox alignment="top_right" spacing="12">
 			<VBox alignment="center_right" spacing="4">

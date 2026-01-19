@@ -41,6 +41,7 @@ public class MainWindow {
 	private static final int SIDEBAR_DURATION_MS = 160;
 	private static final int BASE_ELO = 1200;
 	private static final long DEV_MODE_MS = 2000;
+	private static final int DEV_MODE_CLICKS = 7;
 	private static final int DEFAULT_MAX_DEPTH = 3;
 	private HexPanel hexPanel;
 	private int restartClickCount = 0;
@@ -256,7 +257,7 @@ public class MainWindow {
 				startRestartClickTime = startTime;
 			} else
 				restartClickCount++;
-			if (restartClickCount >= 7) {
+			if (restartClickCount >= DEV_MODE_CLICKS) {
 				restartClickCount = 0;
 				State.getState().isDeveloperMode = !State.getState().isDeveloperMode;
 				Platform.runLater(() -> {
@@ -319,6 +320,7 @@ public class MainWindow {
 	}
 	@FXML
 	private void openPuzzles() {
+		gameTimer.stop();
 		loadWindow("/fxml/window/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
 	}
 	@FXML
@@ -332,5 +334,11 @@ public class MainWindow {
 		gameTimer.stop();
 		loadWindow(
 			"/fxml/window/leaderboardWindow.fxml", new LeaderboardWindow(), settingsHelpButton);
+	}
+	@FXML
+	private void openOpponentProfile() {
+		gameTimer.stop();
+		ProfileWindow.targetHandle = State.getState().opponentHandle;
+		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
 	}
 }
