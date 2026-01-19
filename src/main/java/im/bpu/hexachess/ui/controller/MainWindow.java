@@ -338,7 +338,13 @@ public class MainWindow {
 	@FXML
 	private void openOpponentProfile() {
 		gameTimer.stop();
-		ProfileWindow.targetHandle = State.getState().opponentHandle;
+		final State state = State.getState();
+		if (state.opponentHandle != null) {
+			ProfileWindow.targetHandle = state.opponentHandle;
+		} else {
+			final ResourceBundle bundle = Main.getBundle();
+			ProfileWindow.targetHandle = bundle.getString("common.computer");
+		}
 		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
 	}
 }
