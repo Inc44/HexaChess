@@ -147,12 +147,13 @@ public class HexPanel {
 	private void unlockMoveAchievements(
 		final AxialCoordinate selected, final AxialCoordinate target) {
 		final ResourceBundle bundle = Main.getBundle();
-		if (state.history.isEmpty())
+		if (state.history.size() == 1)
 			Thread.ofVirtual().start(() -> {
 				API.unlock("ACH_0000001");
 				System.out.println(bundle.getString("item.achievement.firstStep"));
 			});
-		final Piece pieceBefore = state.board.getPiece(selected);
+		final Board boardBefore = state.history.peek();
+		final Piece pieceBefore = boardBefore.getPiece(selected);
 		final Piece pieceAfter = state.board.getPiece(target);
 		if (pieceBefore != null && pieceBefore.type == PieceType.PAWN && pieceAfter != null
 			&& pieceAfter.type == PieceType.QUEEN)
