@@ -91,6 +91,7 @@ public class TournamentsWindow {
 	private void openMain() {
 		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
+	@FXML
 	private void openTournament(final Tournament tournament) {
 		TournamentWindow.targetTournament = tournament;
 		loadWindow("/fxml/window/tournamentWindow.fxml", new TournamentWindow(), backButton);

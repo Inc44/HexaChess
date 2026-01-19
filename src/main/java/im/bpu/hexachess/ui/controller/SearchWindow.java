@@ -138,9 +138,11 @@ public class SearchWindow {
 			}
 		});
 	}
+	@FXML
 	private void openMain() {
 		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
+	@FXML
 	private void openProfile(final String handle) {
 		ProfileWindow.targetHandle = handle;
 		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), backButton);

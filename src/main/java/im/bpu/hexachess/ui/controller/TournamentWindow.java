@@ -76,6 +76,7 @@ public class TournamentWindow {
 			});
 		});
 	}
+	@FXML
 	private void openTournaments() {
 		loadWindow("/fxml/window/tournamentsWindow.fxml", new TournamentsWindow(), backButton);
 	}

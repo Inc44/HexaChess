@@ -105,6 +105,7 @@ public class ParticipantsWindow {
 			});
 		});
 	}
+	@FXML
 	private void openTournament() {
 		TournamentWindow.targetTournament = targetTournament;
 		loadWindow("/fxml/window/tournamentWindow.fxml", new TournamentWindow(), backButton);

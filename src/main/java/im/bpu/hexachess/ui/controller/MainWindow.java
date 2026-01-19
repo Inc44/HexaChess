@@ -293,10 +293,12 @@ public class MainWindow {
 		menu.getItems().addAll(settingsItem, helpItem);
 		menu.show(settingsHelpButton, Side.BOTTOM, 0, 0);
 	}
+	@FXML
 	private void openSettings() {
 		gameTimer.stop();
 		loadWindow("/fxml/window/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
 	}
+	@FXML
 	private void openHelp() {
 		gameTimer.stop();
 		loadWindow("/fxml/window/helpWindow.fxml", new HelpWindow(), settingsHelpButton);

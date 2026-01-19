@@ -69,6 +69,7 @@ public class LoginWindow {
 	private void openStart() {
 		loadWindow("/fxml/window/startWindow.fxml", new StartWindow(), handleField);
 	}
+	@FXML
 	private void openMain() {
 		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), handleField);
 	}
