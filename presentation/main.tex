@@ -1,0 +1,145 @@
+\documentclass[aspectratio=169, 10pt]{beamer}
+\usetheme{metropolis}
+\usepackage[french]{babel}
+\usepackage[most]{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{lmodern}
+\definecolor{DarkGray-10}{HTML}{14191E}
+\definecolor{SandyBrown}{HTML}{E8AB6F}
+\definecolor{Peru}{HTML}{D18B47}
+\definecolor{Red}{HTML}{ED3524}
+\definecolor{Green}{HTML}{2EDA77}
+\definecolor{Blue}{HTML}{016FFF}
+\setbeamercolor{block title}{bg=Peru,fg=white}
+\setbeamercolor{frametitle}{bg=DarkGray-10,fg=SandyBrown}
+\title{HexaChess}
+\author{Inc44}
+\begin{document}
+{
+\begin{frame}[plain]
+	\centering
+	\vspace{1cm}
+	\textcolor{SandyBrown}{\Huge \textbf{HexaChess}}
+	
+	\vspace{0.5cm}
+	\textcolor{white}{\Large \textbf{Échecs Hexagonaux}}
+	
+	\vspace{0.5cm}
+	\textcolor{white!80}{\large Architecture, Organisation \& Rétrospective}
+	
+	\vspace{1.5cm}
+	\textcolor{white!60}{\small \today}
+\end{frame}
+}
+\begin{frame}{Vue d'ensemble du projet}
+	\begin{tcolorbox}[colback=SandyBrown!10, colframe=Peru, title=\textbf{\faBullseye\ Objectif}]
+		Développer une version numérisée du jeu d'échecs de Gliński (plateau hexagonal de 91 cases) avec le mode multijoueur.
+	\end{tcolorbox}
+
+	\vspace{0.5cm}
+	\begin{columns}[T]
+		\column{0.48\textwidth}
+			\textbf{\faCogs\ Fonctionnalités clés}
+			\begin{itemize}
+				\item[\textcolor{Green}{\faCheck}] Plateau hexagonal (\texttt{AxialCoordinate})
+				\item[\textcolor{Green}{\faCheck}] Architecture client-serveur
+				\item[\textcolor{Green}{\faCheck}] IA Minimax (Alpha-Beta)
+				\item[\textcolor{Green}{\faCheck}] Succès, système Elo \& tournois
+			\end{itemize}
+
+		\column{0.48\textwidth}
+			\textbf{\faCode\ Stack technique}
+			\begin{itemize}
+				\item[\faJava] \textbf{Core :} Java 21, Maven
+				\item[\faDesktop] \textbf{UI :} JavaFX, GluonFX (Mobile)
+				\item[\faDatabase] \textbf{Data :} MariaDB, JDBC
+				\item[\faServer] \textbf{API :} HTTP Server natif
+			\end{itemize}
+	\end{columns}
+\end{frame}
+\begin{frame}{Répartition : logique \& données}
+	\begin{columns}[T]
+		\column{0.48\textwidth}
+			\begin{tcolorbox}[colframe=Red, title=\textbf{\faUserAstronaut\ ... (Inc44) $\cdot$ Team Lead}]
+				\footnotesize
+				\textbf{Engine \& Server}
+				\begin{itemize}
+					\item Conception globale
+					\item Moteur de rendu (\texttt{HexRenderer})
+					\item Intelligence artificielle (\texttt{AI})
+					\item Client-serveur (\texttt{API}, \texttt{Server})
+				\end{itemize}
+			\end{tcolorbox}
+		\column{0.48\textwidth}
+			\begin{tcolorbox}[colframe=Blue, title=\textbf{\faNetworkWired\ ... (Vincehhh) $\cdot$ Backend}]
+				\footnotesize
+				\textbf{Data \& Network Features}
+				\begin{itemize}
+					\item SQL (\texttt{Looping})
+					\item DAO (\texttt{PlayerDAO}, \texttt{TournamentDAO})
+					\item Entités (\texttt{Game}, \texttt{Player})
+					\item Tournois, sons, édition de profil
+				\end{itemize}
+			\end{tcolorbox}
+	\end{columns}
+\end{frame}
+\begin{frame}{Répartition : interface \& qualité}
+	\begin{columns}[T]
+		\column{0.48\textwidth}
+			\begin{tcolorbox}[colframe=Peru, title=\textbf{\faMagic\ ... (gwenaelv) $\cdot$ Frontend}]
+				\footnotesize
+				\textbf{User Experience (UX)}
+				\begin{itemize}
+					\item Authentification (\texttt{Login}, \texttt{Register})
+					\item Succès (\texttt{Achievement}, \texttt{Leaderboard})
+					\item Mode puzzles
+					\item Timer
+				\end{itemize}
+			\end{tcolorbox}
+		\column{0.48\textwidth}
+			\begin{tcolorbox}[colframe=Green, title=\textbf{\faBug\ ... (Lasaiden) $\cdot$ QA}]
+				\footnotesize
+				\textbf{Quality Assurance (QA)}
+				\begin{itemize}
+					\item Aide interactive (\texttt{Help})
+					\item Tests unitaires (\texttt{Test})
+					\item Validation
+					\item Documentation d'aide
+				\end{itemize}
+			\end{tcolorbox}
+	\end{columns}
+\end{frame}
+\begin{frame}{Conclusion}
+	\centering
+	\begin{columns}
+		\column{0.42\textwidth}
+			\begin{block}{\faCheckCircle\ État actuel}
+				\small
+				\begin{itemize}
+					\item Moteur hexagonal stable.
+					\item Multijoueur fonctionnel.
+					\item Cross-platform (Desktop/Mobile).
+					\item Persistance des données.
+				\end{itemize}
+			\end{block}
+		\column{0.1\textwidth}
+			\centering \textcolor{SandyBrown}{\Huge \faArrowRight}
+		\column{0.42\textwidth}
+			\begin{block}{\faRocket\ Perspectives}
+				\small
+				\begin{itemize}
+					\item WebSockets (temps réel).
+					\item Optimisation IA (transpositions).
+					\item Internationalisation étendue.
+					\item Correction de bugs
+				\end{itemize}
+			\end{block}
+	\end{columns}
+
+	\vspace{0.5cm}
+	\textcolor{DarkGray-10}{\textbf{HexaChess}} est prêt pour la démonstration.
+
+	\vspace{0.25cm}
+	\footnotesize \faGithub\ \texttt{Inc44/HexaChess}
+\end{frame}
+\end{document}
