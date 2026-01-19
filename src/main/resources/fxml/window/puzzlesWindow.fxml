@@ -12,7 +12,7 @@
 			<Label fx:id="statusLabel" text="%window.puzzles.statusLoading" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 		</VBox>
 		<StackPane>
-			<Canvas fx:id="canvas" width="600" height="600" />
+			<Canvas fx:id="canvas" width="666" height="666" />
 			<VBox fx:id="successContainer" alignment="center" visible="false" managed="false" styleClass="puzzle-success-box">
 				<Label text="🏆" style="-fx-font-size: 48px;" />
 				<Label text="%window.puzzles.successLabel" style="-fx-font-size: 24px; -fx-text-fill: #2eda8e; -fx-font-weight: bold;" />
