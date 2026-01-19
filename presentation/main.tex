@@ -7,25 +7,25 @@
 \usepackage{lmodern}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, calc, fit, backgrounds}
-\definecolor{DarkGray-10}{HTML}{14191E}
+\definecolor{Purple-40}{HTML}{602CA0}
 \definecolor{SandyBrown}{HTML}{E8AB6F}
 \definecolor{Peru}{HTML}{D18B47}
 \definecolor{Red}{HTML}{ED3524}
 \definecolor{Green}{HTML}{2EDA77}
 \definecolor{Blue}{HTML}{016FFF}
 \setbeamercolor{block title}{bg=Peru,fg=white}
-\setbeamercolor{frametitle}{bg=DarkGray-10,fg=SandyBrown}
+\setbeamercolor{frametitle}{bg=Purple-40,fg=SandyBrown}
 \tikzset{
 	hex/.style={regular polygon, regular polygon sides=6, draw, thick, minimum size=1.2cm, inner sep=0pt},
 	archnode/.style={
-		rectangle, rounded corners, draw=DarkGray-10, fill=white, very thick,
+		rectangle, rounded corners, draw=Purple-40, fill=white, very thick,
 		minimum width=3cm, minimum height=1.6cm, align=center, drop shadow={opacity=0.15}
 	},
 	dbnode/.style={
-		cylinder, shape border rotate=90, aspect=0.25, draw=DarkGray-10, fill=white, very thick,
+		cylinder, shape border rotate=90, aspect=0.25, draw=Purple-40, fill=white, very thick,
 		minimum width=2cm, minimum height=1.8cm, align=center, drop shadow={opacity=0.15}
 	},
-	flow/.style={->, >=Latex, thick, draw=DarkGray-10}
+	flow/.style={->, >=Latex, thick, draw=Purple-40}
 }
 \title{HexaChess}
 \author{Inc44}
@@ -33,7 +33,7 @@
 {
 \usebackgroundtemplate{
 \begin{tikzpicture}[remember picture,overlay]
-	\fill[DarkGray-10] (current page.south west) rectangle (current page.north east);
+	\fill[Purple-40] (current page.south west) rectangle (current page.north east);
 	\foreach \i in {0,...,12}
 		\foreach \j in {0,...,8} {
 			\pgfmathsetmacro{\xoff}{\i * 1.4 + mod(\j,2) * 0.7}
@@ -200,7 +200,7 @@
 	\end{columns}
 
 	\vspace{0.5cm}
-	\textcolor{DarkGray-10}{\textbf{HexaChess}} est prêt pour la démonstration.
+	\textcolor{Purple-40}{\textbf{HexaChess}} est prêt pour la démonstration.
 
 	\vspace{0.25cm}
 	\footnotesize \faGithub\ \texttt{Inc44/HexaChess}
