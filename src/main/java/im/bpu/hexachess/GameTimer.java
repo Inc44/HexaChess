@@ -77,4 +77,15 @@ public class GameTimer {
 		opponentTimeSeconds = DEFAULT_TIMER_SECONDS;
 		updateLabels();
 	}
+	public int getPlayerTimeSeconds() {
+		return playerTimeSeconds;
+	}
+	public int getOpponentTimeSeconds() {
+		return opponentTimeSeconds;
+	}
+	public void setTimes(int playerTimeSeconds, int opponentTimeSeconds) {
+		this.playerTimeSeconds = playerTimeSeconds;
+		this.opponentTimeSeconds = opponentTimeSeconds;
+		updateLabels();
+	}
 }

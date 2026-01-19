@@ -204,11 +204,14 @@ public class API {
 		}
 		return null;
 	}
-	public static void sendMove(final String gameId, final String move) {
+	public static void sendMove(final String gameId, final String move, final int whiteTimeSeconds,
+		final int blackTimeSeconds) {
 		try {
 			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("gameId", gameId);
 			jsonNode.put("move", move);
+			jsonNode.put("whiteTimeSeconds", whiteTimeSeconds);
+			jsonNode.put("blackTimeSeconds", blackTimeSeconds);
 			final String json = MAPPER.writeValueAsString(jsonNode);
 			final HttpRequest.Builder requestBuilder =
 				HttpRequest.newBuilder()

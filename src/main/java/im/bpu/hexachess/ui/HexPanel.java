@@ -1,5 +1,6 @@
 package im.bpu.hexachess.ui;
 
+import im.bpu.hexachess.GameTimer;
 import im.bpu.hexachess.Main;
 import im.bpu.hexachess.State;
 import im.bpu.hexachess.manager.SettingsManager;
@@ -22,6 +23,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Rotate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import static im.bpu.hexachess.Main.getAspectRatio;
 
 public class HexPanel {
@@ -31,6 +35,7 @@ public class HexPanel {
 	private static final long DT = 500;
 	private static final long MAX_DT = 6000;
 	private static final int BACKOFF_FACTOR = 2;
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 	public Consumer<Move> onPuzzleMove;
 	private final State state;
 	private final AI ai = new AI();
@@ -39,15 +44,18 @@ public class HexPanel {
 	private AxialCoordinate selected;
 	private final List<AxialCoordinate> highlighted = new ArrayList<>();
 	private final Canvas canvas;
+	private final GameTimer gameTimer;
 	private boolean isLockedIn = false;
 	private boolean isGameOver = false;
-	private String lastSyncedMoveString = "";
+	private String lastSyncedMoveJson = "{}";
 	private final DoubleConsumer progressCallback;
 	private final Consumer<Boolean> loadingCallback;
 	private final Consumer<String> gameEndCallback;
-	public HexPanel(final Canvas canvas, final State state, final DoubleConsumer progressCallback,
-		final Consumer<Boolean> loadingCallback, final Consumer<String> gameEndCallback) {
+	public HexPanel(final Canvas canvas, final State state, final GameTimer gameTimer,
+		final DoubleConsumer progressCallback, final Consumer<Boolean> loadingCallback,
+		final Consumer<String> gameEndCallback) {
 		this.state = state;
+		this.gameTimer = gameTimer;
 		this.progressCallback = progressCallback;
 		this.loadingCallback = loadingCallback;
 		this.gameEndCallback = gameEndCallback;
@@ -175,8 +183,11 @@ public class HexPanel {
 		isLockedIn = true;
 		if (state.isMultiplayer) {
 			Thread.ofVirtual().start(() -> {
-				API.sendMove(state.gameId, moveString);
-				lastSyncedMoveString = moveString;
+				int whiteTimeSeconds = state.isWhitePlayer ? gameTimer.getPlayerTimeSeconds()
+														   : gameTimer.getOpponentTimeSeconds();
+				int blackTimeSeconds = state.isWhitePlayer ? gameTimer.getOpponentTimeSeconds()
+														   : gameTimer.getPlayerTimeSeconds();
+				API.sendMove(state.gameId, moveString, whiteTimeSeconds, blackTimeSeconds);
 				startPolling();
 			});
 		} else {
@@ -203,24 +214,37 @@ public class HexPanel {
 			while (true) {
 				if (isGameOver)
 					break;
-				final String moveString = API.getMove(state.gameId);
-				if (moveString != null && !moveString.isEmpty()
-					&& !moveString.equals(lastSyncedMoveString)) {
-					lastSyncedMoveString = moveString;
-					final String[] moveStrings = moveString.split("->");
-					final String[] fromString = moveStrings[0].split(",");
-					final String[] toString = moveStrings[1].split(",");
-					final AxialCoordinate from = new AxialCoordinate(
-						Integer.parseInt(fromString[0]), Integer.parseInt(fromString[1]));
-					final AxialCoordinate to = new AxialCoordinate(
-						Integer.parseInt(toString[0]), Integer.parseInt(toString[1]));
-					Platform.runLater(() -> {
-						state.board.movePiece(from, to);
-						checkGameOver();
-						isLockedIn = false;
-						repaint();
-					});
-					break;
+				final String moveJson = API.getMove(state.gameId);
+				if (moveJson != null && !moveJson.isEmpty() && !moveJson.equals("{}")
+					&& !moveJson.equals(lastSyncedMoveJson)) {
+					try {
+						ObjectNode jsonNode = MAPPER.readValue(moveJson, ObjectNode.class);
+						String moveString = jsonNode.get("move").asText();
+						int whiteTimeSeconds = jsonNode.get("whiteTimeSeconds").asInt();
+						int blackTimeSeconds = jsonNode.get("blackTimeSeconds").asInt();
+						lastSyncedMoveJson = moveJson;
+						final String[] moveStrings = moveString.split("->");
+						final String[] fromString = moveStrings[0].split(",");
+						final String[] toString = moveStrings[1].split(",");
+						final AxialCoordinate from = new AxialCoordinate(
+							Integer.parseInt(fromString[0]), Integer.parseInt(fromString[1]));
+						final AxialCoordinate to = new AxialCoordinate(
+							Integer.parseInt(toString[0]), Integer.parseInt(toString[1]));
+						Platform.runLater(() -> {
+							state.board.movePiece(from, to);
+							int playerTimeSeconds =
+								state.isWhitePlayer ? whiteTimeSeconds : blackTimeSeconds;
+							int opponentTimeSeconds =
+								state.isWhitePlayer ? blackTimeSeconds : whiteTimeSeconds;
+							gameTimer.setTimes(playerTimeSeconds, opponentTimeSeconds);
+							checkGameOver();
+							isLockedIn = false;
+							repaint();
+						});
+						break;
+					} catch (Exception exception) {
+						exception.printStackTrace();
+					}
 				}
 				try {
 					Thread.sleep(dt);

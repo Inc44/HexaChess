@@ -76,7 +76,8 @@ public class MainWindow {
 	@FXML
 	private void initialize() {
 		final State state = State.getState();
-		hexPanel = new HexPanel(canvas, state,
+		gameTimer = new GameTimer(playerTimerLabel, opponentTimerLabel);
+		hexPanel = new HexPanel(canvas, state, gameTimer,
 			progressPercentage
 			-> Platform.runLater(() -> opponentProgressBar.setProgress(progressPercentage)),
 			loadingStatus
@@ -109,7 +110,6 @@ public class MainWindow {
 		if (state.isDeveloperMode) {
 			Platform.runLater(this::showDevModeLabels);
 		}
-		gameTimer = new GameTimer(playerTimerLabel, opponentTimerLabel);
 		gameTimer.start();
 	}
 	private void showDevModeLabels() {

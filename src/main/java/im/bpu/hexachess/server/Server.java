@@ -463,8 +463,8 @@ public class Server {
 					sendResponse(exchange, 403, "Forbidden");
 					return;
 				}
-				final String move = jsonNode.get("move").asText();
-				MOVES.put(gameId, move);
+				final String response = MAPPER.writeValueAsString(jsonNode);
+				MOVES.put(gameId, response);
 				sendResponse(exchange, 200, "OK");
 			} else {
 				final String query = exchange.getRequestURI().getQuery();
@@ -477,7 +477,7 @@ public class Server {
 					sendResponse(exchange, 403, "Forbidden");
 					return;
 				}
-				final String move = MOVES.getOrDefault(gameId, "");
+				final String move = MOVES.getOrDefault(gameId, "{}");
 				sendResponse(exchange, 200, move);
 			}
 		}
