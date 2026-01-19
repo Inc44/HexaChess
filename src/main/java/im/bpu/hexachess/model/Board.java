@@ -12,8 +12,8 @@ public class Board {
 		{-1, -1}, {0, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 0}};
 	private static final int[][] BISHOP_DIRECTIONS = {
 		{-1, -2}, {1, -1}, {2, 1}, {1, 2}, {-1, 1}, {-2, -1}};
-	private static final int[][] KNIGHT_OFFSETS = {
-		{-2, -3}, {-1, -3}, {3, 1}, {3, 2}, {2, 3}, {1, 3}, {-3, -1}, {-3, -2}};
+	private static final int[][] KNIGHT_OFFSETS = {{-2, -3}, {-1, -3}, {1, -2}, {2, -1}, {3, 1},
+		{3, 2}, {2, 3}, {1, 3}, {-1, 2}, {-2, 1}, {-3, -1}, {-3, -2}};
 	private static final int[][] WHITE_PAWN_CAPTURES = {{0, -1}, {-1, 0}};
 	private static final int[][] BLACK_PAWN_CAPTURES = {{0, 1}, {1, 0}};
 	private static final int[][] KINGS = {{5, 4}};
