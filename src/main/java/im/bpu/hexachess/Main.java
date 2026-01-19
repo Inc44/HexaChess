@@ -90,6 +90,8 @@ public class Main extends Application {
 		return aspectRatio;
 	}
 	public static void applyTheme(Scene scene) {
+		if (scene == null)
+			return;
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add(Main.class.getResource("/css/style.css").toExternalForm());
 		String themeFileName = "/css/theme/" + SettingsManager.theme.toLowerCase() + ".css";
@@ -97,6 +99,8 @@ public class Main extends Application {
 	}
 	public static void loadWindow(final String path, final Object controller, final Node node) {
 		try {
+			if (node == null || node.getScene() == null)
+				return;
 			final ResourceBundle bundle = getBundle();
 			final FXMLLoader windowLoader = new FXMLLoader(Main.class.getResource(path), bundle);
 			windowLoader.setController(controller);

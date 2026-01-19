@@ -116,7 +116,7 @@ public class SearchWindow {
 		Thread.ofVirtual().start(() -> {
 			final String handle = SettingsManager.userHandle;
 			long dt = DT;
-			while (true) {
+			while (searchField.getScene() != null) {
 				final String resp = API.challenge(handle, target);
 				if (resp != null && !resp.equals("Pending")) {
 					Platform.runLater(() -> {

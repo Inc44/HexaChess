@@ -75,7 +75,7 @@ public class HexPanel {
 		}
 		PieceImageLoader.loadImages(this::repaint);
 		canvas.setOnMouseClicked(event -> handleMouseClick(event.getX(), event.getY()));
-		if (state.isMultiplayer && state.board.isWhiteTurn != state.isWhitePlayer)
+		if (state.isMultiplayer)
 			startPolling();
 		repaint();
 		// accumulate opacity to remove hex gaps
@@ -188,7 +188,6 @@ public class HexPanel {
 				int blackTimeSeconds = state.isWhitePlayer ? gameTimer.getOpponentTimeSeconds()
 														   : gameTimer.getPlayerTimeSeconds();
 				API.sendMove(state.gameId, moveString, whiteTimeSeconds, blackTimeSeconds);
-				startPolling();
 			});
 		} else {
 			Thread.ofVirtual().start(() -> {
@@ -208,12 +207,9 @@ public class HexPanel {
 		}
 	}
 	private void startPolling() {
-		isLockedIn = true;
 		Thread.ofVirtual().start(() -> {
 			long dt = DT;
-			while (true) {
-				if (isGameOver)
-					break;
+			while (!isGameOver) {
 				final String moveJson = API.getMove(state.gameId);
 				if (moveJson != null && !moveJson.isEmpty() && !moveJson.equals("{}")
 					&& !moveJson.equals(lastSyncedMoveJson)) {
@@ -231,17 +227,20 @@ public class HexPanel {
 						final AxialCoordinate to = new AxialCoordinate(
 							Integer.parseInt(toString[0]), Integer.parseInt(toString[1]));
 						Platform.runLater(() -> {
-							state.board.movePiece(from, to);
-							int playerTimeSeconds =
-								state.isWhitePlayer ? whiteTimeSeconds : blackTimeSeconds;
-							int opponentTimeSeconds =
-								state.isWhitePlayer ? blackTimeSeconds : whiteTimeSeconds;
-							gameTimer.setTimes(playerTimeSeconds, opponentTimeSeconds);
-							checkGameOver();
-							isLockedIn = false;
-							repaint();
+							Piece piece = state.board.getPiece(from);
+							if (piece != null && piece.isWhite != state.isWhitePlayer) {
+								state.board.movePiece(from, to);
+								int playerTimeSeconds =
+									state.isWhitePlayer ? whiteTimeSeconds : blackTimeSeconds;
+								int opponentTimeSeconds =
+									state.isWhitePlayer ? blackTimeSeconds : whiteTimeSeconds;
+								gameTimer.setTimes(playerTimeSeconds, opponentTimeSeconds);
+								checkGameOver();
+								isLockedIn = false;
+								repaint();
+							}
 						});
-						break;
+						dt = DT;
 					} catch (Exception exception) {
 						exception.printStackTrace();
 					}

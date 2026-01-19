@@ -48,6 +48,8 @@ public class Board {
 	}
 	public void movePiece(final AxialCoordinate from, final AxialCoordinate to) {
 		Piece piece = pieces.remove(from);
+		if (piece == null)
+			return;
 		if (piece.type == PieceType.PAWN) {
 			if (to.equals(enPassant)) {
 				final int direction = piece.isWhite ? 1 : -1;
