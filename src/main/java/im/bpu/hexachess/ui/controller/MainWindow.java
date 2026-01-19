@@ -119,12 +119,15 @@ public class MainWindow {
 		final double width = Screen.getPrimary().getBounds().getWidth();
 		final double height = Screen.getPrimary().getBounds().getHeight();
 		final double aspectRatio = width / height;
-		fontFamilyLabel.setText(bundle.getString("devmode.font.family") + ": " + fontFamily);
-		fontNameLabel.setText(bundle.getString("devmode.font.name") + ": " + fontName);
-		screenWidthLabel.setText(bundle.getString("devmode.screen.width") + ": " + (int) width);
-		screenHeightLabel.setText(bundle.getString("devmode.screen.height") + ": " + (int) height);
+		fontFamilyLabel.setText(
+			bundle.getString("window.main.fontFamilyLabel") + ": " + fontFamily);
+		fontNameLabel.setText(bundle.getString("window.main.fontNameLabel") + ": " + fontName);
+		screenWidthLabel.setText(
+			bundle.getString("window.main.screenWidthLabel") + ": " + (int) width);
+		screenHeightLabel.setText(
+			bundle.getString("window.main.screenHeightLabel") + ": " + (int) height);
 		aspectRatioLabel.setText(
-			bundle.getString("devmode.screen.aspectratio") + ": " + aspectRatio);
+			bundle.getString("window.main.aspectRatioLabel") + ": " + aspectRatio);
 		devModeContainer.setManaged(true);
 		devModeContainer.setVisible(true);
 	}
@@ -287,8 +290,8 @@ public class MainWindow {
 	private void openHelpSettings() {
 		final ResourceBundle bundle = Main.getBundle();
 		final ContextMenu menu = new ContextMenu();
-		final MenuItem settingsItem = new MenuItem(bundle.getString("main.menu.settings"));
-		final MenuItem helpItem = new MenuItem(bundle.getString("main.menu.help"));
+		final MenuItem settingsItem = new MenuItem(bundle.getString("window.main.settingsMenu"));
+		final MenuItem helpItem = new MenuItem(bundle.getString("window.main.helpMenu"));
 		settingsItem.setOnAction(event -> openSettings());
 		helpItem.setOnAction(event -> openHelp());
 		menu.getItems().addAll(settingsItem, helpItem);

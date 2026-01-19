@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
-	<Label text="%tournaments.title" styleClass="h2" />
+	<Label text="%window.tournaments.title" styleClass="h2" />
 	<ScrollPane fx:id="tournamentsPane">
 		<VBox fx:id="tournamentsContainer" alignment="center" spacing="16" />
 	</ScrollPane>

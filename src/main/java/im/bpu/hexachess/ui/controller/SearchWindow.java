@@ -61,7 +61,8 @@ public class SearchWindow {
 			Platform.runLater(() -> {
 				playerContainer.getChildren().clear();
 				if (players.isEmpty()) {
-					final Label emptyLabel = new Label(bundle.getString("search.empty"));
+					final Label emptyLabel =
+						new Label(bundle.getString("window.search.emptyLabel"));
 					playerContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Player player : players) {

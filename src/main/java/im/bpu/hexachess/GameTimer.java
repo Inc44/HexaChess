@@ -49,7 +49,7 @@ public class GameTimer {
 		if (playerTimeSeconds == 0 || opponentTimeSeconds == 0) {
 			stop();
 			final ResourceBundle bundle = Main.getBundle();
-			System.out.println(bundle.getString("main.timer"));
+			System.out.println(bundle.getString("window.main.timerExpired"));
 		}
 	}
 	private void updateLabels() {

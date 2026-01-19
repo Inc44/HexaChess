@@ -30,9 +30,9 @@ public class SettingsWindow {
 	}
 	private void setupAiDifficultyLevel() {
 		final ResourceBundle bundle = Main.getBundle();
-		maxDepthComboBox.getItems().addAll(bundle.getString("settings.aidifficulty.fast"),
-			bundle.getString("settings.aidifficulty.default"),
-			bundle.getString("settings.aidifficulty.slowest"));
+		maxDepthComboBox.getItems().addAll(bundle.getString("window.settings.aiDifficultyFast"),
+			bundle.getString("window.settings.aiDifficultyDefault"),
+			bundle.getString("window.settings.aiDifficultySlowest"));
 		final String aiDifficultyLevel = mapMaxDepthToAiDifficultyLevel(SettingsManager.maxDepth);
 		maxDepthComboBox.getSelectionModel().select(aiDifficultyLevel);
 		updateAiDifficultyLevelTooltip(aiDifficultyLevel);
@@ -73,28 +73,29 @@ public class SettingsWindow {
 	}
 	private void updateAiDifficultyLevelTooltip(String label) {
 		final ResourceBundle bundle = Main.getBundle();
-		if (label.equals(bundle.getString("settings.aidifficulty.fast")))
-			aiDifficultyLevelTooltip.setText(bundle.getString("settings.aidifficulty.tooltip.win"));
-		else if (label.equals(bundle.getString("settings.aidifficulty.slowest")))
+		if (label.equals(bundle.getString("window.settings.aiDifficultyFast")))
 			aiDifficultyLevelTooltip.setText(
-				bundle.getString("settings.aidifficulty.tooltip.lose"));
+				bundle.getString("window.settings.aiDifficultyTooltipWin"));
+		else if (label.equals(bundle.getString("window.settings.aiDifficultySlowest")))
+			aiDifficultyLevelTooltip.setText(
+				bundle.getString("window.settings.aiDifficultyTooltipLose"));
 		else
 			aiDifficultyLevelTooltip.setText(
-				bundle.getString("settings.aidifficulty.tooltip.draw"));
+				bundle.getString("window.settings.aiDifficultyTooltipDraw"));
 	}
 	private String mapMaxDepthToAiDifficultyLevel(int depth) {
 		final ResourceBundle bundle = Main.getBundle();
 		return switch (depth) {
-			case 1 -> bundle.getString("settings.aidifficulty.fast");
-			case 5 -> bundle.getString("settings.aidifficulty.slowest");
-			default -> bundle.getString("settings.aidifficulty.default");
+			case 1 -> bundle.getString("window.settings.aiDifficultyFast");
+			case 5 -> bundle.getString("window.settings.aiDifficultySlowest");
+			default -> bundle.getString("window.settings.aiDifficultyDefault");
 		};
 	}
 	private int mapAiDifficultyLevelToMaxDepth(String label) {
 		final ResourceBundle bundle = Main.getBundle();
-		if (label.equals(bundle.getString("settings.aidifficulty.fast")))
+		if (label.equals(bundle.getString("window.settings.aiDifficultyFast")))
 			return 1;
-		if (label.equals(bundle.getString("settings.aidifficulty.slowest")))
+		if (label.equals(bundle.getString("window.settings.aiDifficultySlowest")))
 			return 5;
 		return 3;
 	}

@@ -42,7 +42,8 @@ public class TournamentsWindow {
 			final List<Tournament> tournaments = API.tournaments();
 			Platform.runLater(() -> {
 				if (tournaments.isEmpty()) {
-					final Label emptyLabel = new Label(bundle.getString("tournaments.empty"));
+					final Label emptyLabel =
+						new Label(bundle.getString("window.tournaments.emptyLabel"));
 					tournamentsContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Tournament tournament : tournaments) {
@@ -65,15 +66,15 @@ public class TournamentsWindow {
 							if (startTime != null) {
 								startTimeLabel.setText(startTime.format(DATE_TIME_FORMATTER));
 							} else {
-								startTimeLabel.setText(bundle.getString("tournaments.tbd"));
+								startTimeLabel.setText(bundle.getString("window.tournament.tbd"));
 							}
 							if (winnerId != null) {
 								statusLabel.setText(
-									bundle.getString("tournaments.winner") + ": " + winnerId);
+									bundle.getString("window.tournament.winner") + ": " + winnerId);
 								statusLabel.getStyleClass().add("text-success");
 							} else {
 								statusLabel.setText(
-									bundle.getString("tournaments.status.ongoingopen"));
+									bundle.getString("window.tournament.statusOngoing"));
 								statusLabel.getStyleClass().add("text-danger");
 							}
 							tournamentItem.setOnMouseClicked(event -> openTournament(tournament));

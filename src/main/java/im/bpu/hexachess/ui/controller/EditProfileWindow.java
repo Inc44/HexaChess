@@ -53,7 +53,7 @@ public class EditProfileWindow {
 		final ResourceBundle bundle = Main.getBundle();
 		final String password = passwordField.getText();
 		if (password == null || password.isEmpty()) {
-			statusLabel.setText(bundle.getString("profile.edit.required"));
+			statusLabel.setText(bundle.getString("window.editprofile.requiredError"));
 			statusLabel.getStyleClass().setAll("text-danger");
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
@@ -68,12 +68,12 @@ public class EditProfileWindow {
 				API.update(password, email, avatarUrl, location, newPassword);
 			Platform.runLater(() -> {
 				if (updateSuccess) {
-					statusLabel.setText(bundle.getString("profile.edit.success"));
+					statusLabel.setText(bundle.getString("window.editprofile.success"));
 					statusLabel.getStyleClass().setAll("text-success");
 					passwordField.clear();
 					newPasswordField.clear();
 				} else {
-					statusLabel.setText(bundle.getString("profile.edit.fail"));
+					statusLabel.setText(bundle.getString("window.editprofile.fail"));
 					statusLabel.getStyleClass().setAll("text-danger");
 				}
 				statusLabel.setManaged(true);

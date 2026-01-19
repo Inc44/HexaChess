@@ -43,7 +43,7 @@ public class LoginWindow {
 				player = new Player(ROOT_ID, ROOT_HANDLE, ROOT_EMAIL, "", BASE_ELO, true, null);
 			} else {
 				player = API.login(handle, password);
-				System.out.println(bundle.getString("login.connectedas") + ": "
+				System.out.println(bundle.getString("window.login.connectedAs") + ": "
 					+ (player != null ? player.getHandle() : "null"));
 			}
 			if (player != null) {
@@ -58,7 +58,7 @@ public class LoginWindow {
 				Platform.runLater(this::openMain);
 			} else {
 				Platform.runLater(() -> {
-					errorLabel.setText(bundle.getString("login.error"));
+					errorLabel.setText(bundle.getString("window.login.errorLabel"));
 					errorLabel.setManaged(true);
 					errorLabel.setVisible(true);
 				});

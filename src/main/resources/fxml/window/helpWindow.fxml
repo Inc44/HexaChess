@@ -11,7 +11,7 @@
 	<top>
 		<HBox alignment="CENTER" prefHeight="80.0" BorderPane.alignment="CENTER">
 			<children>
-				<Label styleClass="h2" text="%help.window.title" />
+				<Label styleClass="h2" text="%window.help.title" />
 			</children>
 		</HBox>
 	</top>
@@ -23,11 +23,11 @@
 			</padding>
 			<children>
 				<!-- Description -->
-				<Label styleClass="subtitle-text" text="%help.window.subtitle" textAlignment="CENTER" wrapText="true" />
+				<Label styleClass="subtitle-text" text="%window.help.subtitle" textAlignment="CENTER" wrapText="true" />
 				<!-- Zone de contrôle -->
 				<VBox alignment="CENTER" spacing="15.0" styleClass="help-box">
-					<Button fx:id="showBestMoveButton" mnemonicParsing="false" onAction="#showBestMove" styleClass="action-button" text="%help.window.calculate" />
-					<Label fx:id="bestMoveLabel" style="-fx-font-style: italic;" styleClass="normal-text" text="%help.window.waiting" />
+					<Button fx:id="showBestMoveButton" mnemonicParsing="false" onAction="#showBestMove" styleClass="action-button" text="%window.help.calculateButton" />
+					<Label fx:id="bestMoveLabel" style="-fx-font-style: italic;" styleClass="normal-text" text="%window.help.statusLabelWaiting" />
 				</VBox>
 				<!-- Zone de dessin pour visualiser le coup (Canvas) -->
 				<VBox alignment="CENTER" styleClass="visualization-box">
@@ -35,7 +35,7 @@
 						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 					</padding>
 					<children>
-						<Label text="%help.window.visualization" style="-fx-font-size: 10px; -fx-text-fill: #aaa;" />
+						<Label text="%window.help.visualizationLabel" style="-fx-font-size: 10px; -fx-text-fill: #aaa;" />
 						<Canvas fx:id="moveCanvas" height="150.0" width="300.0" />
 					</children>
 				</VBox>

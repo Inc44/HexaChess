@@ -55,7 +55,7 @@ public class PuzzleWindow {
 		// Mise à jour de l'interface
 		updateStatusText();
 		statusLabel.setStyle("-fx-text-fill: white;");
-		resetButton.setText(bundle.getString("puzzles.reset"));
+		resetButton.setText(bundle.getString("window.puzzles.resetButton"));
 	}
 	private void updateStatusText() {
 		if (currentLevel == 4) {
@@ -141,14 +141,14 @@ public class PuzzleWindow {
 		solution.poll();
 		if (solution.isEmpty()) {
 			isLevelFinished = true;
-			statusLabel.setText(bundle.getString("puzzles.solved"));
+			statusLabel.setText(bundle.getString("window.puzzles.successLabel"));
 			statusLabel.setStyle("-fx-text-fill: #2eda8e;"); // Vert
 			successContainer.setVisible(true);
 			successContainer.setManaged(true);
 			if (currentLevel < 4) {
-				resetButton.setText(bundle.getString("puzzles.next"));
+				resetButton.setText(bundle.getString("window.puzzles.next"));
 			} else {
-				resetButton.setText(bundle.getString("puzzles.finish"));
+				resetButton.setText(bundle.getString("window.puzzles.finish"));
 			}
 			return;
 		}
@@ -166,7 +166,7 @@ public class PuzzleWindow {
 	}
 	private void processWrongMove() {
 		final ResourceBundle bundle = Main.getBundle();
-		statusLabel.setText(bundle.getString("puzzles.wrong"));
+		statusLabel.setText(bundle.getString("window.puzzles.wrong"));
 		statusLabel.setStyle("-fx-text-fill: #f05142;");
 		Thread.ofVirtual().start(() -> {
 			try {
@@ -174,7 +174,7 @@ public class PuzzleWindow {
 				Platform.runLater(() -> {
 					hexPanel.rewind();
 					statusLabel.setStyle("-fx-text-fill: white;");
-					statusLabel.setText(bundle.getString("puzzles.retry"));
+					statusLabel.setText(bundle.getString("window.puzzles.retry"));
 				});
 			} catch (InterruptedException exception) {
 			}

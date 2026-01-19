@@ -6,21 +6,21 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
-	<Label text="%settings.title" styleClass="h2" />
+	<Label text="%window.settings.title" styleClass="h2" />
 	<VBox alignment="center" spacing="16">
-		<Label text="%settings.aidifficulty" />
+		<Label text="%window.settings.aiDifficultyLabel" />
 		<ComboBox fx:id="maxDepthComboBox" prefWidth="160">
 			<tooltip>
 				<Tooltip fx:id="aiDifficultyLevelTooltip" />
 			</tooltip>
 		</ComboBox>
-		<Label text="%settings.theme" />
+		<Label text="%window.settings.themeLabel" />
 		<ComboBox fx:id="themeComboBox" prefWidth="160" />
-		<Label text="%settings.language" />
+		<Label text="%window.settings.languageLabel" />
 		<ComboBox fx:id="languageComboBox" prefWidth="160" />
-		<Label text="%settings.volume" />
+		<Label text="%window.settings.volumeLabel" />
 		<Slider fx:id="volumeSlider" max="1" maxWidth="200" min="0" />
 	</VBox>
-	<Button fx:id="signOutButton" text="%settings.signout" onAction="#openStart" />
+	<Button fx:id="signOutButton" text="%window.settings.signOutButton" onAction="#openStart" />
 	<Button fx:id="backButton" text="%common.back" onAction="#openMain" />
 </VBox>

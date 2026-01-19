@@ -24,12 +24,12 @@
 			</VBox>
 		</StackPane>
 		<HBox alignment="center" spacing="16">
-			<Button fx:id="restartButton" text="%main.restart" onAction="#restart" />
-			<Button fx:id="rewindButton" text="%main.rewind" onAction="#rewind" />
+			<Button fx:id="restartButton" text="%window.main.restartButton" onAction="#restart" />
+			<Button fx:id="rewindButton" text="%window.main.rewindButton" onAction="#rewind" />
 		</HBox>
 	</VBox>
-	<Button fx:id="menuButton" StackPane.alignment="top_left" text="%menu.icon" onAction="#toggleSidebar" styleClass="menu-button" />
-	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="%settings.icon" onAction="#openHelpSettings" styleClass="settings-help-button" />
+	<Button fx:id="menuButton" StackPane.alignment="top_left" text="%window.main.menuButton" onAction="#toggleSidebar" styleClass="menu-button" />
+	<Button fx:id="settingsHelpButton" StackPane.alignment="top_right" text="%window.main.settingsHelpButton" onAction="#openHelpSettings" styleClass="settings-help-button" />
 	<VBox fx:id="playerItem" StackPane.alignment="bottom_left" managed="false" spacing="12" visible="false" styleClass="player-info-box, player-info-box-left">
 		<Label fx:id="playerTimerLabel" text="10:00" styleClass="timer-label" />
 		<HBox spacing="12">
@@ -62,11 +62,11 @@
 		</HBox>
 	</VBox>
 	<VBox fx:id="sidebar" managed="false" maxWidth="160" translateX="-160" visible="false" styleClass="sidebar">
-		<Button text="%main.search" onAction="#openSearch" styleClass="sidebar-item" />
-		<Button text="%main.profile" onAction="#openProfile" styleClass="sidebar-item" />
-		<Button text="%main.achievements" onAction="#openAchievements" styleClass="sidebar-item" />
-		<Button text="%main.puzzles" onAction="#openPuzzles" styleClass="sidebar-item" />
-		<Button text="%main.tournaments" onAction="#openTournaments" styleClass="sidebar-item" />
-		<Button text="%main.leaderboard" onAction="#openLeaderboard" styleClass="sidebar-item" />
+		<Button text="%window.main.searchButton" onAction="#openSearch" styleClass="sidebar-item" />
+		<Button text="%window.main.profileButton" onAction="#openProfile" styleClass="sidebar-item" />
+		<Button text="%window.main.achievementsButton" onAction="#openAchievements" styleClass="sidebar-item" />
+		<Button text="%window.main.puzzlesButton" onAction="#openPuzzles" styleClass="sidebar-item" />
+		<Button text="%window.main.tournamentsButton" onAction="#openTournaments" styleClass="sidebar-item" />
+		<Button text="%window.main.leaderboardButton" onAction="#openLeaderboard" styleClass="sidebar-item" />
 	</VBox>
 </StackPane>

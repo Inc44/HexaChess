@@ -3,9 +3,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <HBox xmlns:fx="http://javafx.com/fxml" alignment="center_left" spacing="12" styleClass="player-item">
-	<Label fx:id="nameLabel" text="%achievement.item.name" minWidth="200" styleClass="h2" />
+	<Label fx:id="nameLabel" text="%item.achievement.name" minWidth="200" styleClass="h2" />
 	<VBox spacing="4">
-		<Label fx:id="descriptionLabel" text="%achievement.item.description" styleClass="profile-info"/>
-		<Label fx:id="statusLabel" text="%achievements.locked" styleClass="text-danger, profile-info" />
+		<Label fx:id="descriptionLabel" text="%item.achievement.description" styleClass="profile-info"/>
+		<Label fx:id="statusLabel" text="%window.achievements.locked" styleClass="text-danger, profile-info" />
 	</VBox>
 </HBox>

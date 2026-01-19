@@ -43,17 +43,19 @@ public class TournamentWindow {
 				if (startTime != null) {
 					startTimeLabel.setText(startTime.format(DATE_TIME_FORMATTER));
 				} else {
-					startTimeLabel.setText(bundle.getString("tournaments.tbd"));
+					startTimeLabel.setText(bundle.getString("window.tournament.tbd"));
 				}
 				if (winnerId != null) {
-					statusLabel.setText(bundle.getString("tournaments.winner") + ": " + winnerId);
+					statusLabel.setText(
+						bundle.getString("window.tournament.winner") + ": " + winnerId);
 					statusLabel.getStyleClass().add("text-success");
 				} else {
-					statusLabel.setText(bundle.getString("tournaments.status.openforregistration"));
+					statusLabel.setText(bundle.getString("window.tournament.statusOpen"));
 					statusLabel.getStyleClass().add("text-danger");
 				}
-				joinButton.setText(bundle.getString("tournament.join"));
-				participantsButton.setText(bundle.getString("tournament.participants"));
+				joinButton.setText(bundle.getString("window.tournament.joinButton"));
+				participantsButton.setText(
+					bundle.getString("window.tournament.participantsButton"));
 			});
 		});
 	}
@@ -65,10 +67,10 @@ public class TournamentWindow {
 			final ResourceBundle bundle = Main.getBundle();
 			Platform.runLater(() -> {
 				if (joinSuccess) {
-					statusLabel.setText(bundle.getString("tournament.success"));
+					statusLabel.setText(bundle.getString("window.tournament.joinSuccess"));
 					statusLabel.getStyleClass().add("text-success");
 				} else {
-					statusLabel.setText(bundle.getString("tournament.error"));
+					statusLabel.setText(bundle.getString("window.tournament.joinError"));
 					statusLabel.getStyleClass().add("text-danger");
 				}
 			});

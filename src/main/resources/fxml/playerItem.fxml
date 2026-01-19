@@ -18,5 +18,5 @@
 		<Label fx:id="ratingLabel" />
 	</VBox>
 	<Region HBox.hgrow="ALWAYS" />
-	<Button fx:id="challengeButton" text="%challenge.icon" styleClass="square-button" />
+	<Button fx:id="challengeButton" text="%item.player.challengeButton" styleClass="square-button" />
 </HBox>

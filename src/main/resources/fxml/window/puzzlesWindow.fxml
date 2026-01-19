@@ -8,19 +8,19 @@
 <StackPane xmlns:fx="http://javafx.com/fxml" alignment="center">
 	<VBox alignment="center" spacing="20">
 		<VBox alignment="center" spacing="5">
-			<Label text="%puzzles.daily" styleClass="h2" />
-			<Label fx:id="statusLabel" text="%puzzles.loading" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+			<Label text="%window.puzzles.title" styleClass="h2" />
+			<Label fx:id="statusLabel" text="%window.puzzles.statusLoading" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 		</VBox>
 		<StackPane>
 			<Canvas fx:id="canvas" width="600" height="600" />
 			<VBox fx:id="successContainer" alignment="center" visible="false" managed="false" styleClass="puzzle-success-box">
 				<Label text="🏆" style="-fx-font-size: 48px;" />
-				<Label text="%puzzles.solved" style="-fx-font-size: 24px; -fx-text-fill: #2eda8e; -fx-font-weight: bold;" />
+				<Label text="%window.puzzles.successLabel" style="-fx-font-size: 24px; -fx-text-fill: #2eda8e; -fx-font-weight: bold;" />
 			</VBox>
 		</StackPane>
 		<HBox alignment="center" spacing="20">
 			<Button fx:id="backButton" text="%common.back" onAction="#openMain" styleClass="button" />
-			<Button fx:id="resetButton" text="%puzzles.reset" onAction="#resetPuzzle" styleClass="button" />
+			<Button fx:id="resetButton" text="%window.puzzles.resetButton" onAction="#resetPuzzle" styleClass="button" />
 		</HBox>
 	</VBox>
 </StackPane>

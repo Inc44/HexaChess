@@ -10,7 +10,7 @@
 		<Label fx:id="statusLabel" />
 	</VBox>
 	<VBox alignment="top_left" spacing="16" maxWidth="600" styleClass="player-item">
-		<Label text="%tournament.description" />
+		<Label text="%window.tournament.descriptionTitle" />
 		<Label fx:id="descriptionLabel" wrapText="true" />
 	</VBox>
 	<HBox alignment="center" spacing="20">

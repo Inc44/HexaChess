@@ -39,7 +39,7 @@ public class ParticipantsWindow {
 		}
 		final ResourceBundle bundle = Main.getBundle();
 		final String name = targetTournament.getName();
-		tournamentLabel.setText(bundle.getString("tournament.participants.title") + ": " + name);
+		tournamentLabel.setText(bundle.getString("window.participants.title") + ": " + name);
 		loadParticipants();
 	}
 	private void loadParticipants() {
@@ -50,7 +50,7 @@ public class ParticipantsWindow {
 			Platform.runLater(() -> {
 				if (players.isEmpty()) {
 					final Label emptyLabel =
-						new Label(bundle.getString("tournament.participants.empty"));
+						new Label(bundle.getString("window.participants.emptyLabel"));
 					participantsContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Player player : players) {

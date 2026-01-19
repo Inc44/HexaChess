@@ -41,7 +41,8 @@ public class AchievementsWindow {
 			final List<Achievement> achievements = API.achievements(playerId);
 			Platform.runLater(() -> {
 				if (achievements.isEmpty()) {
-					final Label emptyLabel = new Label(bundle.getString("achievements.empty"));
+					final Label emptyLabel =
+						new Label(bundle.getString("window.achievements.emptyLabel"));
 					achievementsContainer.getChildren().add(emptyLabel);
 				} else {
 					for (final Achievement achievement : achievements) {
@@ -60,10 +61,11 @@ public class AchievementsWindow {
 							nameLabel.setText(name);
 							descriptionLabel.setText(description);
 							if (unlocked) {
-								statusLabel.setText(bundle.getString("achievements.unlocked"));
+								statusLabel.setText(
+									bundle.getString("window.achievements.unlocked"));
 								statusLabel.getStyleClass().add("text-success");
 							} else {
-								statusLabel.setText(bundle.getString("achievements.locked"));
+								statusLabel.setText(bundle.getString("window.achievements.locked"));
 								statusLabel.getStyleClass().add("text-danger");
 							}
 							achievementsContainer.getChildren().add(achievementItem);

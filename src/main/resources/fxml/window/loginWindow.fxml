@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="20">
-	<Label text="%login.title" styleClass="h2" />
+	<Label text="%window.login.title" styleClass="h2" />
 	<VBox alignment="center" maxWidth="300" spacing="10">
 		<Label text="%common.username" />
 		<TextField fx:id="handleField" onAction="#handleLogin" />
@@ -13,6 +13,6 @@
 		<PasswordField fx:id="passwordField" onAction="#handleLogin" />
 	</VBox>
 	<Label fx:id="errorLabel" managed="false" visible="false" styleClass="text-danger" />
-	<Button fx:id="loginButton" text="%login.button" onAction="#handleLogin" />
+	<Button fx:id="loginButton" text="%window.start.loginButton" onAction="#handleLogin" />
 	<Button fx:id="backButton" text="%common.back" onAction="#openStart" />
 </VBox>

@@ -109,13 +109,13 @@ public class HexPanel {
 															  : bundle.getString("common.white");
 				Platform.runLater(
 					()
-						-> gameEndCallback.accept(bundle.getString("gameover.checkmate") + "\n"
-							+ winner + " " + bundle.getString("gameover.wins")));
+						-> gameEndCallback.accept(bundle.getString("window.main.checkmate") + "\n"
+							+ winner + " " + bundle.getString("window.main.wins")));
 			} else {
 				Platform.runLater(
 					()
-						-> gameEndCallback.accept(bundle.getString("gameover.stalemate")
-							+ bundle.getString("gameover.draw")));
+						-> gameEndCallback.accept(bundle.getString("window.main.stalemate") + "\n"
+							+ bundle.getString("common.draw")));
 			}
 		} else {
 			int repetitionCount = 0;
@@ -126,8 +126,8 @@ public class HexPanel {
 				isGameOver = true;
 				Platform.runLater(
 					()
-						-> gameEndCallback.accept(bundle.getString("gameover.threefold")
-							+ bundle.getString("gameover.draw")));
+						-> gameEndCallback.accept(bundle.getString("window.main.threefold") + "\n"
+							+ bundle.getString("common.draw")));
 			}
 		}
 	}
@@ -137,7 +137,7 @@ public class HexPanel {
 		if (state.history.isEmpty())
 			Thread.ofVirtual().start(() -> {
 				API.unlock("ACH_0000001");
-				System.out.println(bundle.getString("achievement.firststep"));
+				System.out.println(bundle.getString("item.achievement.firstStep"));
 			});
 		final Piece pieceBefore = state.board.getPiece(selected);
 		final Piece pieceAfter = state.board.getPiece(target);
@@ -145,7 +145,7 @@ public class HexPanel {
 			&& pieceAfter.type == PieceType.QUEEN)
 			Thread.ofVirtual().start(() -> {
 				API.unlock("ACH_0000006");
-				System.out.println(bundle.getString("achievement.promotionroyal"));
+				System.out.println(bundle.getString("item.achievement.promotionRoyal"));
 			});
 	}
 	private void executeMove(final AxialCoordinate target) {

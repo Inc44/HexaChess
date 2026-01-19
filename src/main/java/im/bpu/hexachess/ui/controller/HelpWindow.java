@@ -33,22 +33,22 @@ public class HelpWindow {
 		// Disable the button if not in the game
 		if (State.getState().board == null) {
 			showBestMoveButton.setDisable(true);
-			bestMoveLabel.setText(bundle.getString("help.game.empty"));
+			bestMoveLabel.setText(bundle.getString("window.help.gameEmpty"));
 		} else {
-			bestMoveLabel.setText(bundle.getString("help.game.title"));
+			bestMoveLabel.setText(bundle.getString("window.help.gameTitle"));
 		}
 	}
 	@FXML
 	private void showBestMove() {
 		final ResourceBundle bundle = Main.getBundle();
 		showBestMoveButton.setDisable(true);
-		bestMoveLabel.setText(bundle.getString("help.calculating"));
+		bestMoveLabel.setText(bundle.getString("window.help.calculating"));
 		Thread.ofVirtual().start(() -> {
 			final State state = State.getState();
 			final Board board = state.board;
 			if (board == null) {
 				Platform.runLater(() -> {
-					bestMoveLabel.setText(bundle.getString("help.game.empty"));
+					bestMoveLabel.setText(bundle.getString("window.help.gameEmpty"));
 					showBestMoveButton.setDisable(false);
 				});
 				return;
@@ -58,11 +58,12 @@ public class HelpWindow {
 			bestMove = ai.getBestMove(board, progress -> {});
 			Platform.runLater(() -> {
 				if (bestMove != null) {
-					bestMoveLabel.setText(bundle.getString("help.title") + ": " + bestMove.from.q
-						+ "," + bestMove.from.r + " -> " + bestMove.to.q + "," + bestMove.to.r);
+					bestMoveLabel.setText(bundle.getString("window.help.bestMoveTitle") + ": "
+						+ bestMove.from.q + "," + bestMove.from.r + " -> " + bestMove.to.q + ","
+						+ bestMove.to.r);
 					drawBestMove();
 				} else {
-					bestMoveLabel.setText(bundle.getString("help.empty"));
+					bestMoveLabel.setText(bundle.getString("window.help.empty"));
 				}
 				showBestMoveButton.setDisable(false);
 			});
@@ -78,7 +79,7 @@ public class HelpWindow {
 		// Clear canvas
 		gc.clearRect(0, 0, moveCanvas.getWidth(), moveCanvas.getHeight());
 		// Draw "from" hex
-		drawHex(gc, cx - 60, cy, HEX_SIZE, Color.LIGHTGREEN, bundle.getString("help.from"));
+		drawHex(gc, cx - 60, cy, HEX_SIZE, Color.LIGHTGREEN, bundle.getString("window.help.from"));
 		// Draw arrow
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(2);
@@ -86,7 +87,7 @@ public class HelpWindow {
 		gc.strokeLine(cx + 20, cy - 5, cx + 30, cy);
 		gc.strokeLine(cx + 20, cy + 5, cx + 30, cy);
 		// Draw "to" hex
-		drawHex(gc, cx + 60, cy, HEX_SIZE, Color.LIGHTBLUE, bundle.getString("help.to"));
+		drawHex(gc, cx + 60, cy, HEX_SIZE, Color.LIGHTBLUE, bundle.getString("window.help.to"));
 	}
 	private void drawHex(final GraphicsContext gc, final double x, final double y,
 		final double size, final Color color, final String label) {

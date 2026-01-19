@@ -44,20 +44,20 @@ public class RegisterWindow {
 		final String password = passwordField.getText();
 		if (handle.length() > MAX_HANDLE_LENGTH) {
 			statusLabel.setText(
-				MAX_HANDLE_LENGTH + " " + bundle.getString("register.error.handle"));
+				MAX_HANDLE_LENGTH + " " + bundle.getString("window.register.errorHandle"));
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
 		}
 		if (!email.contains("@") || !email.contains(".")) {
-			statusLabel.setText(bundle.getString("register.error.email"));
+			statusLabel.setText(bundle.getString("window.register.errorEmail"));
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
 		}
 		if (password.length() < MIN_PASSWORD_LENGTH) {
 			statusLabel.setText(
-				MIN_PASSWORD_LENGTH + " " + bundle.getString("register.error.password"));
+				MIN_PASSWORD_LENGTH + " " + bundle.getString("window.register.errorPassword"));
 			statusLabel.setManaged(true);
 			statusLabel.setVisible(true);
 			return;
@@ -76,7 +76,7 @@ public class RegisterWindow {
 					SettingsManager.setUserHandle(handle);
 					openMain();
 				} else {
-					statusLabel.setText(bundle.getString("register.error.server"));
+					statusLabel.setText(bundle.getString("window.register.errorServer"));
 					statusLabel.setManaged(true);
 					statusLabel.setVisible(true);
 				}

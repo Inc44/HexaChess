@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="32">
-	<Label text="%main.leaderboard" styleClass="h2" />
+	<Label text="%window.main.leaderboardButton" styleClass="h2" />
 	<ScrollPane>
 		<VBox fx:id="leaderboardContainer" spacing="16" />
 	</ScrollPane>
