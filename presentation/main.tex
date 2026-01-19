@@ -1,9 +1,12 @@
 \documentclass[aspectratio=169, 10pt]{beamer}
 \usetheme{metropolis}
+\usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage[most]{tcolorbox}
 \usepackage{fontawesome5}
 \usepackage{lmodern}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, calc, fit, backgrounds}
 \definecolor{DarkGray-10}{HTML}{14191E}
 \definecolor{SandyBrown}{HTML}{E8AB6F}
 \definecolor{Peru}{HTML}{D18B47}
@@ -12,21 +15,45 @@
 \definecolor{Blue}{HTML}{016FFF}
 \setbeamercolor{block title}{bg=Peru,fg=white}
 \setbeamercolor{frametitle}{bg=DarkGray-10,fg=SandyBrown}
+\tikzset{
+	hex/.style={regular polygon, regular polygon sides=6, draw, thick, minimum size=1.2cm, inner sep=0pt},
+	archnode/.style={
+		rectangle, rounded corners, draw=DarkGray-10, fill=white, very thick,
+		minimum width=3cm, minimum height=1.6cm, align=center, drop shadow={opacity=0.15}
+	},
+	dbnode/.style={
+		cylinder, shape border rotate=90, aspect=0.25, draw=DarkGray-10, fill=white, very thick,
+		minimum width=2cm, minimum height=1.8cm, align=center, drop shadow={opacity=0.15}
+	},
+	flow/.style={->, >=Latex, thick, draw=DarkGray-10}
+}
 \title{HexaChess}
 \author{Inc44}
 \begin{document}
 {
+\usebackgroundtemplate{
+\begin{tikzpicture}[remember picture,overlay]
+	\fill[DarkGray-10] (current page.south west) rectangle (current page.north east);
+	\foreach \i in {0,...,12}
+		\foreach \j in {0,...,8} {
+			\pgfmathsetmacro{\xoff}{\i * 1.4 + mod(\j,2) * 0.7}
+			\pgfmathsetmacro{\yoff}{\j * 1.2}
+			\node[hex, draw=SandyBrown, opacity=0.08, rotate=30] at ($(current page.south west) + (\xoff cm, \yoff cm)$) {};
+		}
+	\node[opacity=0.1, text=white] at (current page.center) {\fontsize{100}{100}\selectfont \faChess};
+\end{tikzpicture}
+}
 \begin{frame}[plain]
 	\centering
 	\vspace{1cm}
 	\textcolor{SandyBrown}{\Huge \textbf{HexaChess}}
-	
+
 	\vspace{0.5cm}
 	\textcolor{white}{\Large \textbf{Échecs Hexagonaux}}
-	
+
 	\vspace{0.5cm}
 	\textcolor{white!80}{\large Architecture, Organisation \& Rétrospective}
-	
+
 	\vspace{1.5cm}
 	\textcolor{white!60}{\small \today}
 \end{frame}
@@ -46,7 +73,6 @@
 				\item[\textcolor{Green}{\faCheck}] IA Minimax (Alpha-Beta)
 				\item[\textcolor{Green}{\faCheck}] Succès, système Elo \& tournois
 			\end{itemize}
-
 		\column{0.48\textwidth}
 			\textbf{\faCode\ Stack technique}
 			\begin{itemize}
@@ -56,6 +82,43 @@
 				\item[\faServer] \textbf{API :} HTTP Server natif
 			\end{itemize}
 	\end{columns}
+\end{frame}
+\begin{frame}{Architecture technique}
+	\centering
+	\resizebox{0.95\textwidth}{!}{
+	\begin{tikzpicture}[node distance=1.5cm]
+		\begin{scope}[on background layer]
+			\fill[SandyBrown!10, rounded corners] (-2.2,-3.2) rectangle (3.2, 2.5);
+			\node[anchor=north west, text=Peru, font=\bfseries] at (-2.2,2.5) {CLIENT (JavaFX)};
+			\fill[Blue!10, rounded corners] (4.8,-3.2) rectangle (12.2, 2.5);
+			\node[anchor=north west, text=Blue, font=\bfseries] at (4.8,2.5) {BACKEND (API \& DB)};
+		\end{scope}
+		\node[archnode] (ui) at (0.5, 0.5) {
+			\textbf{\faLaptop\ UI Layer}\\
+			\footnotesize \texttt{HexPanel}, \texttt{MainWindow}\\
+			\textit{Rendu visuel}
+		};
+		\node[archnode] (logic) at (0.5, -2) {
+			\textbf{\faBrain\ Game Logic}\\
+			\footnotesize \texttt{State}, \texttt{Board}, \texttt{AI}\\
+			\textit{Règles \& état}
+		};
+		\node[archnode] (server) at (6.5, 0) {
+			\textbf{\faServer\ Server API}\\
+			\footnotesize \texttt{Handlers}, \texttt{JWT}\\
+			\textit{Validation \& auth}
+		};
+		\node[dbnode] (db) at (10.5, 0) {
+			\textbf{\faDatabase}\\
+			\textbf{MariaDB}\\
+			\footnotesize \textit{Persistance}
+		};
+		\draw[flow, <->] (ui) -- (logic);
+		\draw[flow, ->] (logic.east) -- node[above, font=\tiny, align=center] {\textbf{HTTP POST}\\JSON (Jackson)} (server.west);
+		\draw[flow, <->, dashed] (logic.east) -- node[below, font=\tiny, align=center] {\textbf{Polling}\\(Sync Move)} (server.west);
+		\draw[flow, <->] (server) -- node[above, font=\tiny] {JDBC / DAO} (db);
+	\end{tikzpicture}
+	}
 \end{frame}
 \begin{frame}{Répartition : logique \& données}
 	\begin{columns}[T]
