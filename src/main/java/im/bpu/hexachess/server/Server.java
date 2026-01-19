@@ -248,7 +248,9 @@ public class Server {
 				final PlayerDAO playerDAO = new PlayerDAO();
 				final Player player = playerDAO.getPlayerByHandle(handle);
 				if (player != null) {
-					player.setEmail(null);
+					if (!handle.equals(auth(exchange))) {
+						player.setEmail(null);
+					}
 					player.setPasswordHash(null);
 					final String response = MAPPER.writeValueAsString(player);
 					sendResponse(exchange, 200, response);
