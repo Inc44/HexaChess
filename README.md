@@ -322,18 +322,6 @@ Open `src/main/java/im/bpu/hexachess/Main.java` and run.
 
 ## 🐛 Bugs
 
-- The game continues despite checkmate, stalemate, or threefold repetition. Hide the canvas and show appropriate messages.
-- The multiplayer black player view is not rotated. Adapt the black view using:
-```java
-gc.save();
-gc.rotate(180);
-gc.drawImage(image, -x - offset, -y - offset, size, size);
-gc.restore();
-```
-and
-```java
-canvas.getTransforms().add(new Rotate(180, canvas.getWidth() / 2, canvas.getHeight() / 2));
-```
 - Pressed challenge changes the background of the player item.
 
 ## ⛔ Known Limitations
