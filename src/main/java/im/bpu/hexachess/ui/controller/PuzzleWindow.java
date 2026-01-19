@@ -1,5 +1,6 @@
 package im.bpu.hexachess.ui.controller;
 
+import im.bpu.hexachess.GameTimer;
 import im.bpu.hexachess.Main;
 import im.bpu.hexachess.State;
 import im.bpu.hexachess.model.AxialCoordinate;
@@ -49,7 +50,8 @@ public class PuzzleWindow {
 		// 3. On place les pièces selon le niveau
 		setupBoardPieces(state.board);
 		// 4. On lance l'affichage
-		hexPanel = new HexPanel(canvas, state, progress -> {}, loading -> {}, gameover -> {});
+		hexPanel = new HexPanel(canvas, state, new GameTimer(null, null),
+			progress -> {}, loading -> {}, gameover -> {});
 		// 5. On branche l'écouteur de coups
 		hexPanel.onPuzzleMove = this::handlePlayerMove;
 		// Mise à jour de l'interface
