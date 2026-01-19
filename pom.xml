@@ -180,7 +180,7 @@
 					</reflectionList>
 					<resourcesList>
 						<list>com/mysql/cj/LocalizedErrorMessages.properties</list>
-						<list>im/bpu/hexachess/ui/lang_.*.properties</list>
+						<list>lang/lang_.*.properties</list>
 					</resourcesList>
 				</configuration>
 			</plugin>
