@@ -213,7 +213,6 @@ public class PuzzleWindow {
 		successContainer.setManaged(false);
 		initialize();
 	}
-	@FXML
 	private void openMain() {
 		State.getState().isPuzzleMode = false;
 		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);

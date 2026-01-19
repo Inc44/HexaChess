@@ -109,14 +109,14 @@ public class SettingsWindow {
 		}
 	}
 	@FXML
-	private void openMain() {
-		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
-	}
-	@FXML
 	private void openStart() {
 		SettingsManager.setPlayerId(null);
 		SettingsManager.setUserHandle(null);
 		SettingsManager.setAuthToken(null);
 		loadWindow("/fxml/window/startWindow.fxml", new StartWindow(), backButton);
+	}
+	@FXML
+	private void openMain() {
+		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
 	}
 }

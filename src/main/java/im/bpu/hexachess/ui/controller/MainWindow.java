@@ -282,11 +282,6 @@ public class MainWindow {
 		}
 	}
 	@FXML
-	private void openSettings() {
-		gameTimer.stop();
-		loadWindow("/fxml/window/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
-	}
-	@FXML
 	private void openHelpSettings() {
 		final ResourceBundle bundle = Main.getBundle();
 		final ContextMenu menu = new ContextMenu();
@@ -297,7 +292,10 @@ public class MainWindow {
 		menu.getItems().addAll(settingsItem, helpItem);
 		menu.show(settingsHelpButton, Side.BOTTOM, 0, 0);
 	}
-	@FXML
+	private void openSettings() {
+		gameTimer.stop();
+		loadWindow("/fxml/window/settingsWindow.fxml", new SettingsWindow(), settingsHelpButton);
+	}
 	private void openHelp() {
 		gameTimer.stop();
 		loadWindow("/fxml/window/helpWindow.fxml", new HelpWindow(), settingsHelpButton);
@@ -314,6 +312,12 @@ public class MainWindow {
 		loadWindow("/fxml/window/profileWindow.fxml", new ProfileWindow(), settingsHelpButton);
 	}
 	@FXML
+	private void openAchievements() {
+		gameTimer.stop();
+		loadWindow(
+			"/fxml/window/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
+	}
+	@FXML
 	private void openPuzzles() {
 		loadWindow("/fxml/window/puzzlesWindow.fxml", new PuzzleWindow(), settingsHelpButton);
 	}
@@ -322,12 +326,6 @@ public class MainWindow {
 		gameTimer.stop();
 		loadWindow(
 			"/fxml/window/tournamentsWindow.fxml", new TournamentsWindow(), settingsHelpButton);
-	}
-	@FXML
-	private void openAchievements() {
-		gameTimer.stop();
-		loadWindow(
-			"/fxml/window/achievementsWindow.fxml", new AchievementsWindow(), settingsHelpButton);
 	}
 	@FXML
 	private void openLeaderboard() {

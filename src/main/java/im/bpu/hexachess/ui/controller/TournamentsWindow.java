@@ -87,12 +87,12 @@ public class TournamentsWindow {
 			});
 		});
 	}
-	private void openTournament(final Tournament tournament) {
-		TournamentWindow.targetTournament = tournament;
-		loadWindow("/fxml/window/tournamentWindow.fxml", new TournamentWindow(), backButton);
-	}
 	@FXML
 	private void openMain() {
 		loadWindow("/fxml/window/mainWindow.fxml", new MainWindow(), backButton);
+	}
+	private void openTournament(final Tournament tournament) {
+		TournamentWindow.targetTournament = tournament;
+		loadWindow("/fxml/window/tournamentWindow.fxml", new TournamentWindow(), backButton);
 	}
 }
