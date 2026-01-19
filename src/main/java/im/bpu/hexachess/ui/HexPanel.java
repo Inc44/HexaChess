@@ -20,6 +20,7 @@ import java.util.function.DoubleConsumer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.transform.Rotate;
 
 import static im.bpu.hexachess.Main.getAspectRatio;
 
@@ -60,6 +61,10 @@ public class HexPanel {
 		this.geometry = new HexGeometry(radius);
 		this.renderer = new HexRenderer(geometry, state.board);
 		this.canvas = canvas;
+		if (!state.isWhitePlayer) {
+			canvas.getTransforms().add(
+				new Rotate(180, canvas.getWidth() / 2, canvas.getHeight() / 2));
+		}
 		PieceImageLoader.loadImages(this::repaint);
 		canvas.setOnMouseClicked(event -> handleMouseClick(event.getX(), event.getY()));
 		if (state.isMultiplayer && state.board.isWhiteTurn != state.isWhitePlayer)

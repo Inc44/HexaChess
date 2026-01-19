@@ -48,7 +48,14 @@ class HexRenderer {
 		final GraphicsContext gc, final double x, final double y, final Image image) {
 		final double size = geometry.getHexSize() * PIECE_IMAGE_SCALE;
 		final double offset = size / 2;
-		gc.drawImage(image, x - offset, y - offset, size, size);
+		if (!State.getState().isWhitePlayer) {
+			gc.save();
+			gc.rotate(180);
+			gc.drawImage(image, -x - offset, -y - offset, size, size);
+			gc.restore();
+		} else {
+			gc.drawImage(image, x - offset, y - offset, size, size);
+		}
 	}
 	private void drawPieceFallback(
 		final GraphicsContext gc, final double x, final double y, final Piece piece) {
