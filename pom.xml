@@ -159,7 +159,6 @@
 						<list>io.jsonwebtoken.impl.security.StandardKeyAlgorithms</list>
 						<list>io.jsonwebtoken.impl.security.StandardKeyOperations</list>
 						<list>io.jsonwebtoken.impl.security.StandardSecureDigestAlgorithms</list>
-						<list>javafx.geometry.Insets</list>
 						<list>javafx.scene.canvas.Canvas</list>
 						<list>javafx.scene.control.Button</list>
 						<list>javafx.scene.control.ComboBox</list>
