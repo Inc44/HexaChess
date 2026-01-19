@@ -136,10 +136,10 @@ sudo vim /etc/httpd/conf/extra/phpmyadmin.conf
 ```
 Alias /phpmyadmin "/usr/share/webapps/phpMyAdmin"
 <Directory "/usr/share/webapps/phpMyAdmin">
-    DirectoryIndex index.php
-    AllowOverride All
-    Options FollowSymlinks
-    Require all granted
+	DirectoryIndex index.php
+	AllowOverride All
+	Options FollowSymlinks
+	Require all granted
 </Directory>
 ```
 
@@ -331,22 +331,33 @@ Open `src/main/java/im/bpu/hexachess/Main.java` and run.
 ## 🚧 TODO
 
 ### Bug Fixes
+- [ ] **Android Audio**: Ensure audio works on Android.
 - [ ] **Android Fonts**: Ensure proper bold font and button icon rendering.
 - [ ] **Android Icon**: Fix the smaller icon in the launcher.
 - [ ] **Windows Installer**: Fix name, version, and add update functionality.
 - [ ] **Upload Checks**: Prevent malicious file URLs (e.g., avatar URLs).
 - [ ] **Database Integration**: Save played games, etc.
-- [ ] **Multiplayer Mode**: Fix defeat game over, disconnect not handled (infinite game).
+- [ ] **Multiplayer Mode**: Fix failed initial join, defeat game over, disconnect not handled (infinite game).
+- [ ] **Back Buttons**: Ensure all back buttons work correctly (e.g., replace Cancel Button).
 - [ ] **Tests**: Pass all tests.
 - [ ] **Performance**: Use more multithreading/parallel execution.
 - [ ] **Memory**: Use more `static` and `final`.
+- [ ] **Internationalization/Translation**: Adapt UI for different languages (e.g., `wrapText="true"` or change size to fit).
 - [ ] **Different Screen Sizes**: Adapt UI for various screen dimensions.
+- [ ] **Exceptions**: Fix all exceptions (e.g., puzzles or multiplayer null piece, scene, etc.).
 
 ### Organizational
 - [ ] **Requirements**: Follow the project requirements PDF.
 - [ ] **Maven Profiles**: Separate profiles for server and client builds.
 - [ ] **Proper Executables**: Separate server and client, packages, and resources.
+- [ ] **Reflection**: Use specific reflection groups for given platform.
 - [ ] **Style Consistency**: Make sure all styles are in `style.css` (e.g., width, height, etc.) instead of inline styles.
+- [ ] **Theme Consistency**: Make sure all colors are in `light.css`, `dark.css`, `black.css` instead of inline styles.
+- [ ] **Size, Shape**: Create CSS classes for font sizes, button sizes, rounded corners, etc.
+- [ ] **Puzzles**: Adapt `PuzzleWindow.java` and `puzzlesWindow.fxml` to follow existing code style and logic.
+- [ ] **Help**: Adapt `HelpWindow.java` and `helpWindow.fxml` to follow existing code style and logic.
+- [ ] **Tests**: Adapt `Test.java` to follow existing code style and logic.
+- [ ] **Refactor**: Reuse code from existing codebase instead of duplicating logic, create functions for items filling, frequent updates, etc.
 
 ### New Features
 - [ ] **Player Profile**: Confirm change password, upload avatar.
@@ -357,14 +368,13 @@ Open `src/main/java/im/bpu/hexachess/Main.java` and run.
 - [ ] **Sound Effects**: Add more (e.g., game start (challenge), game over (victory/defeat), and game events).
 - [ ] **Animations**: Smooth piece movement and captures.
 - [ ] **Achievements**: Add conditions.
-- [ ] **Puzzles**: Adapt `PuzzleWindow.java` and `puzzlesWindow.fxml` to follow existing code style and logic.
 - [ ] **Tournaments**: Challenge players in a tournament format.
 - [ ] **Leaderboards**: Add more categories (e.g., fastest checkmate, games played).
 - [ ] **Help**: Add game rules and multiplayer explanation.
 - [ ] **UI Test SQL**: Create SQL to test achievements, puzzles, tournaments, and leaderboards UI.
 - [ ] **Translations**: Add more languages (e.g., Chinese, Italian, Japanese, Korean, Romanian, Spanish).
 - [ ] **Password Recovery**
-- [ ] **Email Verification**
+- [ ] **Email Verification**: Send verification email on registration to get `isVerified` mark.
 - [ ] **Cache Deletion**
 - [ ] **API Caching**
 - [ ] **Synthesized/Chiptune Audio**: Replace audio with generated sound.
@@ -374,6 +384,7 @@ Open `src/main/java/im/bpu/hexachess/Main.java` and run.
 - [ ] **Game Settings**: Implement configurable game options (e.g., white/black preferred color, aim assist).
 - [ ] **Aim Assist**: Highlight better moves with darker color shades.
 - [ ] **LLM Chess Player**: Add a large language model-based chess player for fun :) (and hallucinations (domain expansion, illegal moves, self-capture, etc.)).
+- [ ] **Migration**: Use Java 23 or 25.
 
 ## 🙏 Thanks
 
