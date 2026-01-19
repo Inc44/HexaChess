@@ -143,7 +143,6 @@ public class API {
 	public static List<Achievement> achievements() {
 		return fetch("/achievements", Achievement[].class);
 	}
-
 	public static List<Achievement> achievements(final String playerId) {
 		return fetch("/achievements?playerId=" + playerId, Achievement[].class);
 	}
@@ -240,9 +239,12 @@ public class API {
 		try {
 			final ObjectNode jsonNode = MAPPER.createObjectNode();
 			jsonNode.put("password", password);
-			jsonNode.put("email", email);
-			jsonNode.put("avatar", avatarUrl);
-			jsonNode.put("location", location);
+			if (email != null)
+				jsonNode.put("email", email);
+			if (avatarUrl != null)
+				jsonNode.put("avatar", avatarUrl);
+			if (location != null)
+				jsonNode.put("location", location);
 			if (newPassword != null && !newPassword.isEmpty()) {
 				jsonNode.put("newPassword", newPassword);
 			}
