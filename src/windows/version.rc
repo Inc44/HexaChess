@@ -1,8 +1,8 @@
 #include <windows.h>
 IDI_ICON1 ICON "assets/icon.ico"
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION		2026,1,12,0
-PRODUCTVERSION	2026,1,12,0
+FILEVERSION		2026,1,19,0
+PRODUCTVERSION	2026,1,19,0
 FILEFLAGSMASK	0x3fL
 FILEFLAGS		0x0L
 FILEOS			VOS_NT_WINDOWS32
@@ -15,12 +15,12 @@ BEGIN
 		BEGIN
 			VALUE "CompanyName",		"bpu.im"
 			VALUE "FileDescription",	"HexaChess"
-			VALUE "FileVersion",		"2026.1.12.0"
+			VALUE "FileVersion",		"2026.1.19.0"
 			VALUE "InternalName",		"HexaChess"
 			VALUE "LegalCopyright",		"Copyright \251 Inc44"
 			VALUE "OriginalFilename",	"HexaChess.exe"
 			VALUE "ProductName",		"HexaChess"
-			VALUE "ProductVersion",		"2026.1.12"
+			VALUE "ProductVersion",		"2026.1.19"
 		END
 	END
 	BLOCK "VarFileInfo"
