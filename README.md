@@ -330,32 +330,39 @@ Open `src/main/java/im/bpu/hexachess/Main.java` and run.
 
 ## 🚧 TODO
 
-- [ ] **Requirements**: Follow the project requirements PDF.
-- [ ] **Maven Profiles**: Separate profiles for server and client builds.
-- [ ] **Organization**: Separate server and client, packages, and resources.
-- [ ] **Style Consistency**: Make sure all styles are in `style.css` (e.g., width, height, etc.).
+### Bug Fixes
 - [ ] **Android Fonts**: Ensure proper bold font and button icon rendering.
 - [ ] **Android Icon**: Fix the smaller icon in the launcher.
 - [ ] **Windows Installer**: Fix name, version, and add update functionality.
-- [ ] **Player Profile**: Edit profile, change password, upload avatar.
 - [ ] **Upload Checks**: Prevent malicious file URLs (e.g., avatar URLs).
+- [ ] **Database Integration**: Save played games, etc.
+- [ ] **Multiplayer Mode**: Fix defeat game over, disconnect not handled (infinite game).
+- [ ] **Tests**: Pass all tests.
+- [ ] **Performance**: Use more multithreading/parallel execution.
+- [ ] **Memory**: Use more `static` and `final`.
+- [ ] **Different Screen Sizes**: Adapt UI for various screen dimensions.
+
+### Organizational
+- [ ] **Requirements**: Follow the project requirements PDF.
+- [ ] **Maven Profiles**: Separate profiles for server and client builds.
+- [ ] **Proper Executables**: Separate server and client, packages, and resources.
+- [ ] **Style Consistency**: Make sure all styles are in `style.css` (e.g., width, height, etc.) instead of inline styles.
+
+### New Features
+- [ ] **Player Profile**: Confirm change password, upload avatar.
 - [ ] **Friends List**: Add or remove friends and view online status.
 - [ ] **Lobby**: List online players for tournaments, players with challenges, matchmaking, and accepting or declining challenges.
 - [ ] **PVP Mode**: Offline player vs. player mode. Allow playing against self via /challenge.
-- [ ] **Multiplayer Mode**: Online player vs. player mode.
-- [ ] **Timer/Clock**
-- [ ] **Database Integration**: Save played games, etc.
-- [ ] **Theme Support**: Light/Dark mode.
-- [ ] **Sound Effects**: Add audio feedback for moves and game events.
+- [ ] **Themes**: Add more (e.g., Catppuccin).
+- [ ] **Sound Effects**: Add more (e.g., game start (challenge), game over (victory/defeat), and game events).
 - [ ] **Animations**: Smooth piece movement and captures.
-- [ ] **Achievements**
-- [ ] **Puzzles**
-- [ ] **Tournaments**
-- [ ] **Leaderboards**
+- [ ] **Achievements**: Add conditions.
+- [ ] **Puzzles**: Adapt `PuzzleWindow.java` and `puzzlesWindow.fxml` to follow existing code style and logic.
+- [ ] **Tournaments**: Challenge players in a tournament format.
+- [ ] **Leaderboards**: Add more categories (e.g., fastest checkmate, games played).
 - [ ] **Help**: Add game rules and multiplayer explanation.
-- [ ] **Unit Tests**
 - [ ] **UI Test SQL**: Create SQL to test achievements, puzzles, tournaments, and leaderboards UI.
-- [ ] **Translations**: Add more languages.
+- [ ] **Translations**: Add more languages (e.g., Chinese, Italian, Japanese, Korean, Romanian, Spanish).
 - [ ] **Password Recovery**
 - [ ] **Email Verification**
 - [ ] **Cache Deletion**
@@ -363,11 +370,9 @@ Open `src/main/java/im/bpu/hexachess/Main.java` and run.
 - [ ] **Synthesized/Chiptune Audio**: Replace audio with generated sound.
 - [ ] **Raw Config**: Modify to not use `io.github.cdimascio.dotenv.Dotenv`.
 - [ ] **Raw Server**: Modify to not use `com.sun.net.httpserver`.
-- [ ] **Different Screen Sizes**: Adapt UI for various screen dimensions.
 - [ ] **Enemy Movements**: Highlight enemy possible moves (in red).
 - [ ] **Game Settings**: Implement configurable game options (e.g., white/black preferred color, aim assist).
 - [ ] **Aim Assist**: Highlight better moves with darker color shades.
-- [ ] **Improve Performance**: Use multithreading/parallel execution.
 - [ ] **LLM Chess Player**: Add a large language model-based chess player for fun :) (and hallucinations (domain expansion, illegal moves, self-capture, etc.)).
 
 ## 🙏 Thanks
