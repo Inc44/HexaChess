@@ -28,6 +28,7 @@
 #participantsContainer,
 #playerContainer,
 #tournamentContainer,
+#tournamentsContainer,
 .player-item
 {
 	-fx-padding: 16;
